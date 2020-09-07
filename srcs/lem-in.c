@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/07 22:54:10 by seronen          ###   ########.fr       */
+/*   Updated: 2020/09/08 00:23:21 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,12 @@ int     main(void)
 	node->log->start = 0;
 	node->log->end = 0;
 	get_input(node);
-	pathfinding(node, fetch_modroom(node->rooms, "start"),ft_strdup("start"));
+	pathfinding(node, fetch_modroom(node->rooms, "start"), "");
 //	ft_printf("The path: %s\n", get_paths(node));
+	while (node->pathf)
+	{
+		ft_printf("Path: %s\n", node->pathf->path);
+		node->pathf = node->pathf->next;
+	}
 	return (0);
 }

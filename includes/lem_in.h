@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/07 23:49:55 by seronen          ###   ########.fr       */
+/*   Updated: 2020/09/08 00:14:17 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef	struct	s_log
 typedef	struct	s_pathf
 {
 	char *path;
+	struct s_pathf *next;
 }				t_pathf;
 
 typedef struct	s_lemin				//	Main struct
