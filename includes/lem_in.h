@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/08 00:14:17 by seronen          ###   ########.fr       */
+/*   Updated: 2020/09/08 18:43:04 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct	s_room				//	Struct to store all the rooms as there will be ( > 2
 typedef struct	s_path				// Struct to store all of the possible paths!
 {
 	t_room	*rooms;
-	int		nb;
+	int		len;
 	struct s_path *next;
 }				t_path;
 
@@ -52,7 +52,8 @@ typedef	struct	s_log
 
 typedef	struct	s_pathf
 {
-	char *path;
+	char	*path;
+	int		len;
 	struct s_pathf *next;
 }				t_pathf;
 
@@ -66,11 +67,12 @@ typedef struct	s_lemin				//	Main struct
 }				t_lemin;
 
 
-int		get_input(t_lemin *node);
-void	ft_error(char *msg);
-char	*get_paths(t_lemin *node);
-t_room	*fetch_room(t_room *head, char *keyword);
-t_room	*fetch_modroom(t_room *head, char *keyword);
+int			get_input(t_lemin *node);
+void		ft_error(char *msg);
+char		*get_paths(t_lemin *node);
+t_room		*fetch_room(t_room *head, char *keyword);
+t_room		*fetch_modroom(t_room *head, char *keyword);
 t_room      *pathfinding(t_lemin *node, t_room *head, char *path);
+int			pathchoosing(t_lemin *node);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:59:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/08 00:07:59 by seronen          ###   ########.fr       */
+/*   Updated: 2020/09/08 18:12:19 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int     ant_count(t_lemin *node)
 {
 	char *line;
 
-	get_next_line(0, &line);
+	if (get_next_line(0, &line) < 0)
+		ft_error("Invalid file");
 	node->antcount = ft_atoi(line);
 	if (node->antcount < 1 || node->antcount > INT32_MAX)
 		ft_error("Number of ants impossible!");
@@ -28,11 +29,13 @@ int     ant_count(t_lemin *node)
 int     get_modifier(t_lemin *node, char *line)
 {
 	if (!(ft_strcmp("##start", line)))
+	{
 		node->log->modid = 1;
+	}
 	else if (!(ft_strcmp("##end", line)))
+	{
 		node->log->modid = 2;
-	else
-		ft_error("Invalid modifier!");
+	}
 	return (0);
 }
 
@@ -161,7 +164,9 @@ int		build_room(t_lemin *node, char *line)
 		add_room(node, ft_strcdup(line, ' '), ft_strdup("end"));
 	}
 	else
+	{
 		add_room(node, ft_strcdup(line, ' '), NULL);
+	}
 	node->log->modid = 0;
 	return (0);
 }
@@ -197,12 +202,13 @@ int     get_input(t_lemin *node)
 	char    *line;
 
 	ant_count(node);
-	while (get_next_line(0, &line))
+	while (get_next_line(0, &line) > 0)
 	{
 		if (!line)
 			break ;
 		ft_printf("%s\n", line);
-		parse_line(node, line);
+		if (parse_line(node, line))
+			ft_error("Parse line failed!");
 		if (line)
 			ft_strdel(&line);
 	}

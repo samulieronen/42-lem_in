@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 20:37:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/08 00:42:17 by seronen          ###   ########.fr       */
+/*   Updated: 2020/09/08 18:33:14 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ t_room      *pathfinding(t_lemin *node, t_room *head, char *path) //set of paths
 	if (!cur->info)
 		cur->visited = 1;
 	pipes = cur->pipes;
-	path = ft_strjoin(path, ft_strjoin("*", cur->name));
+	if (!cur->info)
+		path = ft_strjoin(path, ft_strjoin("*", cur->name));
 	if (cur->info && !ft_strcmp(cur->info, "end"))
 	{
 //		ft_printf("FOUND A PATH: %s\n", path);
@@ -88,6 +89,7 @@ t_room      *pathfinding(t_lemin *node, t_room *head, char *path) //set of paths
 		pipes = pipes->next;
 	}
 	cur->visited = 0;
-	free(path);
+//	if (!cur->info)
+//		free(path);
 	return (NULL);
 }
