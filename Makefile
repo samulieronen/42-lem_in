@@ -6,13 +6,13 @@
 #    By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/03 22:23:49 by seronen           #+#    #+#              #
-#    Updated: 2020/09/08 12:53:02 by seronen          ###   ########.fr        #
+#    Updated: 2020/09/17 02:25:16 by seronen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = lem-in
 
-SRCS =	srcs/*.c
+SRCS =	srcs/lem_in.c srcs/input.c srcs/pathfinding.c srcs/pathchoosing.c srcs/ants.c
 
 FLAGS = -Wall -Wextra -Werror
 

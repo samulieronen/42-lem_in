@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem-in.c                                           :+:      :+:    :+:   */
+/*   lem_in.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/08 18:48:00 by seronen          ###   ########.fr       */
+/*   Updated: 2020/09/17 02:36:30 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,31 @@ int     main(void)
 		ft_error("t_log malloc failed!\n");
 	node->log->modid = 0;
 	node->rooms = NULL;
-	node->paths = NULL;
 	node->pathf = NULL;
+	node->sets = NULL;
+	node->ants = NULL;
 	node->antcount = 0;
 	node->log->start = 0;
 	node->log->end = 0;
 	get_input(node);
-	pathfinding(node, fetch_modroom(node->rooms, "start"), "");		// Neue pathfinding algo!
+	make_ants(node);
+	pathfinding(node, fetch_modroom(node->rooms, "start"), ft_strdup(""));		// Neue pathfinding algo!
 //	ft_printf("The path: %s\n", get_paths(node)); 					// Old and grumpy pathfinding algo!
 	pathchoosing(node);
-	tmp = node->pathf;
-	int nb = 1;
-	while (tmp)
-	{
-		ft_printf("Path %d: %s | len: %d\n\n", nb, tmp->path, tmp->len);
-		tmp = tmp->next;
-		nb++;
-	}
+//	tmp = node->pathf;
+//	int nb = 1;
+//	while (tmp)
+//	{
+//		ft_printf("Path %d: %s | len: %d\n", nb, tmp->path, tmp->len);
+//		if (!tmp->crossing)
+//			ft_printf("Path not crossing with any other path\n\n");
+//		tmp = tmp->next;
+//		nb++;
+//	}
+//	while (node->ants)
+//	{
+//		ft_printf("antnb: %d\n", node->ants->antnb);
+//		node->ants = node->ants->next;
+//	}
 	return (0);
 }

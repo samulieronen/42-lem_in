@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:59:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/08 18:12:19 by seronen          ###   ########.fr       */
+/*   Updated: 2020/09/16 18:52:01 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_room	*fetch_room(t_room *head, char *keyword)
 
 	tmp = head;
 	if (!head)
-		ft_error("fetch_room failed, no matching rooms.");
+		ft_error("fetch_room failed, no rooms.");
 	while (tmp)
 	{
 		if (!(ft_strcmp(tmp->name, keyword)))
@@ -88,7 +88,7 @@ t_room	*fetch_room(t_room *head, char *keyword)
 	return (NULL);
 }
 
-void	add_pipe(t_room *room, char *where)
+int		add_pipe(t_room *room, t_room *where)
 {
 	t_pipe *dest;
 	t_pipe *head;
@@ -97,42 +97,29 @@ void	add_pipe(t_room *room, char *where)
 	head = room->pipes;
 	if (!dest)
 	{
-		dest = (t_pipe*)malloc(sizeof(t_pipe));
-		dest->next = NULL;
+		if (!(dest = (t_pipe*)malloc(sizeof(t_pipe))))
+			ft_error("Malloc failed!");
 		head = dest;
 	}
 	else
 	{
 		while (dest->next)
 			dest = dest->next;
-		dest->next = (t_pipe*)malloc(sizeof(t_pipe));
+		if (!(dest->next = (t_pipe*)malloc(sizeof(t_pipe))))
+			ft_error("Malloc failed!");
 		dest = dest->next;
 		dest->next = NULL;
 	}
-	dest->where = ft_strdup(where);
-	dest->dead = 0;
+	dest->room = where;
+	dest->next = NULL;
 	room->pipes = head;
-}
-
-int		check_pipes(t_pipe *head, char *name)
-{
-	t_pipe *tmp;
-
-	tmp = head;
-	if (!head)
-		return (0);
-	while (tmp->next)
-	{
-		if (!ft_strcmp(tmp->where, name))
-			return (1);
-		tmp = tmp->next;
-	}
 	return (0);
 }
 
 int		build_pipes(t_lemin *node, char *line, int rev)
 {
 	t_room *room;
+	t_room *where;
 	t_pipe *pipe;
 	int i;
 
@@ -142,14 +129,10 @@ int		build_pipes(t_lemin *node, char *line, int rev)
 	pipe = room->pipes;
 	while (line[i] && line[i] != '-')
 		i++;
-	if (!check_pipes(room->pipes, &line[i + 1]))
-	{
-		add_pipe(room, &line[i + 1]);
-	}
-	if (!rev)
-		build_pipes(node, ft_strrev(line), 1);
-	else
-		free(line);
+	if (!(where = fetch_room(node->rooms, ft_strcdup(&line[i + 1], '-'))))
+		ft_error("Fetch room failed, cannot find room.");
+	add_pipe(room, where);
+	add_pipe(where, room);
 	return (0);
 }
 

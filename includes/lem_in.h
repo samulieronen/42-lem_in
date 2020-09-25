@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/08 18:43:04 by seronen          ###   ########.fr       */
+/*   Updated: 2020/09/17 02:59:43 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,27 @@
 
 typedef struct	s_pipe				//	Struct to store all the connections from the rooms as one room can have n connections
 {
-	char			*where;
-	int				dead;
+	char			*name;
+	struct s_room	*room;
 	struct s_pipe	*next;
 }				t_pipe;
 
+typedef struct	s_ant
+{
+	int				antnb;
+	struct s_ant	*next;
+}				t_ant;
 
 typedef struct	s_room				//	Struct to store all the rooms as there will be ( > 2 ) rooms
 {
 	char			*name;			//	Rooms name to identify it from the rest
 	char			*info;
-	t_pipe			*pipes;
 	int				paths_used;
 	int				visited;		//	Mark for a visited room
 	int				dead;
+	t_pipe			*pipes;
 	struct s_room	*next;
 }				t_room;
-
-typedef struct	s_path				// Struct to store all of the possible paths!
-{
-	t_room	*rooms;
-	int		len;
-	struct s_path *next;
-}				t_path;
 
 typedef	struct	s_log
 {
@@ -54,20 +52,32 @@ typedef	struct	s_pathf
 {
 	char	*path;
 	int		len;
-	struct s_pathf *next;
+	struct 	s_pathf *next;
 }				t_pathf;
+
+typedef struct	s_pathset
+{
+	t_pathf				*path;
+	int					pathset;
+	int					pathsetlen;
+	int					moves;
+	struct s_pathset	*next;
+}				t_pathset;
+
 
 typedef struct	s_lemin				//	Main struct
 {
 	int				antcount;		//	Should be selfexplanatory
+	t_ant			*ants;
 	t_room			*rooms;
 	t_log			*log;
-	t_path			*paths;
 	t_pathf			*pathf;
+	t_pathset		*sets;
 }				t_lemin;
 
 
 int			get_input(t_lemin *node);
+int     	make_ants(t_lemin *node);
 void		ft_error(char *msg);
 char		*get_paths(t_lemin *node);
 t_room		*fetch_room(t_room *head, char *keyword);
