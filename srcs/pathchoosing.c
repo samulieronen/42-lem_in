@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 18:16:24 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/17 02:51:26 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/14 14:10:32 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		path_len(t_pathf *head)
 		tmp->len = 1;
 		while (tmp->path[i])
 		{
-			if (ft_isdigit(tmp->path[i]))
+			if (tmp->path[i] == '*')
 				tmp->len++;
 			i++;
 		}
@@ -35,22 +35,7 @@ int		path_len(t_pathf *head)
 
 int		math_movecount(t_lemin *node, t_pathf *path)
 {
-	int ants;
-	int mv;
-
-	ants = node->antcount;
-	mv = (path->len + ants) - 1;
-	return (mv);
-}
-
-int		math_movecount2(t_lemin *node, int *list)
-{
-	int ants;
-	int mv;
-	int i;
-
-	ants = node->antcount;
-	return (0);
+	return ((path->len + node->antcount) - 1);
 }
 
 int		check_intersecting(char *p1, char *p2)
@@ -126,7 +111,7 @@ int		sort_intersecting(t_lemin *node, t_pathf *paths, int max_paths)
 	t_pathf		*tmp;
 	t_pathf		*cur;
 	t_pathset	*set;
-	int 	nb;
+	int 		nb;
 
 	cur = paths;
 	while (cur)
@@ -166,6 +151,40 @@ int		sort_intersecting(t_lemin *node, t_pathf *paths, int max_paths)
 ** paths - steps in current path.
 */
 
+int		calc_antcount(t_pathf *path, int calc)
+{
+	ft_printf("Calc ants %d - %d = %d\n", calc, path->len, (calc - path->len));
+	return (calc - path->len);
+}
+
+int		sort_ants(t_lemin *node, t_pathset *sets)
+{
+	t_pathset	*set;
+	t_pathf		*path;
+	int			res;
+	int			tmp;
+	int			calc;
+
+	set = sets;
+	while (set)
+	{
+		path = set->path;
+		res = 0;
+		calc = (set->pathsetlen + node->antcount) / set->pathset;
+		ft_printf("Calc: %d\n", calc);
+		while (path)
+		{
+			tmp = calc_antcount(path, calc);
+			if (tmp > res)
+				res = tmp;
+			path = path->next;
+		}
+		set->moves = res;
+		set = set->next;
+	}
+	return (0);
+}
+
 int		pathchoosing(t_lemin *node)
 {
 	t_pathf *paths;
@@ -186,6 +205,15 @@ int		pathchoosing(t_lemin *node)
 	}
 	ft_printf("Checking intersections : max_paths %d\n\n", max_paths);
 	sort_intersecting(node, paths, max_paths);
+	sort_ants(node, node->sets);
+	t_pathset *teemp;
+	teemp = node->sets;
+	while (teemp)
+	{
+		ft_printf("Moves for set: %d\n", teemp->moves);
+		teemp = teemp->next;
+	}
+	return (0);
 	int res;
 	if (10 % 3 != 0)
 		ft_printf("There will be a remainder to sort out!\n");

@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/17 02:59:43 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/14 13:47:04 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ typedef	struct	s_pathf
 typedef struct	s_pathset
 {
 	t_pathf				*path;
-	int					pathset;
-	int					pathsetlen;
-	int					moves;
+	int					*movetable;
+	int					pathset;			// How many paths in set
+	int					pathsetlen;			// How long the whole set is
+	int					moves;				// How many moves it takes in total
 	struct s_pathset	*next;
 }				t_pathset;
-
 
 typedef struct	s_lemin				//	Main struct
 {

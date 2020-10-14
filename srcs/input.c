@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:59:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/16 18:52:01 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/14 16:41:29 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,12 @@ t_room	*fetch_room(t_room *head, char *keyword)
 	t_room *tmp;
 
 	tmp = head;
+//	ft_printf("key: %s\n", keyword);
 	if (!head)
 		ft_error("fetch_room failed, no rooms.");
 	while (tmp)
 	{
+//		ft_printf("name: %s\n", tmp->name);
 		if (!(ft_strcmp(tmp->name, keyword)))
 		{
 			free(keyword);
@@ -189,7 +191,7 @@ int     get_input(t_lemin *node)
 	{
 		if (!line)
 			break ;
-		ft_printf("%s\n", line);
+//		ft_printf("%s\n", line);
 		if (parse_line(node, line))
 			ft_error("Parse line failed!");
 		if (line)

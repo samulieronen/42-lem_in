@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 20:37:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/17 02:14:40 by seronen          ###   ########.fr       */
+/*   Updated: 2020/09/25 17:31:06 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,7 @@ t_room      *pathfinding(t_lemin *node, t_room *head, char *path) //set of paths
 	if (!cur->info)
 		cur->visited = 1;
 	if (!cur->info)
-	{
-//		tmp = ft_strjoin("*", cur->name);
-//		ttmp = ft_strjoin(path, tmp);
-//		free(tmp);
-//		free(path);
-//		path = ttmp;
 		path = ft_strjoin(path, ft_strjoin("*", cur->name));
-	}
 	if (cur->info && !ft_strcmp(cur->info, "end"))
 	{
 		add_path(node, path);
