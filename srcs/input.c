@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:59:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/14 16:41:29 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/17 00:18:14 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void	add_room(t_lemin *node, char *id, char *info)
 	dest->pipes = NULL;
 	dest->info = info;
 	dest->visited = 0;
-	dest->dead = 0;
-	dest->paths_used = 0;
 	node->rooms = head;
 }
 
@@ -191,7 +189,8 @@ int     get_input(t_lemin *node)
 	{
 		if (!line)
 			break ;
-//		ft_printf("%s\n", line);
+		if (PRINT_IN)
+			ft_printf("%s\n", line);
 		if (parse_line(node, line))
 			ft_error("Parse line failed!");
 		if (line)

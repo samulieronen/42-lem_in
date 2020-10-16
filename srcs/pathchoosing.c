@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 18:16:24 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/14 14:10:32 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/16 01:20:41 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,21 @@ t_pathset			*add_pathset(t_lemin *node)
 	}
 	dest->pathset = 0;
 	dest->pathsetlen = 0;
+	dest->movetable = NULL;
+	dest->anttable = NULL;
 	dest->path = NULL;
 	node->sets = head;
 	return (dest);
+}
+
+t_pathf *dup_path(t_pathf *old)
+{
+	t_pathf *new;
+
+	new = (t_pathf*)malloc(sizeof(t_pathf));
+	new->path = old->path;
+	new->len = old->len;
+	return (new);
 }
 
 int		add_to_set(t_pathset *set, t_pathf *path)
@@ -93,16 +105,37 @@ int		add_to_set(t_pathset *set, t_pathf *path)
 	tmp = set->path;
 	if (!set->path)
 	{
-		set->path = path;
+		set->path = dup_path(path);
 		set->path->next = NULL;
 	}
 	else
 	{
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = path;
+		tmp->next = dup_path(path);
 		tmp->next->next = NULL;
 	}
+	return (0);
+}
+
+int		add_shortest_set(t_lemin *node)
+{
+	t_pathf *tmp;
+	t_pathf *min;
+
+	tmp = node->pathf;
+	min = tmp;
+	while (tmp)
+	{
+		if (tmp->len < min->len)
+			min = tmp;
+		tmp = tmp->next;
+	}
+	node->sets = add_pathset(node);
+	if (add_to_set(node->sets, min))
+		ft_error("Internal error: could not add path to set!");
+	node->sets->pathsetlen += min->len;
+	node->sets->pathset = 1;
 	return (0);
 }
 
@@ -114,12 +147,15 @@ int		sort_intersecting(t_lemin *node, t_pathf *paths, int max_paths)
 	int 		nb;
 
 	cur = paths;
+	add_shortest_set(node);
 	while (cur)
 	{
 		nb = 1;
 		ft_printf("The path: %s\n",cur->path);
 		tmp = paths;
 		set = add_pathset(node);
+		if (add_to_set(set, cur))
+			ft_error("Internal error: could not add path to set!");
 		set->pathsetlen += cur->len;
 		while (tmp)
 		{
@@ -132,7 +168,7 @@ int		sort_intersecting(t_lemin *node, t_pathf *paths, int max_paths)
 					set->pathsetlen += tmp->len;
 					if (add_to_set(set, tmp))
 						ft_error("Internal error: could not add path to set!");
-					ft_printf("Not intersecting with: %s\n",tmp->path);
+//					ft_printf("Not intersecting with: %s\n",tmp->path);
 				}
 			}
 			tmp = tmp->next;
@@ -151,18 +187,12 @@ int		sort_intersecting(t_lemin *node, t_pathf *paths, int max_paths)
 ** paths - steps in current path.
 */
 
-int		calc_antcount(t_pathf *path, int calc)
-{
-	ft_printf("Calc ants %d - %d = %d\n", calc, path->len, (calc - path->len));
-	return (calc - path->len);
-}
-
 int		sort_ants(t_lemin *node, t_pathset *sets)
 {
 	t_pathset	*set;
 	t_pathf		*path;
 	int			res;
-	int			tmp;
+	int			i;
 	int			calc;
 
 	set = sets;
@@ -171,18 +201,79 @@ int		sort_ants(t_lemin *node, t_pathset *sets)
 		path = set->path;
 		res = 0;
 		calc = (set->pathsetlen + node->antcount) / set->pathset;
-		ft_printf("Calc: %d\n", calc);
+		set->anttable = (int*)malloc(sizeof(set->pathset) + 1);
+		i = 0;
 		while (path)
 		{
-			tmp = calc_antcount(path, calc);
-			if (tmp > res)
-				res = tmp;
+			res = (calc - path->len);
+			set->anttable[i++] = res;
 			path = path->next;
 		}
-		set->moves = res;
+		if (node->antcount % set->pathset != 0)
+			ft_printf("Remainder to be sorted out!\n");
 		set = set->next;
 	}
+//	check_remainder();
 	return (0);
+}
+
+// Moves are antcount in path + path length - 1.
+
+t_pathset		*get_best(t_pathset *sets)
+{
+	t_pathset	*tmp;
+	t_pathset	*best;
+
+	tmp = sets;
+	best = tmp;
+	while (tmp)
+	{
+		ft_printf("Moves: %d\n", tmp->moves);
+		if (tmp->moves <= best->moves)
+			best = tmp;
+		tmp = tmp->next;
+	}
+	return (best);
+}
+
+int				get_maxmoves(int *arr)
+{
+	int i;
+	int max;
+
+	i = 0;
+	max = arr[0];
+	while (arr[i])
+	{
+		if (arr[i] > max)
+			max = arr[i];
+		i++;
+	}
+	return (max);
+}
+
+t_pathset		*calc_moves(t_lemin *node, t_pathset *sets)
+{
+	t_pathset	*cur;
+	t_pathf		*tmp;
+	int i;
+
+	cur = sets;
+	while (cur)
+	{
+		i = 0;
+		cur->movetable = (int*)malloc(sizeof(int) * cur->pathset) + 1;
+		tmp = cur->path;
+		while (tmp)
+		{
+			cur->movetable[i] = (cur->anttable[i] + tmp->len) - 1;
+			i++;
+			tmp = tmp->next;
+		}
+		cur->moves = get_maxmoves(cur->movetable);
+		cur = cur->next;
+	}
+	return (get_best(sets));
 }
 
 int		pathchoosing(t_lemin *node)
@@ -206,20 +297,32 @@ int		pathchoosing(t_lemin *node)
 	ft_printf("Checking intersections : max_paths %d\n\n", max_paths);
 	sort_intersecting(node, paths, max_paths);
 	sort_ants(node, node->sets);
-	t_pathset *teemp;
-	teemp = node->sets;
-	while (teemp)
+	t_pathset *use;
+	use = calc_moves(node, node->sets);
+	ft_printf("\n\n\n\nPathset to_use found!\n\n");
+	int i = 0;
+	while (use->path)
 	{
-		ft_printf("Moves for set: %d\n", teemp->moves);
-		teemp = teemp->next;
+		ft_printf("Path: %s\nAnts: %d\nMoves: %d\n\n", use->path->path, use->anttable[i], use->movetable[i]);
+		i++;
+		use->path = use->path->next;
 	}
-	return (0);
-	int res;
-	if (10 % 3 != 0)
-		ft_printf("There will be a remainder to sort out!\n");
-	res = (12 + 10) / 3;
-	ft_printf("%d\n\n", res - 4);
-	ft_printf("%d\n\n", res - 6);
-	ft_printf("%d\n\n", res - 2);
+	ft_printf("Movecount: %d\n\n", use->moves);
+	int ses;
+	int AC = 20;
+	ses = (50 + AC) / 2;
+	ft_printf("0 Path with 4 steps : %d\n", ses - 4);
+	ft_printf("0 Path with 46 steps : %d\n", ses - 46);
+	ft_printf("\n");
+	ft_printf("1 Path with 4 steps : %d\n", (50 + AC) / (2 - 4));
+	ft_printf("1 Path with 46 steps : %d\n", (50 + AC) / (2 - 46));
+	ft_printf("\n");
+	ft_printf("2 Path with 4 steps : %d\n", (50 + (AC / 2) - 4));
+	ft_printf("2 Path with 46 steps : %d\n", (50 + (AC / 2) - 46));
+	ft_printf("\n");
+	ft_printf("3 Path with 4 steps : %d\n", ((50 + AC) / 2) - 4);
+	ft_printf("3 Path with 46 steps : %d\n", ((50 + AC) / 2) - 46);
+	ft_printf("\n");
+//	ft_printf("Path with 100 steps : %d\n", ses - 100);
 	return (0);
 }

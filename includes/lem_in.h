@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/14 13:47:04 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/17 00:20:47 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,20 @@
 # include "get_next_line.h"
 # include "ft_printf.h"
 # include <stdio.h>
+
+// 0 value for old pathcooser, 1 for newer one
+
+#define CHOOSER 1
+
+// Print the input = 1 ON (DEFAULT), 0 OFF
+
+#define PRINT_IN 0
+
+// Print total nb of moves = 0 for NO, 1 for YES
+
+#define PRINT_MV 1
+
+
 
 typedef struct	s_pipe				//	Struct to store all the connections from the rooms as one room can have n connections
 {
@@ -34,9 +48,7 @@ typedef struct	s_room				//	Struct to store all the rooms as there will be ( > 2
 {
 	char			*name;			//	Rooms name to identify it from the rest
 	char			*info;
-	int				paths_used;
 	int				visited;		//	Mark for a visited room
-	int				dead;
 	t_pipe			*pipes;
 	struct s_room	*next;
 }				t_room;
@@ -59,15 +71,29 @@ typedef struct	s_pathset
 {
 	t_pathf				*path;
 	int					*movetable;
+	int					*anttable;
 	int					pathset;			// How many paths in set
 	int					pathsetlen;			// How long the whole set is
 	int					moves;				// How many moves it takes in total
 	struct s_pathset	*next;
 }				t_pathset;
 
+typedef struct	s_map
+{
+	t_pathf				*paths;
+	long long		max_paths;
+	long long		max_moves;
+	int				*ant;
+	int				*path;
+	struct s_map		*next;
+}				t_map;
+
+
 typedef struct	s_lemin				//	Main struct
 {
-	int				antcount;		//	Should be selfexplanatory
+	long long		antcount;		//	Should be selfexplanatory
+//	long long		max_paths;
+	t_map			*map;
 	t_ant			*ants;
 	t_room			*rooms;
 	t_log			*log;
@@ -84,5 +110,7 @@ t_room		*fetch_room(t_room *head, char *keyword);
 t_room		*fetch_modroom(t_room *head, char *keyword);
 t_room      *pathfinding(t_lemin *node, t_room *head, char *path);
 int			pathchoosing(t_lemin *node);
+int			pathchooser(t_lemin *node, t_map *map);
+void		add_path(t_lemin *node, char *path);
 
 #endif

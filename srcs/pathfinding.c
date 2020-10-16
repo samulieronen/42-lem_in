@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 20:37:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/25 17:31:06 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/17 00:19:03 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_room	*fetch_modroom(t_room *head, char *keyword)
 		if (tmp->info)
 		{
 			if (!(ft_strcmp(tmp->info, keyword)))
-				return (tmp);
+				return (tmp); 
 		}
 		tmp = tmp->next;
 	}
@@ -36,7 +36,10 @@ void			add_path(t_lemin *node, char *path)
 	t_pathf *dest;
 	t_pathf *head;
 
-	dest = node->pathf;
+	if (CHOOSER)
+		dest = node->map->paths;
+	else
+		dest = node->pathf;
 	head = dest;
 	if (!dest)
 	{
@@ -55,7 +58,10 @@ void			add_path(t_lemin *node, char *path)
 	dest->path = ft_strdup(path);
 	dest->len = 0;
 	free(path);
-	node->pathf = head;
+	if (CHOOSER)
+		node->map->paths = head;
+	else
+		node->pathf = head;
 }
 
 int			check_next(t_pipe *pipe)
