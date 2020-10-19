@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 01:20:58 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/17 00:21:44 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/19 15:53:47 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,45 @@ int		dispatch_ants(t_lemin *node, t_map *map)
 	t_pathf *tmp;
 	int i;
 
-	map->ant = (int*)malloc(sizeof(int) * map->max_paths + 1);
-	map->path = (int*)malloc(sizeof(int) * map->max_paths + 1);
+	map->calc = (map->max_moves + node->antcount) / map->max_paths;
+	if (!map->ant)
+		map->ant = (int*)malloc(sizeof(int) * map->max_paths + 1);
 	i = 0;
-	while (tmp)
+	tmp = map->paths;
+	while (tmp && i < map->max_paths)
 	{
-		map->ant[i] = 0;
+		if (map->ant[i] != -1)
+			map->ant[i] = map->calc - tmp->len;
+		else
+			map->ant[i] = -1;
+		tmp = tmp->next;
 		i++;
 	}
 	return (0);
 }
 
-
-
 int		pathchooser(t_lemin *node, t_map *map)
 {
 	t_pathf *paths;
+	int i;
 
 	paths = map->paths;
+	
+
+
+	/*
+	path_len(map->paths);
 	calc_paths(map);
 	if (!map->max_paths)
 		ft_error("No paths found! : max_paths 0!");
 	if (!paths)
 		ft_error("No paths found! : !paths");
-//	dispatch_ants();
+	dispatch_ants(node, map);
+	i = 0;
+	while (i < map->max_paths)
+	{
+		ft_printf("Path %d ants: %d\n", i + 1, map->ant[i]);
+		i++;
+	} */
 	return (0);
 }

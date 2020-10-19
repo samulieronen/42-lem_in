@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/16 15:15:32 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/19 22:06:51 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_lemin		*setup_structs(void)
 	if (!(node->map = (t_map*)malloc(sizeof(t_map))))
 		ft_error("t_map malloc failed!\n");
 	node->log->modid = 0;
-//	node->max_paths = 0;
+	node->roomnb = 0;
 	node->map->max_paths = 0;
 	node->map->max_moves = 0;
 	node->rooms = NULL;
@@ -52,16 +52,18 @@ int				main(void)
 	node = setup_structs();
 	get_input(node);
 	make_ants(node);
-	pathfinding(node, fetch_modroom(node->rooms, "start"), ft_strdup(""));		// Neue pathfinding algo!
-	t_pathf *temp = node->pathf;
+	pathfinding(node, node->start, ft_strdup(""));
+	t_pathf *temp = node->map->paths;
 	while (temp)
 	{
 		ft_printf("Found path: %s\n", temp->path);
+		ft_printf("\n");
 		temp = temp->next;
 	}
+//	while (1);
 	ft_printf("\n");
 	if (CHOOSER == 1)
-		pathchooser(node, node->map);
+		pathchooser2(node, node->map);
 	else
 		pathchoosing(node);
 	return (0);

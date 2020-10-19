@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:23:26 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/04 03:26:36 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/19 23:56:14 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
+# include "get_next_line.h"
+# include "ft_printf.h"
 
 typedef struct	s_list
 {
@@ -99,5 +101,6 @@ char			*ft_ftoa(long double f, int precision);
 char			*ft_strrev(char *str);
 void			ft_2dstrdel(char **as);
 char      		*ft_strcdup(const char *s1, char c);
+size_t      	ft_strnlen(const char *s, size_t maxlen);
 
 #endif

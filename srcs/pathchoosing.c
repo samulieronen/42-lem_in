@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 18:16:24 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/16 01:20:41 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/19 18:44:35 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int		sort_intersecting(t_lemin *node, t_pathf *paths, int max_paths)
 	while (cur)
 	{
 		nb = 1;
-		ft_printf("The path: %s\n",cur->path);
+//		ft_printf("The path: %s\n",cur->path);
 		tmp = paths;
 		set = add_pathset(node);
 		if (add_to_set(set, cur))
@@ -174,8 +174,8 @@ int		sort_intersecting(t_lemin *node, t_pathf *paths, int max_paths)
 			tmp = tmp->next;
 		}
 		set->pathset = (max_paths - nb) + 1;
-		ft_printf("Pathsetlen: %d\n", set->pathsetlen);
-		ft_printf("Paths to use: %d\n\n", set->pathset);
+//		ft_printf("Pathsetlen: %d\n", set->pathsetlen);
+//		ft_printf("Paths to use: %d\n\n", set->pathset);
 		cur = cur->next;
 	}
 	return (0);
@@ -210,7 +210,7 @@ int		sort_ants(t_lemin *node, t_pathset *sets)
 			path = path->next;
 		}
 		if (node->antcount % set->pathset != 0)
-			ft_printf("Remainder to be sorted out!\n");
+//			ft_printf("Remainder to be sorted out!\n");
 		set = set->next;
 	}
 //	check_remainder();
@@ -228,7 +228,7 @@ t_pathset		*get_best(t_pathset *sets)
 	best = tmp;
 	while (tmp)
 	{
-		ft_printf("Moves: %d\n", tmp->moves);
+//		ft_printf("Moves: %d\n", tmp->moves);
 		if (tmp->moves <= best->moves)
 			best = tmp;
 		tmp = tmp->next;
@@ -294,7 +294,7 @@ int		pathchoosing(t_lemin *node)
 		math_movecount(node, ttmp);
 		ttmp = ttmp->next;
 	}
-	ft_printf("Checking intersections : max_paths %d\n\n", max_paths);
+//	ft_printf("Checking intersections : max_paths %d\n\n", max_paths);
 	sort_intersecting(node, paths, max_paths);
 	sort_ants(node, node->sets);
 	t_pathset *use;
@@ -303,26 +303,11 @@ int		pathchoosing(t_lemin *node)
 	int i = 0;
 	while (use->path)
 	{
-		ft_printf("Path: %s\nAnts: %d\nMoves: %d\n\n", use->path->path, use->anttable[i], use->movetable[i]);
+//		ft_printf("Path: %s\nAnts: %d\nMoves: %d\n\n", use->path->path, use->anttable[i], use->movetable[i]);
 		i++;
 		use->path = use->path->next;
 	}
 	ft_printf("Movecount: %d\n\n", use->moves);
-	int ses;
-	int AC = 20;
-	ses = (50 + AC) / 2;
-	ft_printf("0 Path with 4 steps : %d\n", ses - 4);
-	ft_printf("0 Path with 46 steps : %d\n", ses - 46);
-	ft_printf("\n");
-	ft_printf("1 Path with 4 steps : %d\n", (50 + AC) / (2 - 4));
-	ft_printf("1 Path with 46 steps : %d\n", (50 + AC) / (2 - 46));
-	ft_printf("\n");
-	ft_printf("2 Path with 4 steps : %d\n", (50 + (AC / 2) - 4));
-	ft_printf("2 Path with 46 steps : %d\n", (50 + (AC / 2) - 46));
-	ft_printf("\n");
-	ft_printf("3 Path with 4 steps : %d\n", ((50 + AC) / 2) - 4);
-	ft_printf("3 Path with 46 steps : %d\n", ((50 + AC) / 2) - 46);
-	ft_printf("\n");
 //	ft_printf("Path with 100 steps : %d\n", ses - 100);
 	return (0);
 }

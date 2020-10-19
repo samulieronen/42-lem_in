@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:59:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/17 00:18:14 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/19 20:32:16 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int     get_modifier(t_lemin *node, char *line)
 	return (0);
 }
 
-void	add_room(t_lemin *node, char *id, char *info)
+t_room		*add_room(t_lemin *node, char *id, char *info)
 {
 	t_room *dest;
 	t_room *head;
@@ -60,11 +60,13 @@ void	add_room(t_lemin *node, char *id, char *info)
 		dest = dest->next;
 		dest->next = NULL;
 	}
+	dest->id = ++node->roomnb;
 	dest->name = id;
 	dest->pipes = NULL;
 	dest->info = info;
 	dest->visited = 0;
 	node->rooms = head;
+	return (dest);
 }
 
 t_room	*fetch_room(t_room *head, char *keyword)
@@ -85,6 +87,7 @@ t_room	*fetch_room(t_room *head, char *keyword)
 		}
 		tmp = tmp->next;
 	}
+	ft_error("fetch_room failed, cannot find room.");
 	return (NULL);
 }
 
@@ -98,7 +101,7 @@ int		add_pipe(t_room *room, t_room *where)
 	if (!dest)
 	{
 		if (!(dest = (t_pipe*)malloc(sizeof(t_pipe))))
-			ft_error("Malloc failed!");
+			ft_error("add_pipe: Malloc failed!");
 		head = dest;
 	}
 	else
@@ -106,7 +109,7 @@ int		add_pipe(t_room *room, t_room *where)
 		while (dest->next)
 			dest = dest->next;
 		if (!(dest->next = (t_pipe*)malloc(sizeof(t_pipe))))
-			ft_error("Malloc failed!");
+			ft_error("add_pipe: Malloc failed!");
 		dest = dest->next;
 		dest->next = NULL;
 	}
@@ -140,11 +143,11 @@ int		build_room(t_lemin *node, char *line)
 {
 	if (node->log->modid == 1)
 	{
-		add_room(node, ft_strcdup(line, ' '), ft_strdup("start"));
+		node->start = add_room(node, ft_strcdup(line, ' '), ft_strdup("start"));
 	}
 	else if (node->log->modid == 2)
 	{
-		add_room(node, ft_strcdup(line, ' '), ft_strdup("end"));
+		node->end =  add_room(node, ft_strcdup(line, ' '), ft_strdup("end"));
 	}
 	else
 	{
@@ -197,19 +200,5 @@ int     get_input(t_lemin *node)
 			ft_strdel(&line);
 	}
 	ft_printf("\n\n");
-/*	while (node->rooms)
-	{
-		printf("Found room %s\n", node->rooms->name);
-		if (node->rooms->info)
-			printf("%s\n", node->rooms->info);
-		while (node->rooms->pipes)
-		{
-			printf("Pipe to '%s'\n", node->rooms->pipes->where);
-			node->rooms->pipes = node->rooms->pipes->next;
-		}
-		printf("\n");
-		node->rooms = node->rooms->next;
-	}
-	ft_printf("\n\n"); */
 	return (0);
 }
