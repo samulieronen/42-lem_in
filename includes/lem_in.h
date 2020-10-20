@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/20 18:01:16 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/21 01:24:20 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,6 @@ typedef struct	s_room				//	Struct to store all the rooms as there will be ( > 2
 	struct s_room	*next;
 }				t_room;
 
-typedef	struct	s_log
-{
-	int		start;
-	int		end;
-	int		modid;					//	Tells our parser which modifier we have in hand, start or end.
-}				t_log;
-
 typedef	struct	s_pathf
 {
 	char	*path;
@@ -112,6 +105,7 @@ typedef struct	s_lemin				//	Main struct
 {
 	long long		antcount;		//	Should be selfexplanatory
 	long long		roomnb;
+	int				mod;
 
 	t_room			*start;
 	t_room			*end;
@@ -121,7 +115,6 @@ typedef struct	s_lemin				//	Main struct
 	t_map			*map;
 	t_ant			*ants;
 	t_room			*rooms;
-	t_log			*log;
 	t_pathf			*pathf;
 	t_pathset		*sets;
 }				t_lemin;
@@ -131,22 +124,38 @@ int			get_input(t_lemin *node);
 int     	make_ants(t_lemin *node);
 void		ft_error(char *msg);
 char		*get_paths(t_lemin *node);
+void		add_path(t_lemin *node, char *path);
+int			path_len(t_pathf *head);
+
+
 t_room		*fetch_room(t_room *head, char *keyword);
 t_room		*fetch_modroom(t_room *head, char *keyword);
 
+
 t_room      *pathfinding(t_lemin *node, t_room *head, char *path);
+
 
 int			pathchoosing(t_lemin *node);
 int			pathchooser(t_lemin *node, t_map *map);
 int			pathchooser2(t_lemin *node, t_map *map);
 
-void		add_path(t_lemin *node, char *path);
 
-int		path_len(t_pathf *head);
+// ROOMS.C
 
-void	insert_hash(t_lemin *node, char *key, t_room *room);
-void	init_hash(t_lemin *node);
-void	hashadd(t_hash **alst, t_hash *new);
-void			*fetch_hash(t_lemin *node, char *key);
+int		build_room(t_lemin *node, char *line);
+
+
+// PIPES.C
+
+int		build_pipes(t_lemin *node, char *line, int rev);
+
+
+// HASH.C / HASH_UTILS.C
+
+void			insert_hash(t_lemin *node, char *key, t_room *room);
+void			*fetch_hash(t_hash **table, char *key);
+
+void			hashadd(t_hash **alst, t_hash *new);
+t_hash			*hashnew(char **key, t_room **room);
 
 #endif

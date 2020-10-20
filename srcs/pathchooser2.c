@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 15:54:11 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/19 22:18:13 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/21 01:32:25 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int     make_sets(t_lemin *node, t_pathf *paths)
     tmp = paths;
     while (tmp)
     {
-        
+        break ;
     }
     return (0);
 }
@@ -32,7 +32,8 @@ int		pathchooser2(t_lemin *node, t_map *map)
 	t_pathf *paths;
 	int i;
 
-	paths = map->paths;
+	if (!(paths = map->paths))
+        ft_error("pathchooser: No paths found!");
     make_sets(node, paths);
     return (0);
 }

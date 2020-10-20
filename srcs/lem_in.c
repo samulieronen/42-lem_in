@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/20 16:51:15 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/21 01:35:16 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,9 @@ static t_lemin		*setup_structs(void)
 
 	if (!(node = (t_lemin*)malloc(sizeof(t_lemin))))
 		ft_error("t_lemin malloc failed!");
-	if (!(node->log = (t_log*)malloc(sizeof(t_log))))
-		ft_error("t_log malloc failed!");
 	if (!(node->map = (t_map*)malloc(sizeof(t_map))))
 		ft_error("t_map malloc failed!");
-	init_hash(node);
-	node->log->modid = 0;
+	ft_bzero(node->hash, TABLE_SIZE);
 	node->roomnb = 0;
 	node->map->max_paths = 0;
 	node->map->max_moves = 0;
@@ -41,8 +38,6 @@ static t_lemin		*setup_structs(void)
 	node->sets = NULL;
 	node->ants = NULL;
 	node->antcount = 0;
-	node->log->start = 0;
-	node->log->end = 0;
 	return (node);
 }
 
@@ -52,20 +47,23 @@ int				main(void)
 
 	node = setup_structs();
 	get_input(node);
+	return (0);
 	make_ants(node);
 	pathfinding(node, node->start, ft_strdup(""));
 	t_pathf *temp = node->map->paths;
+	int i = 0;
 	while (temp)
 	{
-		ft_printf("Found path: %s\n", temp->path);
-		ft_printf("\n");
+//		ft_printf("Found path: %s\n", temp->path);
+//		ft_printf("\n");
+		i++;
 		temp = temp->next;
 	}
-//	while (1);
-	ft_printf("\n");
+	ft_printf("Paths found: %d\n", i);
 	if (CHOOSER == 1)
 		pathchooser2(node, node->map);
 	else
 		pathchoosing(node);
+	ft_printf("Yeet\n");
 	return (0);
 }
