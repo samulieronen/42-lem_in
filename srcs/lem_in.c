@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/19 22:06:51 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/20 16:51:15 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ static t_lemin		*setup_structs(void)
 	t_lemin *node;
 
 	if (!(node = (t_lemin*)malloc(sizeof(t_lemin))))
-		ft_error("t_lemin malloc failed!\n");
+		ft_error("t_lemin malloc failed!");
 	if (!(node->log = (t_log*)malloc(sizeof(t_log))))
-		ft_error("t_log malloc failed!\n");
+		ft_error("t_log malloc failed!");
 	if (!(node->map = (t_map*)malloc(sizeof(t_map))))
-		ft_error("t_map malloc failed!\n");
+		ft_error("t_map malloc failed!");
+	init_hash(node);
 	node->log->modid = 0;
 	node->roomnb = 0;
 	node->map->max_paths = 0;

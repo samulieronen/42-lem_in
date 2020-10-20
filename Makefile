@@ -6,14 +6,15 @@
 #    By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/03 22:23:49 by seronen           #+#    #+#              #
-#    Updated: 2020/10/20 00:07:53 by seronen          ###   ########.fr        #
+#    Updated: 2020/10/20 15:43:36 by seronen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = lem-in
 
 SRCS =	srcs/lem_in.c srcs/input.c srcs/pathfinding.c srcs/pathchoosing.c srcs/ants.c \
-		srcs/pathchooser.c srcs/pathchooser2.c
+		srcs/pathchooser.c srcs/pathchooser2.c \
+		srcs/hash/*.c
 
 FLAGS = -Wall -Wextra -Werror
 

@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash.h                                             :+:      :+:    :+:   */
+/*   hash_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/19 23:42:13 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/20 00:53:07 by seronen          ###   ########.fr       */
+/*   Created: 2020/10/20 17:01:47 by seronen           #+#    #+#             */
+/*   Updated: 2020/10/20 18:03:57 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HASH_H
-# define HASH_H
-# include "libft.h"
+#include "lem_in.h"
 
-# define TABLE_SIZE 2048
-
-# define MAX_LEN 20
-
-typedef struct  s_hash
+void	hashadd(t_hash **alst, t_hash *new)
 {
-    char    **hashtable[TABLE_SIZE];
-}               t_hash;
 
-#endif
+	if (!alst && !new)
+		return ;
+	else
+	{
+		new->next = *alst;
+		*alst = new;
+	}
+}

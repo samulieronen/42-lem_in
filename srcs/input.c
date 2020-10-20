@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:59:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/19 20:32:16 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/20 18:02:26 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,16 @@ int		build_room(t_lemin *node, char *line)
 	if (node->log->modid == 1)
 	{
 		node->start = add_room(node, ft_strcdup(line, ' '), ft_strdup("start"));
+		insert_hash(node, node->start->name, node->start);
+		t_room *temp = fetch_hash(node, node->start->name);
+		if (!temp)
+			ft_printf("No temp room!\n");
+		else
+		{
+			ft_printf("temp->info: %s\n", temp->info);
+			ft_printf("temp->name: %s\n", temp->name);
+		}
+		exit(0);
 	}
 	else if (node->log->modid == 2)
 	{

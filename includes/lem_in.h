@@ -6,14 +6,13 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/20 00:52:07 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/20 18:01:16 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
 # define LEM_IN_H
 # include "libft.h"
-# include "hash.h"
 # include <stdio.h>		// remove
 
 // 0 value for old pathcooser, 1 for newer one
@@ -33,6 +32,8 @@
 #define PATH_SAVE 1
 
 
+#define TABLE_SIZE	2048
+#define MAX_KEY		30
 
 typedef struct	s_pipe				//	Struct to store all the connections from the rooms as one room can have n connections
 {
@@ -100,6 +101,13 @@ typedef struct	s_map
 	struct s_map		*next;
 }				t_map;
 
+typedef struct	s_hash
+{
+	char			*key;
+	struct s_room	*room;
+	struct s_hash	*next;
+}				t_hash;
+
 typedef struct	s_lemin				//	Main struct
 {
 	long long		antcount;		//	Should be selfexplanatory
@@ -108,7 +116,7 @@ typedef struct	s_lemin				//	Main struct
 	t_room			*start;
 	t_room			*end;
 
-	t_hash			*hash;
+	t_hash			*hash[TABLE_SIZE];
 
 	t_map			*map;
 	t_ant			*ants;
@@ -135,5 +143,10 @@ int			pathchooser2(t_lemin *node, t_map *map);
 void		add_path(t_lemin *node, char *path);
 
 int		path_len(t_pathf *head);
+
+void	insert_hash(t_lemin *node, char *key, t_room *room);
+void	init_hash(t_lemin *node);
+void	hashadd(t_hash **alst, t_hash *new);
+void			*fetch_hash(t_lemin *node, char *key);
 
 #endif
