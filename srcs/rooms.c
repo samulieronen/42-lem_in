@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:36 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/21 01:30:19 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/21 01:52:53 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 char	*get_modifier(t_lemin *node, t_room **r)
 {
 	if (node->mod == 1)
-    {
-        node->start = *r;
+	{
+		node->start = *r;
 		return(ft_strdup("start"));
-    }
+	}
 	else if (node->mod == 2)
-    {
-        node->end = *r;
+	{
+		node->end = *r;
 		return(ft_strdup("end"));
-    }
+	}
 	return (NULL);
 }
 
@@ -60,7 +60,7 @@ int		build_room(t_lemin *node, char *line)
 	r->name = ft_strcdup(line, ' ');
 	r->pipes = NULL;
 	r->info = get_modifier(node , &r);
-    node->mod = 0;
+	node->mod = 0;
 	r->visited = 0;
 	insert_hash(node, r->name, r);
 	return (0);
