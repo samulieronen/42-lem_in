@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/21 01:24:20 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/21 17:00:42 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@
 #define PATH_SAVE 1
 
 
-#define TABLE_SIZE	2048
+#define TABLE_SIZE	2099
 #define MAX_KEY		30
 
 typedef struct	s_pipe				//	Struct to store all the connections from the rooms as one room can have n connections
 {
-	char			*name;
 	struct s_room	*room;
 	struct s_pipe	*next;
 }				t_pipe;
@@ -104,7 +103,7 @@ typedef struct	s_hash
 typedef struct	s_lemin				//	Main struct
 {
 	long long		antcount;		//	Should be selfexplanatory
-	long long		roomnb;
+	int				roomnb;
 	int				mod;
 
 	t_room			*start;
@@ -124,15 +123,11 @@ int			get_input(t_lemin *node);
 int     	make_ants(t_lemin *node);
 void		ft_error(char *msg);
 char		*get_paths(t_lemin *node);
-void		add_path(t_lemin *node, char *path);
+void		add_path(t_lemin *node, char *path, int len);
 int			path_len(t_pathf *head);
 
 
-t_room		*fetch_room(t_room *head, char *keyword);
-t_room		*fetch_modroom(t_room *head, char *keyword);
-
-
-t_room      *pathfinding(t_lemin *node, t_room *head, char *path);
+t_room      *pathfinding(t_lemin *node, t_room *head, char *path, int len);
 
 
 int			pathchoosing(t_lemin *node);

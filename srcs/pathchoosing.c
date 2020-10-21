@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/08 18:16:24 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/19 18:44:35 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/21 13:17:17 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,12 +181,6 @@ int		sort_intersecting(t_lemin *node, t_pathf *paths, int max_paths)
 	return (0);
 }
 
-/*
-** We calculate the optimal amount of ants we send per path:
-** (total amount of steps of all paths + total number of ants) / number ofjj	// Huge thanks to gmolin! :) Luv u
-** paths - steps in current path.
-*/
-
 int		sort_ants(t_lemin *node, t_pathset *sets)
 {
 	t_pathset	*set;
@@ -308,6 +302,5 @@ int		pathchoosing(t_lemin *node)
 		use->path = use->path->next;
 	}
 	ft_printf("Movecount: %d\n\n", use->moves);
-//	ft_printf("Path with 100 steps : %d\n", ses - 100);
 	return (0);
 }

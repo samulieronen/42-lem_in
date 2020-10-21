@@ -6,13 +6,13 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 20:37:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/21 01:14:20 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/21 18:05:48 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void			add_path(t_lemin *node, char *path)
+void			add_path(t_lemin *node, char *path, int len)
 {
 	t_pathf *dest;
 	t_pathf *head;
@@ -37,8 +37,7 @@ void			add_path(t_lemin *node, char *path)
 		dest->next = NULL;
 	}
 	dest->path = ft_strdup(path);
-	dest->len = 0;
-//	free(path);
+	dest->len = len;
 	if (CHOOSER)
 		node->map->paths = head;
 	else
@@ -57,7 +56,7 @@ int			check_next(t_lemin *node, t_pipe *pipe)
 	return (1);
 }
 
-t_room      *pathfinding(t_lemin *node, t_room *head, char *path)
+t_room      *pathfinding(t_lemin *node, t_room *head, char *path, int len)
 {
 	t_room *cur;
 	t_pipe *pipes;
@@ -77,7 +76,7 @@ t_room      *pathfinding(t_lemin *node, t_room *head, char *path)
 	}
 	if (cur->id == node->end->id)
 	{
-		add_path(node, path);
+		add_path(node, path, len);
 		pipes = NULL;
 	}
 	while (pipes)
@@ -86,7 +85,7 @@ t_room      *pathfinding(t_lemin *node, t_room *head, char *path)
 			pipes = pipes->next;
 		if (!check_next(node, pipes))
 			break ;
-		pathfinding(node, pipes->room, path);
+		pathfinding(node, pipes->room, path, len + 1);
 		pipes = pipes->next;
 	}
 	cur->visited = 0;

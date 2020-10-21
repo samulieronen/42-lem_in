@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:39 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/21 01:53:10 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/21 13:28:24 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int		build_pipes(t_lemin *node, char *line, int rev)
 	while (line[i] && line[i] != '-')
 		i++;
 	where = fetch_hash(node->hash, ft_strcdup(&line[i + 1], '-'));
+	if (!where || !from)
+		ft_error("build_pipes: where or from is NULL!");
 	newpipe(&from->pipes, where);
 	newpipe(&where->pipes, from);
 	return (0);
