@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/21 17:00:42 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/22 21:54:44 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 
 #define CHOOSER 1
 
+// 1 for max flow algo, 0 for standard DFS
+
+#define FINDER 0
+
 // Print the input = 1 ON (DEFAULT), 0 OFF
 
 #define PRINT_IN 0
@@ -27,9 +31,9 @@
 
 #define PRINT_MV 1
 
-// Use names to save path VS ID:s (DEBUG)(CHOOSER MUST BE 1)
+// Use room->names to save path VS room->id:s (DEBUG)(CHOOSER MUST BE 1)
 
-#define PATH_SAVE 1
+#define PATH_SAVE 0 // not functional anymore
 
 
 #define TABLE_SIZE	2099
@@ -38,6 +42,7 @@
 typedef struct	s_pipe				//	Struct to store all the connections from the rooms as one room can have n connections
 {
 	struct s_room	*room;
+	struct s_pipe	*adj;
 	struct s_pipe	*next;
 }				t_pipe;
 
@@ -78,8 +83,9 @@ typedef struct	s_pathset
 
 typedef struct	s_set
 {
-	int				*head;
-	struct t_set	*next;
+	int				**setarr;
+	int				index;
+	struct s_set	*next;
 }				t_set;
 
 typedef struct	s_map
@@ -105,6 +111,7 @@ typedef struct	s_lemin				//	Main struct
 	long long		antcount;		//	Should be selfexplanatory
 	int				roomnb;
 	int				mod;
+	int				pathcount;
 
 	t_room			*start;
 	t_room			*end;
@@ -123,12 +130,25 @@ int			get_input(t_lemin *node);
 int     	make_ants(t_lemin *node);
 void		ft_error(char *msg);
 char		*get_paths(t_lemin *node);
-void		add_path(t_lemin *node, char *path, int len);
 int			path_len(t_pathf *head);
 
 
-t_room      *pathfinding(t_lemin *node, t_room *head, char *path, int len);
+// SETS.C
 
+int				manage_sets(t_lemin *node, t_pathf *p);
+
+
+// PATHFINDING.C
+
+t_room      *pathfinding(t_lemin *node, t_room *head,int *p, int len);
+
+
+// EDMONDSKARP.C
+
+int			bfs();
+
+
+// PATHCHOOSERS
 
 int			pathchoosing(t_lemin *node);
 int			pathchooser(t_lemin *node, t_map *map);

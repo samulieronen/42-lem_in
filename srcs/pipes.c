@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:39 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/21 13:28:24 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/22 19:19:29 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_pipe		*newpipe(t_pipe **head, t_room *where)
 	if (!(p = (t_pipe*)malloc(sizeof(t_pipe))))
 		return (NULL);
 	p->next = NULL;
+	p->adj = NULL;
 	if (*head)
 	{
 		p->next = *head;
@@ -28,6 +29,22 @@ t_pipe		*newpipe(t_pipe **head, t_room *where)
 		*head = p;
 	p->room = where;
 	return (p);
+}
+
+void	pipe_symbiosis(t_room *from, t_room *where)
+{
+	t_pipe *a;
+	t_pipe *b;
+
+	if (!(a = newpipe(&from->pipes, where)))
+		ft_error("symbiosis: newpipe failed!");
+	if (!(b = newpipe(&where->pipes, from)))
+		ft_error("symbiosis: newpipe failed!");
+	if (FINDER)
+	{
+		a->adj = b;
+		b->adj = a;
+	}
 }
 
 int		build_pipes(t_lemin *node, char *line, int rev)
@@ -43,7 +60,6 @@ int		build_pipes(t_lemin *node, char *line, int rev)
 	where = fetch_hash(node->hash, ft_strcdup(&line[i + 1], '-'));
 	if (!where || !from)
 		ft_error("build_pipes: where or from is NULL!");
-	newpipe(&from->pipes, where);
-	newpipe(&where->pipes, from);
+	pipe_symbiosis(from, where);
 	return (0);
 }

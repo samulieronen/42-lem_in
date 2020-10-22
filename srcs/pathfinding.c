@@ -6,42 +6,60 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 20:37:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/21 18:05:48 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/22 17:50:20 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void			add_path(t_lemin *node, char *path, int len)
+int				*pathdup(int *old)
 {
-	t_pathf *dest;
-	t_pathf *head;
+	int i;
+	int len;
+	int *new;
 
-	if (CHOOSER)
-		dest = node->map->paths;
-	else
-		dest = node->pathf;
-	head = dest;
-	if (!dest)
+	i = 0;
+	len = 0;
+	while (old[len])
 	{
-		dest = (t_pathf*)malloc(sizeof(t_pathf));
-		dest->next = NULL;
-		head = dest;
+		len++;
 	}
-	else
+	new = (int*)malloc(sizeof(int) * len);
+	new[len] = 0;
+	ft_bzero(new, len);
+	while(old[i])
 	{
-		while (dest->next)
-			dest = dest->next;
-		dest->next = (t_pathf*)malloc(sizeof(t_pathf));
-		dest = dest->next;
-		dest->next = NULL;
+		new[i] = old[i];
+		i++;
 	}
-	dest->path = ft_strdup(path);
-	dest->len = len;
-	if (CHOOSER)
-		node->map->paths = head;
-	else
-		node->pathf = head;
+	return (new);
+}
+
+t_pathf			*pathnew(int *p, int len)
+{
+	t_pathf *new;
+
+	if (!(new = (t_pathf*)malloc(sizeof(t_pathf))))
+		ft_error("pathnew: Malloc failed!");
+	new->id_arr = pathdup(p);
+	new->len = len;
+	new->next = NULL;
+	return (new);
+}
+
+void			add_path(t_pathf **alst, t_pipe **p, int *path, int len)
+{
+	t_pathf *new;
+
+	new = pathnew(path, len);
+	if (*alst && new)
+	{
+		new->next = *alst;
+		*alst = new;
+	}
+	else if (new)
+		*alst = new;
+	*p = NULL;
 }
 
 int			check_next(t_lemin *node, t_pipe *pipe)
@@ -56,38 +74,45 @@ int			check_next(t_lemin *node, t_pipe *pipe)
 	return (1);
 }
 
-t_room      *pathfinding(t_lemin *node, t_room *head, char *path, int len)
+t_room      *pathfinding(t_lemin *node, t_room *head, int *p, int len)
 {
 	t_room *cur;
 	t_pipe *pipes;
 
 	if (!head)
+	{
+		p[len] = 0;
 		return (NULL);
+	}
 	cur = head;
 	pipes = cur->pipes;
 	cur->visited = 1;
-	if (!cur->info && !PATH_SAVE)
-	{
-		path = ft_strjoin(path, ft_strjoin("*", cur->name));
-	}
-	else if (cur->id != node->start->id && PATH_SAVE)
-	{
-		path = ft_strjoin(path, ft_strjoin("*", ft_itoa(cur->id)));
-	}
+//	if (!cur->info && !PATH_SAVE)
+//	{
+//		path = ft_strjoin(path, ft_strjoin("*", cur->name));
+//	}
+//	if (cur->id != node->start->id)
+//	{
+		p[len] = cur->id;
+//	}
 	if (cur->id == node->end->id)
 	{
-		add_path(node, path, len);
-		pipes = NULL;
+		if (CHOOSER)
+			add_path(&node->map->paths, &pipes, p, len);
+		else
+			add_path(&node->pathf, &pipes, p, len);
+		node->pathcount += 1;
 	}
 	while (pipes)
 	{
-		while (!check_next(node, pipes) && pipes->next)
+		while (pipes && (!check_next(node, pipes)))
 			pipes = pipes->next;
-		if (!check_next(node, pipes))
+		if (!pipes)
 			break ;
-		pathfinding(node, pipes->room, path, len + 1);
+		pathfinding(node, pipes->room, p, len + 1);
 		pipes = pipes->next;
 	}
 	cur->visited = 0;
+	p[len] = 0;
 	return (NULL);
 }

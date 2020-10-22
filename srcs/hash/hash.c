@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 23:41:55 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/21 15:32:42 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/22 00:14:36 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,16 @@ void			*fetch_hash(t_hash **table, char *key)
 	int index;
 	t_hash *fetch;
 
+	if (!key || !table)
+		return (NULL);
+//	ft_putendl(key);
 	index = hash_gen(key);
 	if (!(fetch = check_hash(table[index], key)))
+	{
+		ft_putendl(key);
 		ft_error("fetch_hash: Could not fetch room!");
-	free(key);
+	}
+//	free(key);
 	return (fetch->room);
 }
 
