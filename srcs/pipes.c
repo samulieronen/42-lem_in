@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:39 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/22 19:19:29 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/23 23:44:01 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_pipe		*newpipe(t_pipe **head, t_room *where)
 	else
 		*head = p;
 	p->room = where;
+	p->cap = 1;
+	p->flow = 0;
 	return (p);
 }
 

@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/22 21:48:58 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/24 01:15:11 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,34 +49,20 @@ int				main(void)
 
 	node = setup_structs();
 	get_input(node);
-//	return (0);
-//	make_ants(node);
 	ft_printf("Finding\n");
 	ft_printf("node->start->name: %s\n", node->start->name);
+	ft_printf("node->start->id: %d\n", node->start->id);
 	ft_printf("node->end->name: %s\n", node->end->name);
-//	return (0);
+	ft_printf("\n");
+	ft_printf("\n");
 	int *arr = (int*)malloc(sizeof(int) * node->roomnb + 1);
 	ft_bzero(arr, node->roomnb);
 	if (!FINDER)
 		pathfinding(node, node->start, arr, 0);
 	else
-		;
+		solve(node);
+	return (0);
 	free(arr);
-/*	t_pathf *temp = node->map->paths;
-	int i = 0;
-	while (temp)
-	{
-		ft_printf("%d\n", temp->len);
-		int k = 0;
-		while (temp->id_arr[k])
-		{
-			ft_printf("'%d' ", temp->id_arr[k]);
-			k++;
-		}
-		ft_printf("\n");
-		i++;
-		temp = temp->next;
-	} */
 	ft_printf("\n");
 	ft_printf("Paths found node: %d\n", node->pathcount);
 	if (CHOOSER == 1)

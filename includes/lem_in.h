@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/22 21:54:44 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/25 00:21:23 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 // 1 for max flow algo, 0 for standard DFS
 
-#define FINDER 0
+#define FINDER 1
 
 // Print the input = 1 ON (DEFAULT), 0 OFF
 
@@ -41,6 +41,8 @@
 
 typedef struct	s_pipe				//	Struct to store all the connections from the rooms as one room can have n connections
 {
+	int				cap;
+	int				flow;
 	struct s_room	*room;
 	struct s_pipe	*adj;
 	struct s_pipe	*next;
@@ -106,12 +108,27 @@ typedef struct	s_hash
 	struct s_hash	*next;
 }				t_hash;
 
+typedef struct	s_queue
+{
+	struct s_room	*room;
+	struct s_queue	*next;
+}				t_queue;
+
+typedef struct	s_parent
+{
+	struct s_room	*from;
+	struct s_room	*room;
+	struct s_parent	*next;
+	struct s_parent *prev;
+}				t_parent;
+
 typedef struct	s_lemin				//	Main struct
 {
 	long long		antcount;		//	Should be selfexplanatory
 	int				roomnb;
 	int				mod;
 	int				pathcount;
+	int				v_token;
 
 	t_room			*start;
 	t_room			*end;
@@ -143,9 +160,14 @@ int				manage_sets(t_lemin *node, t_pathf *p);
 t_room      *pathfinding(t_lemin *node, t_room *head,int *p, int len);
 
 
-// EDMONDSKARP.C
+// FLOW.C & PATH.C
 
-int			bfs();
+int			solve(t_lemin *node);
+int			path();
+t_queue		*q_del(t_queue *q);
+int			q_check(t_queue *q, t_room *r);
+int			q_add(t_queue **q, t_room *new);
+int			q_visit(t_queue *q);
 
 
 // PATHCHOOSERS
