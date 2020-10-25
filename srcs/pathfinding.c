@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 20:37:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/22 17:50:20 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/25 14:46:47 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,41 +67,32 @@ int			check_next(t_lemin *node, t_pipe *pipe)
 	t_room *room;
 
 	room = pipe->room;
-	if (room->visited)
+	if (room->visited >= node->v_token && room->id == node->start->id)
 		return (0);
-	if (room->id == node->start->id)
-		return (0);
-	return (1);
+	if (pipe->flow == 1 && room->visited < node->v_token)
+		return (1);
+	return (0);
 }
 
-t_room      *pathfinding(t_lemin *node, t_room *head, int *p, int len)
+int      pathfinding(t_lemin *node, t_room *head, int *p, int len)
 {
 	t_room *cur;
 	t_pipe *pipes;
 
 	if (!head)
-	{
-		p[len] = 0;
-		return (NULL);
-	}
+		return (0);
 	cur = head;
 	pipes = cur->pipes;
-	cur->visited = 1;
-//	if (!cur->info && !PATH_SAVE)
-//	{
-//		path = ft_strjoin(path, ft_strjoin("*", cur->name));
-//	}
-//	if (cur->id != node->start->id)
-//	{
-		p[len] = cur->id;
-//	}
+	cur->visited += 1;
+	p[len] = cur->id;
 	if (cur->id == node->end->id)
 	{
 		if (CHOOSER)
 			add_path(&node->map->paths, &pipes, p, len);
 		else
 			add_path(&node->pathf, &pipes, p, len);
-		node->pathcount += 1;
+//		node->pathcount += 1;
+		return (1);
 	}
 	while (pipes)
 	{
@@ -109,10 +100,11 @@ t_room      *pathfinding(t_lemin *node, t_room *head, int *p, int len)
 			pipes = pipes->next;
 		if (!pipes)
 			break ;
-		pathfinding(node, pipes->room, p, len + 1);
+		if (pathfinding(node, pipes->room, p, len + 1) && len > 0)
+			return (0);
 		pipes = pipes->next;
 	}
-	cur->visited = 0;
 	p[len] = 0;
-	return (NULL);
+//	cur->visited -= 1;
+	return (0);
 }

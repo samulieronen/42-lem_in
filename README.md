@@ -1,7 +1,7 @@
 ## WORK IN PROGRESS!
 
 ## STATUS UPDATES
-25.11. – rudumentary BFS implemented, not fully tested
+25.11. – rudimentary BFS implemented, not fully tested
 
 ## General info
 lem_in is a project focused on data structures and graph traversal algoritms.

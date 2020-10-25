@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/25 00:19:44 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/25 15:47:36 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ int		retrace_flow(t_lemin *node, t_parent *p)
 	t_parent *tmp;
 	t_room *r;
 
+	if (!p)
+		return (0);
 	tmp = p;
 	r = tmp->from;
 	calc_flow(tmp->from, tmp->room);
@@ -160,10 +162,10 @@ int		retrace_flow(t_lemin *node, t_parent *p)
 		}
 		tmp = tmp->prev;
 	}
-	return (0);
+	return (1);
 }
 
-int		graph_flow(t_lemin *node, t_queue *q, int mode)
+int		graph_flow(t_lemin *node, t_queue *q)
 {
 	t_pipe *p;
 	t_parent *par;
@@ -191,22 +193,51 @@ int		graph_flow(t_lemin *node, t_queue *q, int mode)
 		q = q_del(q);
 	}
 	if (!q)
-		ft_error("graph_flow exited with error code 1: No queue!");
-	retrace_flow(node, par);
-	return (0);
+		return (0);
+	return (retrace_flow(node, par));
 }
 
 int		solve(t_lemin *node)
 {
 	int i;
 
-	i = 2;
+	i = node->antcount;
+//	i = 1;
 	node->v_token = 1;
+	int *arr = (int*)malloc(sizeof(int) * node->roomnb + 1);
+	int last = 0;
+	int	nb = 1;
 	while (i)
 	{
-		graph_flow(node, NULL, 0);
-		graph_flow(node, NULL, 1);
+		if (!(graph_flow(node, NULL)))
+			break ;
 		node->v_token += 1;
+		ft_printf("Pathfinding\n");
+		pathfinding(node, node->start, arr, 0);
+/*		t_pathf *tmp;
+		tmp = node->map->paths;
+		int y = 0;
+		while (tmp)
+		{
+			int k = 0;
+			if (tmp->id_arr[0])
+			{
+				while (tmp->id_arr[k])
+				{
+					ft_printf("%d\t", tmp->id_arr[k]);
+					k++;
+				}
+				tmp->id_arr[0] = 0;
+				ft_printf("\n\n");
+						y++;
+			}
+			tmp = tmp->next;
+		}
+		ft_printf("Paths in set %d: %d\n\n", nb, y);
+		nb++; */
+		node->v_token += 1;
+		i--;
 	}
+	free(arr);
 	return (0);
 }

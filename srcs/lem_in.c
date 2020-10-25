@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/24 01:15:11 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/25 16:01:21 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,7 @@ int				main(void)
 	ft_printf("\n");
 	int *arr = (int*)malloc(sizeof(int) * node->roomnb + 1);
 	ft_bzero(arr, node->roomnb);
-	if (!FINDER)
-		pathfinding(node, node->start, arr, 0);
-	else
-		solve(node);
+	solve(node);
 	return (0);
 	free(arr);
 	ft_printf("\n");

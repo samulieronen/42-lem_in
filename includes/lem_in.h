@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/25 00:21:23 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/25 14:11:05 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,17 +157,18 @@ int				manage_sets(t_lemin *node, t_pathf *p);
 
 // PATHFINDING.C
 
-t_room      *pathfinding(t_lemin *node, t_room *head,int *p, int len);
+int			pathfinding(t_lemin *node, t_room *head,int *p, int len);
 
 
 // FLOW.C & PATH.C
 
 int			solve(t_lemin *node);
-int			path();
+int			graph_path(t_lemin *node, t_queue *q);
 t_queue		*q_del(t_queue *q);
 int			q_check(t_queue *q, t_room *r);
 int			q_add(t_queue **q, t_room *new);
 int			q_visit(t_queue *q);
+int			q_offer(t_lemin *node, t_queue *q, t_pipe *p);
 
 
 // PATHCHOOSERS
