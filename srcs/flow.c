@@ -6,27 +6,31 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/25 15:47:36 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/26 01:01:44 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int		q_visit(t_queue *q)
+int		q_visit(t_lemin *node, t_queue *q)
 {
 	t_queue *tmp;
 
 	tmp = q;
 	if (!q)
 		return (1);
-	if (tmp->room)
+	while (tmp)
 	{
-		tmp->room->visited += 1;
-//		ft_printf("Set %s to visited!\n", tmp->room->name);
+		if (tmp->room->id != node->end->id)
+		{
+			tmp->room->visited = node->v_token;
+//			if (tmp->room->visited < node->v_token)
+//				tmp->room->visited += 1;
+//			ft_printf("Set %s to visited!\n", tmp->room->name);
+//			tmp = tmp->next;
+		}
 		tmp = tmp->next;
 	}
-	else
-		ft_error("Q_visit encountered an error!");
 	return (0);
 }
 
@@ -54,11 +58,13 @@ int		q_add(t_queue **q, t_room *new)
 	return (0);
 }
 
-int		q_check(t_queue *q, t_room *r)
+int		q_check(t_lemin *node, t_queue *q, t_room *r)
 {
 	t_queue *tmp;
 
 	tmp = q;
+	if (r->id == node->end->id)
+		return (0);
 	while (tmp)
 	{
 		if (tmp->room->id == r->id)
@@ -68,13 +74,15 @@ int		q_check(t_queue *q, t_room *r)
 	return (0);
 }
 
-int		q_offer(t_lemin *node, t_queue *q, t_pipe *p)
+int		q_offer(t_lemin *node, t_queue *q, t_pipe *p, t_queue *head)
 {
-	if (p->flow > 0 || p->room->visited >= node->v_token || q_check(q, p->room))
+	if (p->flow > 0 || p->room->visited >= node->v_token || q_check(node, head, p->room))
 	{
 //		ft_printf("Offer rejected for edge %s – %s\n", p->adj->room->name, p->room->name);
 		return (0);
-	}		
+	}
+	if (p->adj->room->id == node->end->id)
+		return (0);
 	else
 	{
 //		ft_printf("Offer accepted for edge %s – %s\n", p->adj->room->name, p->room->name);
@@ -152,6 +160,7 @@ int		retrace_flow(t_lemin *node, t_parent *p)
 		return (0);
 	tmp = p;
 	r = tmp->from;
+//	ft_printf("%s - %s\n", tmp->from->name, tmp->room->name);
 	calc_flow(tmp->from, tmp->room);
 	while (tmp->prev)
 	{
@@ -170,19 +179,21 @@ int		graph_flow(t_lemin *node, t_queue *q)
 	t_pipe *p;
 	t_parent *par;
 	t_parent *head;
+	t_queue *q_head;
 
 	q_add(&q, node->start);
 	par = init_parent(node->start);
 	head = par;
+	q_head = q;
 	while (q)
 	{
 		if (q->room->id == node->end->id)
 			break ;
-		q_visit(q);
+		q_visit(node, q);
 		p = q->room->pipes;
-		while (p)
+		while (p && q->room->id != node->end->id)
 		{
-			if (q_offer(node, q, p))
+			if (q_offer(node, q, p, q_head))
 			{
 				q_add(&q, p->room);
 				q_parent(par, p->room);
@@ -190,7 +201,8 @@ int		graph_flow(t_lemin *node, t_queue *q)
 			p = p->next;
 		}
 		par = par->next;
-		q = q_del(q);
+		q = q->next;
+//		q = q_del(q);
 	}
 	if (!q)
 		return (0);
@@ -205,15 +217,25 @@ int		solve(t_lemin *node)
 //	i = 1;
 	node->v_token = 1;
 	int *arr = (int*)malloc(sizeof(int) * node->roomnb + 1);
+	ft_bzero(arr, node->roomnb);
 	int last = 0;
 	int	nb = 1;
 	while (i)
 	{
 		if (!(graph_flow(node, NULL)))
+		{
+			ft_printf("\ngraph_flow: no more possibilities\n");
 			break ;
+		}
 		node->v_token += 1;
-		ft_printf("Pathfinding\n");
-		pathfinding(node, node->start, arr, 0);
+//		pathfinding(node, node->start, arr, 0);
+		int n = 0;
+		ft_printf("\n\nPATH MODE\n\n");
+		while (graph_path(node, NULL) > 0)
+		{
+			n++;
+		}
+		ft_printf("\nNEW\n");
 /*		t_pathf *tmp;
 		tmp = node->map->paths;
 		int y = 0;

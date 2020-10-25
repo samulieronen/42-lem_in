@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/25 14:11:05 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/26 00:06:15 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,10 +165,12 @@ int			pathfinding(t_lemin *node, t_room *head,int *p, int len);
 int			solve(t_lemin *node);
 int			graph_path(t_lemin *node, t_queue *q);
 t_queue		*q_del(t_queue *q);
-int			q_check(t_queue *q, t_room *r);
+int			q_check(t_lemin *node, t_queue *q, t_room *r);
 int			q_add(t_queue **q, t_room *new);
-int			q_visit(t_queue *q);
-int			q_offer(t_lemin *node, t_queue *q, t_pipe *p);
+int			q_visit(t_lemin *node, t_queue *q);
+int			q_offer(t_lemin *node, t_queue *q, t_pipe *p, t_queue *head);
+int			q_parent(t_parent *p, t_room *r);
+t_parent	*init_parent(t_room *r);
 
 
 // PATHCHOOSERS

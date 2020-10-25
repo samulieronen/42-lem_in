@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 20:37:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/25 14:46:47 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/26 00:00:33 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,13 @@ int			check_next(t_lemin *node, t_pipe *pipe)
 	t_room *room;
 
 	room = pipe->room;
-	if (room->visited >= node->v_token && room->id == node->start->id)
+	if (room->visited >= node->v_token || room->id == node->start->id)
 		return (0);
 	if (pipe->flow == 1 && room->visited < node->v_token)
+	{
+//		ft_printf("check: name approved: %s\n", room->name);
 		return (1);
+	}
 	return (0);
 }
 
@@ -83,10 +86,12 @@ int      pathfinding(t_lemin *node, t_room *head, int *p, int len)
 		return (0);
 	cur = head;
 	pipes = cur->pipes;
-	cur->visited += 1;
+	if (cur->id != node->end->id)
+		cur->visited = node->v_token;
 	p[len] = cur->id;
 	if (cur->id == node->end->id)
 	{
+		p[len + 1] = 0;
 		if (CHOOSER)
 			add_path(&node->map->paths, &pipes, p, len);
 		else
@@ -100,11 +105,8 @@ int      pathfinding(t_lemin *node, t_room *head, int *p, int len)
 			pipes = pipes->next;
 		if (!pipes)
 			break ;
-		if (pathfinding(node, pipes->room, p, len + 1) && len > 0)
-			return (0);
+		pathfinding(node, pipes->room, p, len + 1);
 		pipes = pipes->next;
 	}
-	p[len] = 0;
-//	cur->visited -= 1;
 	return (0);
 }
