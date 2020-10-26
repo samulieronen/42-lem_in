@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/26 00:06:15 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/26 16:36:19 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,6 @@ t_queue		*q_del(t_queue *q);
 int			q_check(t_lemin *node, t_queue *q, t_room *r);
 int			q_add(t_queue **q, t_room *new);
 int			q_visit(t_lemin *node, t_queue *q);
-int			q_offer(t_lemin *node, t_queue *q, t_pipe *p, t_queue *head);
 int			q_parent(t_parent *p, t_room *r);
 t_parent	*init_parent(t_room *r);
 

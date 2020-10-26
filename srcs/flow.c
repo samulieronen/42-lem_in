@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/26 01:01:44 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/26 19:40:36 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,7 @@ int		q_visit(t_lemin *node, t_queue *q)
 	while (tmp)
 	{
 		if (tmp->room->id != node->end->id)
-		{
 			tmp->room->visited = node->v_token;
-//			if (tmp->room->visited < node->v_token)
-//				tmp->room->visited += 1;
-//			ft_printf("Set %s to visited!\n", tmp->room->name);
-//			tmp = tmp->next;
-		}
 		tmp = tmp->next;
 	}
 	return (0);
@@ -67,27 +61,54 @@ int		q_check(t_lemin *node, t_queue *q, t_room *r)
 		return (0);
 	while (tmp)
 	{
+//		ft_printf("'%s' ", tmp->room->name);
 		if (tmp->room->id == r->id)
+		{
+			ft_printf("\nRoom was already in queue!!!!\n");
 			return (1);
+		}
 		tmp = tmp->next;
 	}
+//	ft_printf("\n");
 	return (0);
 }
 
-int		q_offer(t_lemin *node, t_queue *q, t_pipe *p, t_queue *head)
+int		q_offer(t_lemin *node, t_queue *q, t_queue *head, t_parent *par)
 {
-	if (p->flow > 0 || p->room->visited >= node->v_token || q_check(node, head, p->room))
+	t_pipe *tmp;
+
+	tmp = q->room->pipes;
+	while (tmp)
 	{
-//		ft_printf("Offer rejected for edge %s – %s\n", p->adj->room->name, p->room->name);
-		return (0);
+		if (tmp->flow < 0 && tmp->room->id != node->start->id && tmp->room->visited < node->v_token)
+		{
+			if (tmp->room->visited < node->v_token)
+			{
+//				printf("Here1\n");
+				q_add(&q, tmp->room);
+//				ft_printf("room %s added\n", tmp->room->name);
+				q_parent(par, tmp->room);
+//				*par = (*par)->next;
+			}
+			return (0);
+		}
+		tmp = tmp->next;
 	}
-	if (p->adj->room->id == node->end->id)
-		return (0);
-	else
+	tmp = q->room->pipes;
+	while (tmp)
 	{
-//		ft_printf("Offer accepted for edge %s – %s\n", p->adj->room->name, p->room->name);
-		return (1);
+		if (tmp->flow > 0 || tmp->room->visited >= node->v_token || q_check(node, head, tmp->room))
+			tmp = tmp->next;
+		else
+		{
+//			printf("Here2\n");
+			q_add(&q, tmp->room);
+			q_parent(par, tmp->room);
+			tmp = tmp->next;
+//			*par = (*par)->next;
+		}
 	}
+	return (0);
 }
 
 t_queue		*q_del(t_queue *q)
@@ -135,7 +156,6 @@ int		q_parent(t_parent *p, t_room *r)
 	new->prev = tmp;
 	tmp->next = new;
 	tmp->next->next = NULL;
-//	ft_printf("Added parent %s from room %s\n", new->room->name, p->room->name);
 	return (0);
 }
 
@@ -160,7 +180,6 @@ int		retrace_flow(t_lemin *node, t_parent *p)
 		return (0);
 	tmp = p;
 	r = tmp->from;
-//	ft_printf("%s - %s\n", tmp->from->name, tmp->room->name);
 	calc_flow(tmp->from, tmp->room);
 	while (tmp->prev)
 	{
@@ -190,16 +209,8 @@ int		graph_flow(t_lemin *node, t_queue *q)
 		if (q->room->id == node->end->id)
 			break ;
 		q_visit(node, q);
-		p = q->room->pipes;
-		while (p && q->room->id != node->end->id)
-		{
-			if (q_offer(node, q, p, q_head))
-			{
-				q_add(&q, p->room);
-				q_parent(par, p->room);
-			}
-			p = p->next;
-		}
+//		printf("%p\n", par);
+		q_offer(node, q, q_head, par);
 		par = par->next;
 		q = q->next;
 //		q = q_del(q);
@@ -220,6 +231,7 @@ int		solve(t_lemin *node)
 	ft_bzero(arr, node->roomnb);
 	int last = 0;
 	int	nb = 1;
+	i = 3;
 	while (i)
 	{
 		if (!(graph_flow(node, NULL)))
@@ -228,35 +240,8 @@ int		solve(t_lemin *node)
 			break ;
 		}
 		node->v_token += 1;
-//		pathfinding(node, node->start, arr, 0);
-		int n = 0;
-		ft_printf("\n\nPATH MODE\n\n");
-		while (graph_path(node, NULL) > 0)
-		{
-			n++;
-		}
-		ft_printf("\nNEW\n");
-/*		t_pathf *tmp;
-		tmp = node->map->paths;
-		int y = 0;
-		while (tmp)
-		{
-			int k = 0;
-			if (tmp->id_arr[0])
-			{
-				while (tmp->id_arr[k])
-				{
-					ft_printf("%d\t", tmp->id_arr[k]);
-					k++;
-				}
-				tmp->id_arr[0] = 0;
-				ft_printf("\n\n");
-						y++;
-			}
-			tmp = tmp->next;
-		}
-		ft_printf("Paths in set %d: %d\n\n", nb, y);
-		nb++; */
+		graph_path(node, NULL);
+		ft_printf("\n\n");
 		node->v_token += 1;
 		i--;
 	}
