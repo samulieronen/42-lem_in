@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/26 19:40:36 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/26 23:45:15 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,11 +227,12 @@ int		solve(t_lemin *node)
 	i = node->antcount;
 //	i = 1;
 	node->v_token = 1;
+	node->m_token = 1;
 	int *arr = (int*)malloc(sizeof(int) * node->roomnb + 1);
 	ft_bzero(arr, node->roomnb);
 	int last = 0;
 	int	nb = 1;
-	i = 3;
+//	i = 3;
 	while (i)
 	{
 		if (!(graph_flow(node, NULL)))
@@ -240,6 +241,7 @@ int		solve(t_lemin *node)
 			break ;
 		}
 		node->v_token += 1;
+		node->m_token += 1;
 		graph_path(node, NULL);
 		ft_printf("\n\n");
 		node->v_token += 1;

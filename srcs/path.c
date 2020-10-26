@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 00:10:20 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/26 18:00:58 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/26 23:47:42 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,17 @@ int		q_offer_path(t_lemin *node, t_queue *q, t_pipe *p, t_queue *head)
 	}
 }
 
+int		mapped(t_lemin *node, t_room *r)
+{
+	if (r->id == node->start->id)
+		return (1);
+	if (r->id == node->end->id)
+		return (1);
+	if (r->mapped >= node->m_token)
+		return (0);
+	return (1);
+}
+
 int		retrace_path(t_lemin *node, t_parent *p)
 {
 	t_parent *tmp;
@@ -37,14 +48,22 @@ int		retrace_path(t_lemin *node, t_parent *p)
 		return (0);
 	tmp = p;
 	r = tmp->from;
+	r->mapped = node->m_token;
 //	calc_flow(tmp->from, tmp->room);
 	ft_printf("%s  ", tmp->room->name);
 	ft_printf("%s  ", r->name);
+	
 	while (tmp->prev)
 	{
 		if (r->id == tmp->room->id)
 		{
 			r = tmp->from;
+			if (!mapped(node, r))
+			{
+				ft_printf("room %s mapped before! No go!", r->name);
+				break ;
+			}
+			r->mapped = node->m_token;
 			ft_printf("%s  ", r->name);
 //			calc_flow(r, tmp->room);
 		}

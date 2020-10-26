@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/26 16:36:19 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/26 23:44:41 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct	s_room				//	Struct to store all the rooms as there will be ( > 2
 	char			*name;			//	Rooms name to identify it from the rest
 	char			*info;
 	int				visited;		//	Mark for a visited room
+	int				mapped;
 	t_pipe			*pipes;
 	struct s_room	*next;
 }				t_room;
@@ -129,6 +130,7 @@ typedef struct	s_lemin				//	Main struct
 	int				mod;
 	int				pathcount;
 	int				v_token;
+	int				m_token;
 
 	t_room			*start;
 	t_room			*end;

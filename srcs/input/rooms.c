@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:36 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/25 17:53:34 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/26 23:44:15 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int		build_room(t_lemin *node, char *line)
 	r->pipes = NULL;
 	r->info = NULL;
 	r->visited = 0;
+	r->mapped = 0;
 	r->info = get_modifier(node , r);
 	insert_hash(node, r->name, r);
 //	ft_printf("%s\tHash inserted successfully!\n", r->name);
