@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/27 21:49:15 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/27 23:59:42 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 // Print the input = 1 ON (DEFAULT), 0 OFF
 
-#define PRINT_IN 0
+#define PRINT_IN 1
 
 // Print total nb of moves = 0 for NO, 1 for YES
 
