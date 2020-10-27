@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/26 23:44:41 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/27 17:07:00 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,17 @@ typedef struct	s_pathset
 	struct s_pathset	*next;
 }				t_pathset;
 
+typedef struct	s_path
+{
+	struct s_room *r;
+	struct s_path *next;
+}				t_path;
+
 typedef struct	s_set
 {
 	int				**setarr;
 	int				index;
+	t_path			**p;
 	struct s_set	*next;
 }				t_set;
 
@@ -165,7 +172,7 @@ int			pathfinding(t_lemin *node, t_room *head,int *p, int len);
 // FLOW.C & PATH.C
 
 int			solve(t_lemin *node);
-int			graph_path(t_lemin *node, t_queue *q);
+int			graph_path(t_lemin *node, t_queue *q, t_set *s, int *flow);
 t_queue		*q_del(t_queue *q);
 int			q_check(t_lemin *node, t_queue *q, t_room *r);
 int			q_add(t_queue **q, t_room *new);

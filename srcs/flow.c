@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/26 23:45:15 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/27 18:07:53 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int		q_check(t_lemin *node, t_queue *q, t_room *r)
 		return (0);
 	while (tmp)
 	{
-//		ft_printf("'%s' ", tmp->room->name);
 		if (tmp->room->id == r->id)
 		{
 			ft_printf("\nRoom was already in queue!!!!\n");
@@ -69,43 +68,53 @@ int		q_check(t_lemin *node, t_queue *q, t_room *r)
 		}
 		tmp = tmp->next;
 	}
-//	ft_printf("\n");
 	return (0);
+}
+
+t_pipe		*get_last(t_lemin *node, t_parent *prev, t_room *to)
+{
+	t_pipe *p;
+
+	if (!prev)
+		return (0);
+	p = prev->room->pipes;
+	while (p && p->room->id != to->id)
+		p = p->next;
+	return (p);
 }
 
 int		q_offer(t_lemin *node, t_queue *q, t_queue *head, t_parent *par)
 {
 	t_pipe *tmp;
+	t_pipe *from;
 
 	tmp = q->room->pipes;
-	while (tmp)
+	from = get_last(node, par->prev, q->room);
+	if (from->flow == 0)
 	{
-		if (tmp->flow < 0 && tmp->room->id != node->start->id && tmp->room->visited < node->v_token)
+		while (tmp)
 		{
-			if (tmp->room->visited < node->v_token)
+			if (tmp->flow < 0 && tmp->room->id != node->start->id && tmp->room->visited < node->v_token)
 			{
-//				printf("Here1\n");
-				q_add(&q, tmp->room);
-//				ft_printf("room %s added\n", tmp->room->name);
-				q_parent(par, tmp->room);
-//				*par = (*par)->next;
+				if (tmp->room->visited < node->v_token)
+				{
+					q_add(&q, tmp->room);
+					q_parent(par, tmp->room);
+				}
+				return (0);
 			}
-			return (0);
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
 	}
-	tmp = q->room->pipes;
 	while (tmp)
 	{
 		if (tmp->flow > 0 || tmp->room->visited >= node->v_token || q_check(node, head, tmp->room))
 			tmp = tmp->next;
 		else
 		{
-//			printf("Here2\n");
 			q_add(&q, tmp->room);
 			q_parent(par, tmp->room);
 			tmp = tmp->next;
-//			*par = (*par)->next;
 		}
 	}
 	return (0);
@@ -209,30 +218,46 @@ int		graph_flow(t_lemin *node, t_queue *q)
 		if (q->room->id == node->end->id)
 			break ;
 		q_visit(node, q);
-//		printf("%p\n", par);
 		q_offer(node, q, q_head, par);
 		par = par->next;
 		q = q->next;
-//		q = q_del(q);
 	}
 	if (!q)
 		return (0);
 	return (retrace_flow(node, par));
 }
 
+int		*new_set(t_set **alst)
+{
+	t_set *new;
+
+	if (!(new = (t_set*)malloc(sizeof(t_set))))
+		ft_error("new_set: Malloc failed!");
+	new->p = (t_path**)malloc(sizeof(t_path*) * 100);
+	ft_bzero(&new->p, 1000);
+	new->index = 0;
+	if (*alst && new)
+	{
+		new->next = *alst;
+		*alst = new;
+	}
+	else if (new)
+		*alst = new;
+	return (0);
+}
+
 int		solve(t_lemin *node)
 {
 	int i;
+	int flow;
+	t_set *set;
 
 	i = node->antcount;
-//	i = 1;
 	node->v_token = 1;
 	node->m_token = 1;
-	int *arr = (int*)malloc(sizeof(int) * node->roomnb + 1);
-	ft_bzero(arr, node->roomnb);
-	int last = 0;
-	int	nb = 1;
-//	i = 3;
+	set = NULL;
+	flow = 0;
+//	new_set(&set);
 	while (i)
 	{
 		if (!(graph_flow(node, NULL)))
@@ -240,13 +265,17 @@ int		solve(t_lemin *node)
 			ft_printf("\ngraph_flow: no more possibilities\n");
 			break ;
 		}
+		flow++;
+	//	ft_printf("Flow 1 : %d\n", flow);
 		node->v_token += 1;
+		graph_path(node, NULL, set, &flow);
+//		ft_printf("Flow 2 : %d\n", flow);
+		ft_printf("\n");
+//		new_set(&set);
+//		set = set->next;
 		node->m_token += 1;
-		graph_path(node, NULL);
-		ft_printf("\n\n");
 		node->v_token += 1;
 		i--;
 	}
-	free(arr);
 	return (0);
 }
