@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 20:37:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/27 20:42:17 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 01:12:02 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,8 @@ int			check_next(t_lemin *node, t_pipe *pipe)
 	room = pipe->room;
 	if (room->visited >= node->v_token || room->id == node->start->id)
 		return (0);
-	if (pipe->flow == 1 && room->visited < node->v_token)
+	if (room->visited < node->v_token)
 	{
-//		ft_printf("check: name approved: %s\n", room->name);
 		return (1);
 	}
 	return (0);
@@ -93,7 +92,6 @@ int      pathfinding(t_lemin *node, t_room *head, int *p, int len)
 	{
 		p[len + 1] = 0;
 		add_path(&node->map->paths, &pipes, p, len);
-		return (1);
 	}
 	while (pipes)
 	{
@@ -104,5 +102,7 @@ int      pathfinding(t_lemin *node, t_room *head, int *p, int len)
 		pathfinding(node, pipes->room, p, len + 1);
 		pipes = pipes->next;
 	}
+	p[len] = 0;
+	cur->visited = 0;
 	return (0);
 }

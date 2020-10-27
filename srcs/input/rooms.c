@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:36 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/27 20:11:33 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 00:17:55 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_room		*newroom(t_lemin *node, t_room **head)
 		return (NULL);
 	r->next = NULL;
 	r->id = 0;
+	r->hash = 0;
 	r->name = NULL;
 	r->pipes = NULL;
 	r->info = NULL;

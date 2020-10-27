@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/27 20:41:48 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 01:45:59 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ int				main(void)
 	ft_printf("node->end->name: %s\n", node->end->name);
 	ft_printf("\n");
 	ft_printf("\n");
-	solve(node);
+	if (SUPER)
+		super_algo(node);
+	else
+		solve(node);
 	return (0);
 }

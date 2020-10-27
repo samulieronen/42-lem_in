@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 23:41:55 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/22 00:14:36 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 00:27:28 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	insert_hash(t_lemin *node, char *key, t_room *room)
 	int index;
 
 	index = hash_gen(key);
+	room->hash = index;
 	if (check_hash(node->hash[index], key))
 		ft_error("insert_hash: Duplicate data not allowed!");
 	hashadd(&node->hash[index], hashnew(&key, &room));

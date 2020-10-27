@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/27 23:59:42 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 01:46:21 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 // 0 don't, 1 yaaas
 
-#define PRINT_PATHS 0
+#define PRINT_PATHS 1
 
 // 1 for max flow algo, 0 for standard DFS
 
@@ -25,12 +25,13 @@
 
 // Print the input = 1 ON (DEFAULT), 0 OFF
 
-#define PRINT_IN 1
+#define PRINT_IN 0
 
 // Print total nb of moves = 0 for NO, 1 for YES
 
 #define PRINT_MV 1
 
+#define SUPER 1
 
 int g_path;
 
@@ -57,6 +58,7 @@ typedef struct	s_room				//	Struct to store all the rooms as there will be ( > 2
 	long long		id;
 	char			*name;			//	Rooms name to identify it from the rest
 	char			*info;
+	int				hash;
 
 	int				visited;		//	Mark for a visited room
 	int				mapped;
@@ -159,6 +161,17 @@ int     	make_ants(t_lemin *node);
 void		ft_error(char *msg);
 char		*get_paths(t_lemin *node);
 int			path_len(t_pathf *head);
+
+
+
+
+// EXPERIMENTAL
+
+int     super_algo(t_lemin *node);
+
+
+
+
 
 
 // SETS.C

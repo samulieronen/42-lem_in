@@ -6,7 +6,7 @@
 #    By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/03 22:23:49 by seronen           #+#    #+#              #
-#    Updated: 2020/10/25 16:00:20 by seronen          ###   ########.fr        #
+#    Updated: 2020/10/28 00:45:08 by seronen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = lem-in
 
 SRCS =	srcs/lem_in.c srcs/input/*.c srcs/pathfinding.c srcs/pathchoosing.c \
 		srcs/pathchooser.c srcs/pathchooser2.c \
-		srcs/hash/*.c srcs/flow.c srcs/path.c srcs/sets.c
+		srcs/hash/*.c srcs/flow.c srcs/path.c srcs/sets.c srcs/super_algo.c
 
 FLAGS = -Wall -Wextra -Werror
 
