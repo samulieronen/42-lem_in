@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:36 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/26 23:44:15 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/27 20:11:33 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_room		*newroom(t_lemin *node, t_room **head)
 	r->pipes = NULL;
 	r->info = NULL;
 	r->visited = 0;
+	r->mapped = 0;
+	r->flag = 0;
 	if (*head)
 	{
 		r->next = *head;

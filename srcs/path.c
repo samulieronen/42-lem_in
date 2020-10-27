@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 00:10:20 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/27 17:15:21 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/27 20:43:56 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,9 @@ int		retrace_path(t_lemin *node, t_parent *p, t_set *s, int *flow)
 	}
 //	ft_printf("\n");
 //	path = NULL;
+	g_path++;
+	if (!PRINT_PATHS)
+		return (1);
 	while (path)
 	{
 		ft_printf("'%s' ", path->r->name);
@@ -154,10 +157,4 @@ int		graph_path(t_lemin *node, t_queue *q, t_set *s, int *flow)
 	if (!q)
 		return (0);
 	return (1);
-}
-
-int     path()
-{
-    
-    return (0);
 }

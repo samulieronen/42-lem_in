@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/27 17:07:00 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/27 21:49:15 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 # include "libft.h"
 # include <stdio.h>		// remove
 
-// 0 value for old pathcooser, 1 for newer one
+// 0 don't, 1 yaaas
 
-#define CHOOSER 1
+#define PRINT_PATHS 0
 
 // 1 for max flow algo, 0 for standard DFS
 
@@ -31,10 +31,8 @@
 
 #define PRINT_MV 1
 
-// Use room->names to save path VS room->id:s (DEBUG)(CHOOSER MUST BE 1)
 
-#define PATH_SAVE 0 // not functional anymore
-
+int g_path;
 
 #define TABLE_SIZE	2099
 #define MAX_KEY		30
@@ -59,8 +57,11 @@ typedef struct	s_room				//	Struct to store all the rooms as there will be ( > 2
 	long long		id;
 	char			*name;			//	Rooms name to identify it from the rest
 	char			*info;
+
 	int				visited;		//	Mark for a visited room
 	int				mapped;
+	int				flag;
+
 	t_pipe			*pipes;
 	struct s_room	*next;
 }				t_room;
@@ -126,6 +127,7 @@ typedef struct	s_parent
 {
 	struct s_room	*from;
 	struct s_room	*room;
+//	struct t_pipe	*used;
 	struct s_parent	*next;
 	struct s_parent *prev;
 }				t_parent;

@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/27 16:45:55 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/27 20:41:48 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,5 @@ int				main(void)
 	ft_printf("\n");
 	ft_printf("\n");
 	solve(node);
-	return (0);
-	ft_printf("\n");
-	ft_printf("Paths found node: %d\n", node->pathcount);
-	if (CHOOSER == 1)
-		pathchooser2(node, node->map);
-	else
-		pathchoosing(node);
 	return (0);
 }

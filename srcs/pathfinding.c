@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 20:37:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/26 00:00:33 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/27 20:42:17 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,7 @@ int      pathfinding(t_lemin *node, t_room *head, int *p, int len)
 	if (cur->id == node->end->id)
 	{
 		p[len + 1] = 0;
-		if (CHOOSER)
-			add_path(&node->map->paths, &pipes, p, len);
-		else
-			add_path(&node->pathf, &pipes, p, len);
-//		node->pathcount += 1;
+		add_path(&node->map->paths, &pipes, p, len);
 		return (1);
 	}
 	while (pipes)

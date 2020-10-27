@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/27 18:07:53 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/27 21:46:20 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int		q_visit(t_lemin *node, t_queue *q)
 	tmp = q;
 	if (!q)
 		return (1);
-	while (tmp)
-	{
+//	while (tmp)
+//	{
 		if (tmp->room->id != node->end->id)
 			tmp->room->visited = node->v_token;
-		tmp = tmp->next;
-	}
+//		tmp = tmp->next;
+//	}
 	return (0);
 }
 
@@ -63,7 +63,7 @@ int		q_check(t_lemin *node, t_queue *q, t_room *r)
 	{
 		if (tmp->room->id == r->id)
 		{
-			ft_printf("\nRoom was already in queue!!!!\n");
+//			ft_printf("\nRoom was already in queue!!!!\n");
 			return (1);
 		}
 		tmp = tmp->next;
@@ -71,16 +71,39 @@ int		q_check(t_lemin *node, t_queue *q, t_room *r)
 	return (0);
 }
 
+t_parent	*fetch_parent(t_parent *head, t_room *key)
+{
+	t_parent *p;
+
+	p = head;
+	while (p->prev)
+	{
+		if (p->room->id == key->id)
+			return (p);
+		p = p->prev;
+	}
+	return (NULL);
+}
+
 t_pipe		*get_last(t_lemin *node, t_parent *prev, t_room *to)
 {
-	t_pipe *p;
+	t_parent 	*p;
+	t_pipe		*pipe;
 
 	if (!prev)
-		return (0);
-	p = prev->room->pipes;
-	while (p && p->room->id != to->id)
-		p = p->next;
-	return (p);
+		return (NULL);
+	p = fetch_parent(prev, to);
+	if (!p)
+		return (NULL);
+//	ft_printf("parent: from %s to %s\n", p->from->name, p->room->name);
+	pipe = p->from->pipes;
+	while (pipe)
+	{
+		if (pipe->room->id == to->id)
+			return (pipe);
+		pipe = pipe->next;
+	}
+	return (NULL);
 }
 
 int		q_offer(t_lemin *node, t_queue *q, t_queue *head, t_parent *par)
@@ -89,23 +112,24 @@ int		q_offer(t_lemin *node, t_queue *q, t_queue *head, t_parent *par)
 	t_pipe *from;
 
 	tmp = q->room->pipes;
-	from = get_last(node, par->prev, q->room);
-	if (from->flow == 0)
+	from = get_last(node, par, q->room);
+//	ft_printf("in %s looking for options\n\n", q->room->name);
+//	if (from)
+//		ft_printf("from %s to %s\n", from->adj->room->name, from->room->name);
+	while (tmp && from && from->flow == 0)
 	{
-		while (tmp)
+		if (tmp->flow < 0 && tmp->room->flag && tmp->room->id != node->start->id)
 		{
-			if (tmp->flow < 0 && tmp->room->id != node->start->id && tmp->room->visited < node->v_token)
+			if (tmp->room->visited < node->v_token)
 			{
-				if (tmp->room->visited < node->v_token)
-				{
-					q_add(&q, tmp->room);
-					q_parent(par, tmp->room);
-				}
-				return (0);
+				q_add(&q, tmp->room);
+				q_parent(par, tmp->room);
 			}
-			tmp = tmp->next;
+			return (0);
 		}
+		tmp = tmp->next;
 	}
+	tmp = q->room->pipes;
 	while (tmp)
 	{
 		if (tmp->flow > 0 || tmp->room->visited >= node->v_token || q_check(node, head, tmp->room))
@@ -190,11 +214,13 @@ int		retrace_flow(t_lemin *node, t_parent *p)
 	tmp = p;
 	r = tmp->from;
 	calc_flow(tmp->from, tmp->room);
+	tmp->from->flag = 1;
 	while (tmp->prev)
 	{
 		if (r->id == tmp->room->id)
 		{
 			r = tmp->from;
+			r->flag = 1;
 			calc_flow(r, tmp->room);
 		}
 		tmp = tmp->prev;
@@ -268,8 +294,10 @@ int		solve(t_lemin *node)
 		flow++;
 	//	ft_printf("Flow 1 : %d\n", flow);
 		node->v_token += 1;
+		g_path = 0;
 		graph_path(node, NULL, set, &flow);
 //		ft_printf("Flow 2 : %d\n", flow);
+		ft_printf("Pathcount: %d\n", g_path);
 		ft_printf("\n");
 //		new_set(&set);
 //		set = set->next;
