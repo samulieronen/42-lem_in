@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 21:37:54 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 00:06:38 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef	struct	s_pathf
 {
 	int				*id_arr;
 	int				len;
-	float				res;
+	double			res;
 	t_path			*path;
 	struct 	s_pathf *next;
 }				t_pathf;
@@ -86,7 +86,8 @@ typedef struct	s_set
 	int				index;
 	int				amount;
 	int				steps_total;
-	int				max_moves;
+	double			cost;
+	long long		max_moves;
 	t_pathf			*paths;
 	struct s_set	*next;
 }				t_set;
@@ -143,6 +144,7 @@ typedef struct	s_lemin				//	Main struct
 	t_room			*rooms;
 	t_pathf			*pathf;
 	t_set			*sets;
+	t_parent		*parent;
 }				t_lemin;
 
 
@@ -162,13 +164,13 @@ int     super_algo(t_lemin *node);
 
 // CALC.C
 
-int		calc(t_lemin *node);
+int		calc(t_lemin *node, t_set *s);
 
 
 // SETS.C
 
 int			add_path(t_path **alst, t_path *new);
-t_path		*path_new(t_room *r);
+t_path		*pathnew(t_lemin *node, t_room *r);
 int			path_to_set(t_path *head, t_pathf **alst, int len);
 int			*new_set(t_set **alst);
 
@@ -181,9 +183,7 @@ int			pathfinding(t_lemin *node, t_room *head,int *p, int len);
 // FLOW.C & PATH.C
 
 int			solve(t_lemin *node);
-int			graph_path(t_lemin *node, t_queue *q, t_set *s, int *flow);
-int			q_parent(t_parent *p, t_pipe *pipe);
-t_parent	*init_parent(t_room *r);
+int			graph_path(t_lemin *node, t_queue *q, t_set *s);
 
 
 // QUEUE.C
@@ -198,9 +198,10 @@ void		q_free(t_queue *head);
 // PARENT.C
 
 t_parent	*parentnew(void);
-t_parent	*init_parent(t_room *r);
+t_parent	*init_parent(t_lemin *node, t_room *r);
 int			q_parent(t_parent *p, t_pipe *pipe);
 t_parent	*fetch_parent(t_parent *head, t_room *key);
+void		free_parent(t_lemin *node, t_parent *head);
 
 
 // PATHCHOOSERS
@@ -217,7 +218,7 @@ int		build_room(t_lemin *node, char *line);
 
 // PIPES.C
 
-int		build_pipes(t_lemin *node, char *line, int rev);
+int		build_pipes(t_lemin *node, char *line);
 
 
 // HASH.C / HASH_UTILS.C

@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 00:10:20 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 21:40:08 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 00:11:11 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int		q_offer_path(t_lemin *node, t_queue *q, t_pipe *p)
 {
-	if (p->flow < 1 || p->room->visited >= node->v_token || q_check(node, q, p->room))
+	if (p->flow < 1 || q_check(node, q, p->room))
+		return (0);
+	if ( p->room->visited >= node->v_token)
 		return (0);
 	if (p->adj->room->id == node->end->id)
 		return (0);
@@ -24,16 +26,14 @@ int		q_offer_path(t_lemin *node, t_queue *q, t_pipe *p)
 
 int		mapped(t_lemin *node, t_room *r)
 {
-	if (r->id == node->start->id)
-		return (1);
-	if (r->id == node->end->id)
+	if (r->id == node->start->id || r->id == node->end->id)
 		return (1);
 	if (r->mapped >= node->m_token)
 		return (0);
 	return (1);
 }
 
-int		retrace_path(t_lemin *node, t_parent *p, t_set *s, int *flow)
+int		retrace_path(t_lemin *node, t_parent *p, t_set *s)
 {
 	t_parent *tmp;
 	t_room *r;
@@ -41,52 +41,42 @@ int		retrace_path(t_lemin *node, t_parent *p, t_set *s, int *flow)
 	int len;
 
 	if (!p)
-		return (0);
+		ft_error("retrace_path: Cannot retrace, no parent!");
 	path = NULL;
 	tmp = p;
 	r = tmp->from;
-	r->mapped = node->m_token;
-	add_path(&path, path_new(tmp->room));
-	add_path(&path, path_new(r));
+	add_path(&path, pathnew(node, tmp->room));
+	add_path(&path, pathnew(node, r));
 	len = 1;
-	while (tmp->prev)
+	while (tmp->prev && !mapped(node, r))
 	{
 		if (r->id == tmp->room->id)
 		{
 			r = tmp->from;
-			if (!mapped(node, r))
-				return (0);
-			r->mapped = node->m_token;
-			add_path(&path, path_new(r));
+			add_path(&path, pathnew(node, r));
 			len++;
 		}
 		tmp = tmp->prev;
 	}
+	if (!mapped(node, r))
+		return (0);
 	path_to_set(path, &s->paths, len);
-	if (!PRINT_PATHS)
-		return (1);
-	while (path)
-	{
-		ft_printf("'%s' ", path->r->name);
-		path = path->next;
-	}
-	ft_printf("\n");
 	return (1);
 }
 
-int		graph_path(t_lemin *node, t_queue *q, t_set *s, int *flow)
+int		graph_path(t_lemin *node, t_queue *q, t_set *s)
 {
 	t_pipe *p;
 	t_parent *par;
 	t_parent *head;
 
 	q_add(&q, node->start);
-	par = init_parent(node->start);
+	par = init_parent(node, node->start);
 	head = par;
 	while (q)
 	{
 		if (q->room->id == node->end->id)
-			retrace_path(node, par, s, flow);
+			retrace_path(node, par, s);
 		q_visit(node, q);
 		p = q->room->pipes;
 		while (p && q->room->id != node->end->id)
@@ -104,5 +94,7 @@ int		graph_path(t_lemin *node, t_queue *q, t_set *s, int *flow)
 	if (!q)
 		return (0);
 	q_free(q);
+	node->parent = NULL;
+//	free_parent(node, node->parent); // Why intermittent segfault??
 	return (1);
 }

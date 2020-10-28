@@ -6,7 +6,7 @@
 #    By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/03 22:23:49 by seronen           #+#    #+#              #
-#    Updated: 2020/10/28 20:49:30 by seronen          ###   ########.fr        #
+#    Updated: 2020/10/29 00:02:53 by seronen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ all: $(NAME)
 
 $(NAME): libftmake
 	@echo "Compiling executable "lem-in"."
-	@gcc -o $(NAME) $(SRCS) $(INCL) $(LIB) -O3
+	@gcc $(FLAGS) -o $(NAME) $(SRCS) $(INCL) $(LIB) -O3
 	@echo "$(GREEN)Executable "lem-in" compiled successfully.$(RESET)"
 
 libftmake:
@@ -39,7 +39,7 @@ libftmake:
 
 lemin:
 	@echo "Compiling executable "lem-in"."
-	@gcc -o $(NAME) $(SRCS) $(INCL) $(LIB)
+	@gcc $(FLAGS) -o $(NAME) $(SRCS) $(INCL) $(LIB)
 	@echo "$(GREEN)Executable "lem-in" compiled successfully.$(RESET)"
 
 clean:

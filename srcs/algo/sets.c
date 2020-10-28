@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 17:36:02 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 20:48:03 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:24:46 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,11 @@ int		path_to_set(t_path *head, t_pathf **alst, int len)
 	return (0);
 }
 
-t_path	*path_new(t_room *r)
+t_path	*pathnew(t_lemin *node, t_room *r)
 {
 	t_path *new;
 
+	r->mapped = node->m_token;
 	new = (t_path*)malloc(sizeof(t_path));
 	if (!new)
 		ft_error("path_new: Malloc failed!");

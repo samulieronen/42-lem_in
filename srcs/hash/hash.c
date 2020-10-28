@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 23:41:55 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 00:27:28 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 00:05:04 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void			*fetch_hash(t_hash **table, char *key)
 
 void	insert_hash(t_lemin *node, char *key, t_room *room)
 {
-	t_hash *new;
 	int index;
 
 	index = hash_gen(key);

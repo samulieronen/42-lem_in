@@ -6,13 +6,13 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 21:38:18 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 00:10:38 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-t_pipe		*get_last(t_lemin *node, t_parent *prev, t_room *to)
+t_pipe		*get_last(t_parent *prev, t_room *to)
 {
 	t_parent 	*p;
 	t_pipe		*pipe;
@@ -38,7 +38,7 @@ int		q_offer(t_lemin *node, t_queue *q, t_parent *par)
 	t_pipe *from;
 
 	tmp = q->room->pipes;
-	from = get_last(node, par, q->room);
+	from = get_last(par, q->room);
 	while (tmp && from && from->flow == 0)
 	{
 		if (tmp->flow < 0 && q->room->flag && tmp->room->id != node->start->id)
@@ -100,17 +100,18 @@ int		retrace_flow(t_lemin *node, t_parent *p)
 		}
 		tmp = tmp->prev;
 	}
+	node->parent = NULL;
+//	free_parent(node, node->parent); // Why intermittent segfault??
 	return (1);
 }
 
 int		graph_flow(t_lemin *node, t_queue *q)
 {
-	t_pipe *p;
 	t_parent *par;
 	t_parent *head;
 
 	q_add(&q, node->start);
-	par = init_parent(node->start);
+	par = init_parent(node, node->start);
 	head = par;
 	while (q)
 	{
@@ -130,26 +131,24 @@ int		graph_flow(t_lemin *node, t_queue *q)
 int		solve(t_lemin *node)
 {
 	int i;
-	int flow;
-	t_set *set;
 	t_set *head;
 
 	i = node->antcount;
 	node->v_token = 1;
 	node->m_token = 1;
-	flow = 0;
 	while (i)
 	{
 		if (!(graph_flow(node, NULL)))
 			break ;
-		flow++;
 		node->v_token += 1;
 		new_set(&node->sets);
-		graph_path(node, NULL, node->sets, &flow);
+		graph_path(node, NULL, node->sets);
+		calc(node, node->sets);
 		node->m_token += 1;
 		node->v_token += 1;
 		i--;
 	}
+	return (0);
 	int nb = 1;
 	head = node->sets;
 	while (head)
@@ -170,6 +169,5 @@ int		solve(t_lemin *node)
 		nb++;
 		head = head->next;
 	}
-	calc(node);
 	return (0);
 }

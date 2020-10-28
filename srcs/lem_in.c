@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 20:38:51 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:47:55 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ int				main(void)
 	get_input(node);
 	if (!node->start || !node->end)
 		ft_error("No start or end room present!");
-	ft_printf("Finding\n");
+	ft_printf("\nFinding\n");
 	ft_printf("node->start->name: %s\n", node->start->name);
 	ft_printf("node->start->id: %d\n", node->start->id);
-	ft_printf("node->end->name: %s\n", node->end->name);
-	ft_printf("\n");
-	ft_printf("\n");
+	ft_printf("node->end->name: %s\n\n", node->end->name);
+	if (PRINT_IN)
+		ft_printf("\n\n");
 	if (SUPER)
 		super_algo(node);
 	else

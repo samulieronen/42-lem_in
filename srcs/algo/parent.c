@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:01:21 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 21:40:35 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:58:34 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_parent	*parentnew(void)
 	return (new);
 }
 
-t_parent	*init_parent(t_room *r)
+t_parent	*init_parent(t_lemin *node, t_room *r)
 {
 	t_parent *p;
 
@@ -29,6 +29,7 @@ t_parent	*init_parent(t_room *r)
 	p->next = NULL;
 	p->prev = NULL;
 	p->room = r;
+	node->parent = p;
 	return (p);
 }
 
@@ -62,4 +63,19 @@ t_parent	*fetch_parent(t_parent *head, t_room *key)
 		p = p->prev;
 	}
 	return (NULL);
+}
+
+void		free_parent(t_lemin *node, t_parent *head)
+{
+	t_parent *del;
+
+	if (!head)
+		return ;
+	while (head)
+	{
+		del = head;
+		head = head->next;
+		free(del);
+	}
+	node->parent = NULL;
 }

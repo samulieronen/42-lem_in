@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:59:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/25 15:56:13 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 00:04:10 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int     parse_line(t_lemin *node, char *line)
 	else if (line[i] == '#' && line[i + 1] != '#')
 		return (0);
 	else if (ft_strchr(line, '-'))
-		build_pipes(node, line, 0);
+		build_pipes(node, line);
 	else
 		build_room(node, line);
 	return (0);
@@ -64,6 +64,5 @@ int     get_input(t_lemin *node)
 		if (line)
 			ft_strdel(&line);
 	}
-	ft_printf("\n\n");
 	return (0);
 }

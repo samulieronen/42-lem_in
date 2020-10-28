@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:39 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 20:21:16 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 00:03:32 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	pipe_symbiosis(t_room *from, t_room *where)
 	b->adj = a;
 }
 
-int		build_pipes(t_lemin *node, char *line, int rev)
+int		build_pipes(t_lemin *node, char *line)
 {
 	t_room  *from;
 	t_room  *where;

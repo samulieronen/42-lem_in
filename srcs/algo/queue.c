@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 20:40:24 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 20:58:05 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 23:59:37 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void        q_free(t_queue *head)
 		del = head;
 		head = head->next;
 		free(del);
+		del = NULL;
 	}
 	head = NULL;
 }
@@ -29,7 +30,7 @@ t_queue		*q_del(t_queue *q)
 {
 	t_queue *del;
 
-	if (!q->next || !q)
+	if (!q || !q->next)
 		return (NULL);
 	del = q->next;
 	free(q);

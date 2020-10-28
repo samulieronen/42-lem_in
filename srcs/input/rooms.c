@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:36 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 20:14:02 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 00:04:47 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_modifier(t_lemin *node, t_room *r)
 	return (NULL);
 }
 
-t_room		*newroom(t_lemin *node, t_room **head)
+t_room		*newroom(t_room **head)
 {
 	t_room *r;
 
@@ -58,7 +58,7 @@ int		build_room(t_lemin *node, char *line)
 {
 	t_room *r;
 
-	r = newroom(node, &node->rooms);
+	r = newroom(&node->rooms);
 	if (!r)
 		ft_error("build_room: add_room failed!");
 	r->id = 0;
