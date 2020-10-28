@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 00:09:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 01:45:18 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 16:22:01 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ int		*shortest_path(t_pathf *head)
 	arr = NULL;
 	while (tmp)
 	{
-		if (tmp->id_arr[0] != 0 && shortest > tmp->len)
+		if (tmp->id_arr[0] && tmp->len < shortest)
 		{
 			shortest = tmp->len;
 			res = tmp;
 		}
 		tmp = tmp->next;
 	}
-	ft_printf("shortest len: %d\n\n", res->len);
+	ft_printf("\nshortest len: %d\n\n", res->len);
 	return (res->id_arr);
 }
 
@@ -67,37 +67,37 @@ int		anti_augment(t_lemin *node, int *arr, int index)
 	t_room *a;
 	t_room *b;
 	t_pipe *tmp;
+	t_pipe *real;
 
 	i = index;
 	if (!arr)
 		return (-1);
 	ft_printf("ANTI AUGMENT\n");
-	while (i > 0)
+	while (i > 0 && arr[i - 1])
 	{
 		a = fetch_id(node, arr[i]);
-		ft_printf("a: %s\n", a->name);
-		b = fetch_id(node, arr[i + 1]);
-		ft_printf("b: %s\n", b->name);
+		ft_printf("a-a: %s\n", a->name);
+		b = fetch_id(node, arr[i - 1]);
+		ft_printf("a-b: %s\n", b->name);
 		if (!a || !b)
 			ft_error("Bruu super_algo failed!");
-//		ft_printf("fetch'd rooms\n");
 		tmp = a->pipes;
+		real = NULL;
 		while (tmp)
 		{
 			if (tmp->room && tmp->room->id == b->id)
+			{
+				real = tmp;
 				break ;
+			}
 			tmp = tmp->next;
 		}
-		if (!tmp)
+		if (!real)
 			ft_error("error no pipe!");
-		if (tmp->flow == 1)
-			return (0);
-//		ft_printf("flow OK, augmenting\n");
-		tmp->flow -= 1;
-		tmp->adj->flow += -1;
+		real->flow += 1;
+		real->adj->flow -= -1;
 		i--;
 	}
-	arr[0] = 0;
 	return (1);
 }
 
@@ -107,6 +107,7 @@ int		augment(t_lemin *node, int *arr)
 	t_room *a;
 	t_room *b;
 	t_pipe *tmp;
+	t_pipe *real;
 
 	i = 0;
 	if (!arr)
@@ -122,29 +123,31 @@ int		augment(t_lemin *node, int *arr)
 			ft_error("Bruu super_algo failed!");
 //		ft_printf("fetch'd rooms\n");
 		tmp = a->pipes;
+		real = NULL;
 		while (tmp)
 		{
 			if (tmp->room && tmp->room->id == b->id)
+			{
+				real = tmp;
 				break ;
+			}
 			tmp = tmp->next;
 		}
-		if (!tmp)
+		if (!real)
 			ft_error("error no pipe!");
-		if (tmp->flow == 1)
+		if (real->flow == 1)
 		{
-			break ;
+			anti_augment(node, arr, i);
+			arr[0] = 0;
+			return (1);
 		}
 //		ft_printf("flow OK, augmenting\n");
-		tmp->flow += 1;
-		tmp->adj->flow -= -1;
+		real->flow += 1;
+		real->adj->flow -= -1;
 		i++;
 	}
-	if (tmp->flow == 1)
-	{
-		anti_augment(node, arr, i);
-	}
 	arr[0] = 0;
-	return (1);
+	return (0);
 }
 
 int     super_algo(t_lemin *node)
@@ -166,6 +169,13 @@ int     super_algo(t_lemin *node)
 	while (tmp)
 	{
 		ft_printf("Path found, len : %d\n", tmp->len);
+		int f = 0;
+		while (tmp->id_arr[f])
+		{
+			ft_printf("%d ", tmp->id_arr[f]);
+			f++;
+		}
+		ft_printf("\n");
 		tmp = tmp->next;
 	}
 	ft_printf("\n");
@@ -179,11 +189,8 @@ int     super_algo(t_lemin *node)
 				ft_error("YAYA problem in augment");
 		ft_printf("\n\n");
 //		ft_printf("augment OK\n");
-		g_path = 0;
 //		ft_printf("Before bfs\n");
 		graph_path(node, NULL, set, &flow);
-		ft_printf("Pathcount: %d\n", g_path);
-		ft_printf("\n");
 		node->m_token += 1;
 		node->v_token += 1;
 		i--;

@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/27 21:46:20 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 16:33:02 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,9 +259,8 @@ int		*new_set(t_set **alst)
 
 	if (!(new = (t_set*)malloc(sizeof(t_set))))
 		ft_error("new_set: Malloc failed!");
-	new->p = (t_path**)malloc(sizeof(t_path*) * 100);
-	ft_bzero(&new->p, 1000);
-	new->index = 0;
+	new->paths = NULL;
+	new->next = NULL;
 	if (*alst && new)
 	{
 		new->next = *alst;
@@ -277,13 +276,13 @@ int		solve(t_lemin *node)
 	int i;
 	int flow;
 	t_set *set;
+	t_set *head;
 
 	i = node->antcount;
 	node->v_token = 1;
 	node->m_token = 1;
-	set = NULL;
 	flow = 0;
-//	new_set(&set);
+	node->sets = NULL;
 	while (i)
 	{
 		if (!(graph_flow(node, NULL)))
@@ -292,18 +291,33 @@ int		solve(t_lemin *node)
 			break ;
 		}
 		flow++;
-	//	ft_printf("Flow 1 : %d\n", flow);
 		node->v_token += 1;
-		g_path = 0;
-		graph_path(node, NULL, set, &flow);
-//		ft_printf("Flow 2 : %d\n", flow);
-		ft_printf("Pathcount: %d\n", g_path);
-		ft_printf("\n");
-//		new_set(&set);
-//		set = set->next;
+		new_set(&node->sets);
+		graph_path(node, NULL, node->sets, &flow);
 		node->m_token += 1;
 		node->v_token += 1;
 		i--;
 	}
+	int nb = 1;
+	head = node->sets;
+	while (head)
+	{
+		ft_printf("Set %d found\n", nb);
+		int pnb = 0;
+		t_pathf *p = head->paths;
+		head->steps_total = 0;
+		while (p)
+		{
+			ft_printf("Pathlen: %d\n", p->len);
+			head->steps_total +=p->len;
+			p = p->next;
+			pnb++;
+		}
+		ft_printf("Paths in set: %d\n\n", pnb);
+		head->amount = pnb;
+		nb++;
+		head = head->next;
+	}
+	calc(node);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 00:10:20 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 00:07:57 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 16:20:56 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,22 @@ int		_add_path(t_path **alst, t_path *new)
 	return (0);
 }
 
-int		path_to_set(t_path **head, t_set *s)
+int		path_to_set(t_path *head, t_pathf **alst, int len)
 {
-	if (s->index == 98)
-		return (0);
-	s->p[s->index] = *head;
-	s->index++;
+	t_pathf *new;
+
+	new = (t_pathf*)malloc(sizeof(t_pathf));
+	new->path = head;
+	new->len = len;
+	if (!new)
+		ft_error("path_to_set: Malloc failed!");
+	if (*alst && new)
+	{
+		new->next = *alst;
+		*alst = new;
+	}
+	if (new)
+		*alst = new;
 	return (0);
 }
 
@@ -79,6 +89,7 @@ int		retrace_path(t_lemin *node, t_parent *p, t_set *s, int *flow)
 	t_parent *tmp;
 	t_room *r;
 	t_path *path;
+	int len;
 
 	if (!p)
 		return (0);
@@ -86,30 +97,23 @@ int		retrace_path(t_lemin *node, t_parent *p, t_set *s, int *flow)
 	tmp = p;
 	r = tmp->from;
 	r->mapped = node->m_token;
-//	ft_printf("%s  ", tmp->room->name);
-//	ft_printf("%s  ", r->name);
 	_add_path(&path, path_new(tmp->room));
 	_add_path(&path, path_new(r));
+	len = 1;
 	while (tmp->prev)
 	{
 		if (r->id == tmp->room->id)
 		{
 			r = tmp->from;
 			if (!mapped(node, r))
-			{
-//				ft_printf("room %s mapped before! No go!", r->name);
-//				(*flow)--;
 				return (0);
-			}
 			r->mapped = node->m_token;
-//			ft_printf("%s  ", r->name);
 			_add_path(&path, path_new(r));
+			len++;
 		}
 		tmp = tmp->prev;
 	}
-//	ft_printf("\n");
-//	path = NULL;
-	g_path++;
+	path_to_set(path, &s->paths, len);
 	if (!PRINT_PATHS)
 		return (1);
 	while (path)
@@ -118,7 +122,6 @@ int		retrace_path(t_lemin *node, t_parent *p, t_set *s, int *flow)
 		path = path->next;
 	}
 	ft_printf("\n");
-//	path_to_set(&path, s);
 	return (1);
 }
 
@@ -136,9 +139,7 @@ int		graph_path(t_lemin *node, t_queue *q, t_set *s, int *flow)
 	while (q)
 	{
 		if (q->room->id == node->end->id)
-		{
 			retrace_path(node, par, s, flow);
-		}
 		q_visit(node, q);
 		p = q->room->pipes;
 		while (p && q->room->id != node->end->id)

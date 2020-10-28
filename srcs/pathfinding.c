@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 20:37:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 01:12:02 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 14:07:41 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ int				*pathdup(int *old)
 		len++;
 	}
 	new = (int*)malloc(sizeof(int) * len);
-	new[len] = 0;
 	ft_bzero(new, len);
-	while(old[i])
+	while (old[i])
 	{
 		new[i] = old[i];
 		i++;
 	}
+	new[i] = 0;
 	return (new);
 }
 
@@ -59,7 +59,6 @@ void			add_path(t_pathf **alst, t_pipe **p, int *path, int len)
 	}
 	else if (new)
 		*alst = new;
-	*p = NULL;
 }
 
 int			check_next(t_lemin *node, t_pipe *pipe)
@@ -92,6 +91,7 @@ int      pathfinding(t_lemin *node, t_room *head, int *p, int len)
 	{
 		p[len + 1] = 0;
 		add_path(&node->map->paths, &pipes, p, len);
+		pipes = NULL;
 	}
 	while (pipes)
 	{

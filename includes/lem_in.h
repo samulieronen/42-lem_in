@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 01:46:21 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 16:48:01 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 // 0 don't, 1 yaaas
 
-#define PRINT_PATHS 1
+#define PRINT_PATHS 0
 
 // 1 for max flow algo, 0 for standard DFS
 
@@ -31,9 +31,7 @@
 
 #define PRINT_MV 1
 
-#define SUPER 1
-
-int g_path;
+#define SUPER 0
 
 #define TABLE_SIZE	2099
 #define MAX_KEY		30
@@ -68,11 +66,19 @@ typedef struct	s_room				//	Struct to store all the rooms as there will be ( > 2
 	struct s_room	*next;
 }				t_room;
 
+typedef struct	s_path
+{
+	struct s_room *r;
+	struct s_path *next;
+}				t_path;
+
 typedef	struct	s_pathf
 {
-	char	*path;
-	int		*id_arr;
-	int		len;
+//	char			*path;
+	int				*id_arr;
+	int				len;
+	float				res;
+	t_path			*path;
 	struct 	s_pathf *next;
 }				t_pathf;
 
@@ -87,17 +93,14 @@ typedef struct	s_pathset
 	struct s_pathset	*next;
 }				t_pathset;
 
-typedef struct	s_path
-{
-	struct s_room *r;
-	struct s_path *next;
-}				t_path;
-
 typedef struct	s_set
 {
-	int				**setarr;
+//	int				**setarr;
 	int				index;
-	t_path			**p;
+	int				amount;
+	int				steps_total;
+	int				max_moves;
+	t_pathf			*paths;
 	struct s_set	*next;
 }				t_set;
 
@@ -152,7 +155,7 @@ typedef struct	s_lemin				//	Main struct
 	t_ant			*ants;
 	t_room			*rooms;
 	t_pathf			*pathf;
-	t_pathset		*sets;
+	t_set			*sets;
 }				t_lemin;
 
 
@@ -170,8 +173,9 @@ int			path_len(t_pathf *head);
 int     super_algo(t_lemin *node);
 
 
+// CALC.C
 
-
+int		calc(t_lemin *node);
 
 
 // SETS.C
