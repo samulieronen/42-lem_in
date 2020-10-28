@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:36 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 14:43:33 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 20:14:02 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int		build_room(t_lemin *node, char *line)
 {
 	t_room *r;
 
-//	ft_printf("\n");
 	r = newroom(node, &node->rooms);
 	if (!r)
 		ft_error("build_room: add_room failed!");
@@ -71,6 +70,5 @@ int		build_room(t_lemin *node, char *line)
 	r->mapped = 0;
 	r->info = get_modifier(node , r);
 	insert_hash(node, r->name, r);
-//	ft_printf("%s\tHash inserted successfully!\n", r->name);
 	return (0);
 }

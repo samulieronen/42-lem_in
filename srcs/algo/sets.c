@@ -6,59 +6,71 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 17:36:02 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/25 15:59:15 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 20:48:03 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-t_set			*setnew(t_lemin *node, t_pathf *p)
+int		*new_set(t_set **alst)
 {
 	t_set *new;
 
 	if (!(new = (t_set*)malloc(sizeof(t_set))))
-		ft_error("setnew: malloc failed!");
-	new->setarr = (int**)malloc(sizeof(int*) * node->pathcount);
-	new->index = 0;
-	new->setarr[0] = p->id_arr;
+		ft_error("new_set: Malloc failed!");
+	new->paths = NULL;
+	new->next = NULL;
+	if (*alst && new)
+	{
+		new->next = *alst;
+		*alst = new;
+	}
+	else if (new)
+		*alst = new;
+	return (0);
+}
+
+int		path_to_set(t_path *head, t_pathf **alst, int len)
+{
+	t_pathf *new;
+
+	new = (t_pathf*)malloc(sizeof(t_pathf));
+	new->path = head;
+	new->len = len;
+	if (!new)
+		ft_error("path_to_set: Malloc failed!");
+	if (*alst && new)
+	{
+		new->next = *alst;
+		*alst = new;
+	}
+	if (new)
+		*alst = new;
+	return (0);
+}
+
+t_path	*path_new(t_room *r)
+{
+	t_path *new;
+
+	new = (t_path*)malloc(sizeof(t_path));
+	if (!new)
+		ft_error("path_new: Malloc failed!");
+	if (!r)
+		ft_error("path_new: no room to add!");
+	new->r = r;
 	new->next = NULL;
 	return (new);
 }
 
-void			add_set(t_lemin *node, t_set **s, t_pathf *p)
+int		add_path(t_path **alst, t_path *new)
 {
-	t_set *new;
-
-	if (!s || !p)
-		return ;
-	new = setnew(node, p);
-/*	int y = 0;
-	while (new->setarr[0][y])
+	if (*alst && new)
 	{
-		ft_printf("%d\t", new->setarr[0][y]);
-		y++;
+		new->next = *alst;
+		*alst = new;
 	}
-	ft_printf("\n"); */
-	if (*s)
-	{
-		new->next = *s;
-		*s = new;
-	}
-	else
-		*s = new;
-}
-
-int				manage_sets(t_lemin *node, t_pathf *p)
-{
-	t_pathf *tmp;
-	int i;
-
-	tmp = p;
-	i = 0;
-	while (tmp)
-	{
-		add_set(node, &node->map->sets, tmp);
-		tmp = tmp->next;
-	}
+	else if (new)
+		*alst = new;
 	return (0);
 }

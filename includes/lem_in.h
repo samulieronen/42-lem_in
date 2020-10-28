@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 16:48:01 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 21:37:54 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ typedef struct	s_path
 
 typedef	struct	s_pathf
 {
-//	char			*path;
 	int				*id_arr;
 	int				len;
 	float				res;
@@ -82,20 +81,8 @@ typedef	struct	s_pathf
 	struct 	s_pathf *next;
 }				t_pathf;
 
-typedef struct	s_pathset
-{
-	t_pathf				*path;
-	int					*movetable;
-	int					*anttable;
-	int					pathset;			// How many paths in set
-	int					pathsetlen;			// How long the whole set is
-	int					moves;				// How many moves it takes in total
-	struct s_pathset	*next;
-}				t_pathset;
-
 typedef struct	s_set
 {
-//	int				**setarr;
 	int				index;
 	int				amount;
 	int				steps_total;
@@ -132,7 +119,7 @@ typedef struct	s_parent
 {
 	struct s_room	*from;
 	struct s_room	*room;
-//	struct t_pipe	*used;
+	struct s_pipe	*edge;
 	struct s_parent	*next;
 	struct s_parent *prev;
 }				t_parent;
@@ -180,7 +167,10 @@ int		calc(t_lemin *node);
 
 // SETS.C
 
-int				manage_sets(t_lemin *node, t_pathf *p);
+int			add_path(t_path **alst, t_path *new);
+t_path		*path_new(t_room *r);
+int			path_to_set(t_path *head, t_pathf **alst, int len);
+int			*new_set(t_set **alst);
 
 
 // PATHFINDING.C
@@ -192,12 +182,25 @@ int			pathfinding(t_lemin *node, t_room *head,int *p, int len);
 
 int			solve(t_lemin *node);
 int			graph_path(t_lemin *node, t_queue *q, t_set *s, int *flow);
-t_queue		*q_del(t_queue *q);
-int			q_check(t_lemin *node, t_queue *q, t_room *r);
+int			q_parent(t_parent *p, t_pipe *pipe);
+t_parent	*init_parent(t_room *r);
+
+
+// QUEUE.C
+
 int			q_add(t_queue **q, t_room *new);
 int			q_visit(t_lemin *node, t_queue *q);
-int			q_parent(t_parent *p, t_room *r);
+t_queue		*q_del(t_queue *q);
+int			q_check(t_lemin *node, t_queue *q, t_room *r);
+void		q_free(t_queue *head);
+
+
+// PARENT.C
+
+t_parent	*parentnew(void);
 t_parent	*init_parent(t_room *r);
+int			q_parent(t_parent *p, t_pipe *pipe);
+t_parent	*fetch_parent(t_parent *head, t_room *key);
 
 
 // PATHCHOOSERS

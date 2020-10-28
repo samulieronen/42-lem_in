@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:39 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/23 23:44:01 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/28 20:21:16 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,8 @@ void	pipe_symbiosis(t_room *from, t_room *where)
 		ft_error("symbiosis: newpipe failed!");
 	if (!(b = newpipe(&where->pipes, from)))
 		ft_error("symbiosis: newpipe failed!");
-	if (FINDER)
-	{
-		a->adj = b;
-		b->adj = a;
-	}
+	a->adj = b;
+	b->adj = a;
 }
 
 int		build_pipes(t_lemin *node, char *line, int rev)
