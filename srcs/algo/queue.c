@@ -6,32 +6,40 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 20:40:24 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 23:59:37 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 22:25:11 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void        q_free(t_queue *head)
+void        q_free(t_queue **alst)
 {
-	t_queue *del;
+	t_queue *temp;
+	t_queue *tempnext;
 
-	while (head->next)
+	temp = *alst;
+	if (!alst)
+		return ;
+	while (temp)
 	{
-		del = head;
-		head = head->next;
-		free(del);
-		del = NULL;
+		tempnext = temp->next;
+		free(temp);
+		temp = tempnext;
 	}
-	head = NULL;
+	*alst = NULL;
 }
 
 t_queue		*q_del(t_queue *q)
 {
 	t_queue *del;
 
-	if (!q || !q->next)
+	if (!q)
 		return (NULL);
+	if (!q->next)
+	{
+		free(q);
+		return (NULL);
+	}
 	del = q->next;
 	free(q);
 	return (del);

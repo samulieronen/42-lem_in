@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 00:06:38 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 23:43:01 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 #define PRINT_MV 1
 
 #define SUPER 0
+#define LEAKS 0
 
 #define TABLE_SIZE	2099
 #define MAX_KEY		30
@@ -120,7 +121,7 @@ typedef struct	s_parent
 {
 	struct s_room	*from;
 	struct s_room	*room;
-	struct s_pipe	*edge;
+//	struct s_pipe	*edge;
 	struct s_parent	*next;
 	struct s_parent *prev;
 }				t_parent;
@@ -133,6 +134,8 @@ typedef struct	s_lemin				//	Main struct
 	int				pathcount;
 	int				v_token;
 	int				m_token;
+
+	int				line_nb;
 
 	t_room			*start;
 	t_room			*end;
@@ -148,18 +151,30 @@ typedef struct	s_lemin				//	Main struct
 }				t_lemin;
 
 
-int			get_input(t_lemin *node);
-int     	make_ants(t_lemin *node);
-void		ft_error(char *msg);
-char		*get_paths(t_lemin *node);
-int			path_len(t_pathf *head);
-
-
+/*
+**	PROTOTYPES	– ORGANIZED BY FILE
+*/
 
 
 // EXPERIMENTAL
 
 int     super_algo(t_lemin *node);
+
+
+// LEM_IN.C
+
+void		ft_error(char *msg);
+void		ft_input_error(char *msg, char *s1, int lnbr);
+
+
+// ANTS.C
+
+int     	make_ants(t_lemin *node);
+
+
+// INPUT.C
+
+int			get_input(t_lemin *node);
 
 
 // CALC.C
@@ -173,6 +188,7 @@ int			add_path(t_path **alst, t_path *new);
 t_path		*pathnew(t_lemin *node, t_room *r);
 int			path_to_set(t_path *head, t_pathf **alst, int len);
 int			*new_set(t_set **alst);
+int			free_path(t_path **alst);
 
 
 // PATHFINDING.C
@@ -192,7 +208,7 @@ int			q_add(t_queue **q, t_room *new);
 int			q_visit(t_lemin *node, t_queue *q);
 t_queue		*q_del(t_queue *q);
 int			q_check(t_lemin *node, t_queue *q, t_room *r);
-void		q_free(t_queue *head);
+void		q_free(t_queue **alst);
 
 
 // PARENT.C
@@ -201,7 +217,7 @@ t_parent	*parentnew(void);
 t_parent	*init_parent(t_lemin *node, t_room *r);
 int			q_parent(t_parent *p, t_pipe *pipe);
 t_parent	*fetch_parent(t_parent *head, t_room *key);
-void		free_parent(t_lemin *node, t_parent *head);
+void		free_parent(t_lemin *node, t_parent **alst);
 
 
 // PATHCHOOSERS

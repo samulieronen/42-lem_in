@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 17:36:02 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 23:24:46 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 23:09:01 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int		path_to_set(t_path *head, t_pathf **alst, int len)
 	new = (t_pathf*)malloc(sizeof(t_pathf));
 	new->path = head;
 	new->len = len;
+	new->next = NULL;
 	if (!new)
 		ft_error("path_to_set: Malloc failed!");
 	if (*alst && new)
@@ -73,5 +74,21 @@ int		add_path(t_path **alst, t_path *new)
 	}
 	else if (new)
 		*alst = new;
+	return (0);
+}
+
+int		free_path(t_path **alst)
+{
+	t_path *temp;
+	t_path *tempnext;
+
+	temp = *alst;
+	while (temp)
+	{
+		tempnext = temp->next;
+		free(temp);
+		temp = tempnext;
+	}
+	*alst = NULL;
 	return (0);
 }

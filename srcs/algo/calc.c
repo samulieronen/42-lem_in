@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:22:07 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/28 23:24:38 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 23:24:01 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int		calc(t_lemin *node, t_set *s)
 	s->cost = calc;
 	p = s->paths;
 	max = 0;
+	if (!p)
+		ft_error("calc: Set has no paths!");
 	while (p)
 	{
 		p->res = (calc - p->len);

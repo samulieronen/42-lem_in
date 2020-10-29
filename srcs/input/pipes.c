@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:39 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 00:03:32 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 23:50:21 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,16 @@ int		build_pipes(t_lemin *node, char *line)
 {
 	t_room  *from;
 	t_room  *where;
+//	char	*rest;
 	int     i;
 
 	i = 0;
-	from = fetch_hash(node->hash, ft_strcdup(&line[i], '-'));
+	if (!(from = fetch_hash(node->hash, ft_strcdup(&line[i], '-'))))
+		ft_input_error("No room named", ft_strcdup(&line[i], '-'), node->line_nb);
 	while (line[i] && line[i] != '-')
 		i++;
-	where = fetch_hash(node->hash, ft_strcdup(&line[i + 1], '-'));
-	if (!where || !from)
-		ft_error("build_pipes: where or from is NULL!");
+	if (!(where = fetch_hash(node->hash, ft_strcdup(&line[i + 1], '-'))))
+		ft_input_error("No room named", &line[i + 1], node->line_nb);
 	pipe_symbiosis(from, where);
 	return (0);
 }

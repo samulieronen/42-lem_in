@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 00:10:38 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 22:37:36 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,9 @@ int		retrace_flow(t_lemin *node, t_parent *p)
 	t_parent *tmp;
 	t_room *r;
 
+	node->antcount = node->antcount;
 	if (!p)
-		return (0);
+		ft_error("retrace_flow: Cannot retrace, no parent!");
 	tmp = p;
 	r = tmp->from;
 	calc_flow(tmp->from, tmp->room);
@@ -100,19 +101,16 @@ int		retrace_flow(t_lemin *node, t_parent *p)
 		}
 		tmp = tmp->prev;
 	}
-	node->parent = NULL;
-//	free_parent(node, node->parent); // Why intermittent segfault??
+	free_parent(node, &node->parent); // Why intermittent segfault??
 	return (1);
 }
 
 int		graph_flow(t_lemin *node, t_queue *q)
 {
 	t_parent *par;
-	t_parent *head;
 
 	q_add(&q, node->start);
 	par = init_parent(node, node->start);
-	head = par;
 	while (q)
 	{
 		if (q->room->id == node->end->id)
@@ -123,8 +121,11 @@ int		graph_flow(t_lemin *node, t_queue *q)
 		q = q_del(q);
 	}
 	if (!q)
+	{
+		free_parent(node, &node->parent); // Why intermittent segfault??
 		return (0);
-	q_free(q);
+	}
+	q_free(&q);
 	return (retrace_flow(node, par));
 }
 
@@ -148,7 +149,6 @@ int		solve(t_lemin *node)
 		node->v_token += 1;
 		i--;
 	}
-	return (0);
 	int nb = 1;
 	head = node->sets;
 	while (head)
@@ -160,6 +160,13 @@ int		solve(t_lemin *node)
 		while (p)
 		{
 			ft_printf("Pathlen: %d\n", p->len);
+			t_path *pp = p->path;
+			while (pp)
+			{
+				ft_printf("%s ", pp->r->name);
+				pp = pp->next;
+			}
+			ft_printf("\n");
 			head->steps_total +=p->len;
 			p = p->next;
 			pnb++;

@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:59:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 00:04:10 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 23:49:37 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ int     antcount(t_lemin *node)
 
 	if (get_next_line(0, &line) < 0)
 		ft_error("Invalid file");
+	node->line_nb++;
 	node->antcount = ft_atoi(line);
 	if (node->antcount < 1 || node->antcount > INT32_MAX)
-		ft_error("Number of ants impossible!");
+		ft_input_error("Number of ants impossible!", NULL, node->line_nb);
 	if (PRINT_IN)
 		ft_printf("%s\n", line);
 	ft_strdel(&line);
@@ -34,7 +35,6 @@ int     parse_line(t_lemin *node, char *line)
 	i = 0;
 	while (line[i] == ' ')
 		i++;
-//	line = &line[i];
 	if (!ft_strcmp(line, "##end"))
 		node->mod = 2;
 	else if (!ft_strcmp(line, "##start"))
@@ -55,6 +55,7 @@ int     get_input(t_lemin *node)
 	antcount(node);
 	while (get_next_line(0, &line) > 0)
 	{
+		node->line_nb++;
 		if (!line)
 			break ;
 		if (PRINT_IN)

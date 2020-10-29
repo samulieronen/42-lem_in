@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 00:10:20 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 00:11:11 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/29 22:35:20 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,18 @@ int		retrace_path(t_lemin *node, t_parent *p, t_set *s)
 	add_path(&path, pathnew(node, tmp->room));
 	add_path(&path, pathnew(node, r));
 	len = 1;
-	while (tmp->prev && !mapped(node, r))
+	while (tmp->prev)
 	{
 		if (r->id == tmp->room->id)
 		{
 			r = tmp->from;
+			if (!mapped(node, r))
+				return (free_path(&path));
 			add_path(&path, pathnew(node, r));
 			len++;
 		}
 		tmp = tmp->prev;
 	}
-	if (!mapped(node, r))
-		return (0);
 	path_to_set(path, &s->paths, len);
 	return (1);
 }
@@ -68,11 +68,9 @@ int		graph_path(t_lemin *node, t_queue *q, t_set *s)
 {
 	t_pipe *p;
 	t_parent *par;
-	t_parent *head;
 
 	q_add(&q, node->start);
 	par = init_parent(node, node->start);
-	head = par;
 	while (q)
 	{
 		if (q->room->id == node->end->id)
@@ -91,10 +89,9 @@ int		graph_path(t_lemin *node, t_queue *q, t_set *s)
 		par = par->next;
 		q = q_del(q);
 	}
+	free_parent(node, &node->parent); // Why intermittent segfault??
 	if (!q)
 		return (0);
-	q_free(q);
-	node->parent = NULL;
-//	free_parent(node, node->parent); // Why intermittent segfault??
+	q_free(&q);
 	return (1);
 }
