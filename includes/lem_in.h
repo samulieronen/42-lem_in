@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 23:43:01 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/30 16:58:17 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 # define LEM_IN_H
 # include "libft.h"
 # include <stdio.h>		// remove
+
+
+# define RED "\033[0;31m"
+# define RESET "\033[0m"
+
 
 // 0 don't, 1 yaaas
 
@@ -84,7 +89,7 @@ typedef	struct	s_pathf
 
 typedef struct	s_set
 {
-	int				index;
+	int				id;
 	int				amount;
 	int				steps_total;
 	double			cost;
@@ -92,17 +97,6 @@ typedef struct	s_set
 	t_pathf			*paths;
 	struct s_set	*next;
 }				t_set;
-
-typedef struct	s_map
-{
-	t_pathf				*paths;
-	t_set				*sets;
-	long long			max_paths;
-	long long			max_moves;
-	int					*ant;
-	long long			calc;
-	struct s_map		*next;
-}				t_map;
 
 typedef struct	s_hash
 {
@@ -121,7 +115,6 @@ typedef struct	s_parent
 {
 	struct s_room	*from;
 	struct s_room	*room;
-//	struct s_pipe	*edge;
 	struct s_parent	*next;
 	struct s_parent *prev;
 }				t_parent;
@@ -142,7 +135,12 @@ typedef struct	s_lemin				//	Main struct
 
 	t_hash			*hash[TABLE_SIZE];
 
-	t_map			*map;
+	int				antnbr;
+	int				steps;
+	int				goaled;
+	int				set_id;
+	t_set			*best;
+
 	t_ant			*ants;
 	t_room			*rooms;
 	t_pathf			*pathf;
@@ -179,7 +177,9 @@ int			get_input(t_lemin *node);
 
 // CALC.C
 
+int		gather_data(t_lemin *node, t_set *set);
 int		calc(t_lemin *node, t_set *s);
+int		choose_set(t_lemin *node, t_set *s);
 
 
 // SETS.C
@@ -220,11 +220,16 @@ t_parent	*fetch_parent(t_parent *head, t_room *key);
 void		free_parent(t_lemin *node, t_parent **alst);
 
 
+// PRINT.C
+
+int		print_inception(t_lemin *node, t_set *set);
+
+
 // PATHCHOOSERS
 
-int			pathchoosing(t_lemin *node);
-int			pathchooser(t_lemin *node, t_map *map);
-int			pathchooser2(t_lemin *node, t_map *map);
+//int			pathchoosing(t_lemin *node);
+//int			pathchooser(t_lemin *node, t_map *map);
+//int			pathchooser2(t_lemin *node, t_map *map);
 
 
 // ROOMS.C

@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 22:37:36 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/30 16:50:57 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,11 +132,11 @@ int		graph_flow(t_lemin *node, t_queue *q)
 int		solve(t_lemin *node)
 {
 	int i;
-	t_set *head;
 
 	i = node->antcount;
 	node->v_token = 1;
 	node->m_token = 1;
+	node->set_id = 1;
 	while (i)
 	{
 		if (!(graph_flow(node, NULL)))
@@ -144,37 +144,13 @@ int		solve(t_lemin *node)
 		node->v_token += 1;
 		new_set(&node->sets);
 		graph_path(node, NULL, node->sets);
-		calc(node, node->sets);
+		gather_data(node, node->sets);
 		node->m_token += 1;
 		node->v_token += 1;
 		i--;
 	}
-	int nb = 1;
-	head = node->sets;
-	while (head)
-	{
-		ft_printf("Set %d found\n", nb);
-		int pnb = 0;
-		t_pathf *p = head->paths;
-		head->steps_total = 0;
-		while (p)
-		{
-			ft_printf("Pathlen: %d\n", p->len);
-			t_path *pp = p->path;
-			while (pp)
-			{
-				ft_printf("%s ", pp->r->name);
-				pp = pp->next;
-			}
-			ft_printf("\n");
-			head->steps_total +=p->len;
-			p = p->next;
-			pnb++;
-		}
-		ft_printf("Paths in set: %d\n\n", pnb);
-		head->amount = pnb;
-		nb++;
-		head = head->next;
-	}
+	calc(node, node->sets);
+	choose_set(node, node->sets);
+	print_inception(node, node->best);
 	return (0);
 }

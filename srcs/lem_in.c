@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 23:42:46 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/30 13:34:42 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,16 @@ void			ft_error(char *msg)
 
 void			ft_input_error(char *msg, char *s1, int lnbr)
 {
+	ft_printf("lem-in:\t");
 	if (!msg)
 		ft_printf("ERROR.\n");
 	else if (lnbr && !s1)
 		ft_printf("ERROR: Line %d:\t%s\n", lnbr, msg);
 	else
-		ft_printf("ERROR: Line %d:\t%s '%s'\n", lnbr, msg, s1);
+	{
+		ft_printf(RED "ERROR ");
+		ft_printf(RESET "on line %d:\t%s '%s'\n", lnbr, msg, s1);
+	}
 	exit(-42);
 }
 
@@ -38,15 +42,15 @@ static t_lemin		*setup_structs(void)
 
 	if (!(node = (t_lemin*)malloc(sizeof(t_lemin))))
 		ft_error("t_lemin malloc failed!");
-	if (!(node->map = (t_map*)malloc(sizeof(t_map))))
-		ft_error("t_map malloc failed!");
+//	if (!(node->map = (t_map*)malloc(sizeof(t_map))))
+//		ft_error("t_map malloc failed!");
 	ft_bzero(node->hash, TABLE_SIZE);
 	node->roomnb = 0;
 	node->line_nb = 0;
 	node->pathcount = 0;
-	node->map->paths = NULL;
-	node->map->max_paths = 0;
-	node->map->max_moves = 0;
+//	node->map->paths = NULL;
+//	node->map->max_paths = 0;
+//	node->map->max_moves = 0;
 	node->rooms = NULL;
 	node->pathf = NULL;
 	node->sets = NULL;

@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:39 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 23:50:21 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/30 12:27:07 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int		build_pipes(t_lemin *node, char *line)
 {
 	t_room  *from;
 	t_room  *where;
-//	char	*rest;
 	int     i;
 
 	i = 0;

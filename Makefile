@@ -6,14 +6,14 @@
 #    By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/03 22:23:49 by seronen           #+#    #+#              #
-#    Updated: 2020/10/29 14:51:10 by seronen          ###   ########.fr        #
+#    Updated: 2020/10/30 16:51:23 by seronen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = lem-in
 
 SRCS =	srcs/lem_in.c srcs/input/*.c \
-		srcs/hash/*.c srcs/algo/*.c
+		srcs/hash/*.c srcs/algo/*.c srcs/print.c
 
 FLAGS = -Wall -Wextra -Werror
 
