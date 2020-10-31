@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 00:10:20 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 22:35:20 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/31 21:53:38 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		retrace_path(t_lemin *node, t_parent *p, t_set *s)
 	int len;
 
 	if (!p)
-		ft_error("retrace_path: Cannot retrace, no parent!");
+		ft_error("retrace_path: Cannot retrace!", NULL, 0);
 	path = NULL;
 	tmp = p;
 	r = tmp->from;
@@ -69,7 +69,7 @@ int		graph_path(t_lemin *node, t_queue *q, t_set *s)
 	t_pipe *p;
 	t_parent *par;
 
-	q_add(&q, node->start);
+	q_add(&q, node->start, NULL, NULL);
 	par = init_parent(node, node->start);
 	while (q)
 	{
@@ -80,16 +80,13 @@ int		graph_path(t_lemin *node, t_queue *q, t_set *s)
 		while (p && q->room->id != node->end->id)
 		{
 			if (q_offer_path(node, q, p))
-			{
-				q_add(&q, p->room);
-				q_parent(par, p);
-			}
+				q_add(&q, p->room, par, p);
 			p = p->next;
 		}
 		par = par->next;
 		q = q_del(q);
 	}
-	free_parent(node, &node->parent); // Why intermittent segfault??
+	free_parent(node, &node->parent);
 	if (!q)
 		return (0);
 	q_free(&q);

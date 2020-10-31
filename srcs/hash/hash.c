@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 23:41:55 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 23:48:36 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/31 20:04:16 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_hash		*check_hash(t_hash *head, char *key)
 
 	tmp = head;
 	if (!key)
-		ft_error("check_hash: no key or head!");
+		ft_error("check_hash: no key or head!", NULL, 0);
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->key, key))
@@ -56,7 +56,6 @@ void			*fetch_hash(t_hash **table, char *key)
 	index = hash_gen(key);
 	if (!(fetch = check_hash(table[index], key)))
 		return (NULL);
-	free(key);
 	return (fetch->room);
 }
 
@@ -67,6 +66,10 @@ void	insert_hash(t_lemin *node, char *key, t_room *room)
 	index = hash_gen(key);
 	room->hash = index;
 	if (check_hash(node->hash[index], key))
-		ft_error("insert_hash: Duplicate data not allowed!");
+	{
+		if (!ALLOW_DUP_ROOMS)
+			ft_error("Duplicate data not allowed!", key, node->lnb);
+		return ;
+	}
 	hashadd(&node->hash[index], hashnew(&key, &room));
 }

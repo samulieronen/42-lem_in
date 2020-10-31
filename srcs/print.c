@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 14:05:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/30 17:31:52 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/31 19:59:58 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int		print_inception(t_lemin *node, t_set *set)
 	t_pathf *p;
 
 	if (!set)
-		ft_error("No best set present! Exiting...");
+		ft_error("No best set present! Exiting...", NULL, 0);
 	init_print(node, set->paths);
 //	ft_printf("print initialized\n");
 	while (node->goaled < node->antcount && node->steps < 2)

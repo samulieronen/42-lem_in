@@ -6,43 +6,64 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/30 16:58:17 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/31 23:45:08 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
 # define LEM_IN_H
 # include "libft.h"
-# include <stdio.h>		// remove
 
+/*
+**	COLOR DEFS
+*/
 
 # define RED "\033[0;31m"
 # define RESET "\033[0m"
 
 
-// 0 don't, 1 yaaas
+/*
+**	PRINT OPTIONS
+*/
 
-#define PRINT_PATHS 0
+# define P_PATHS 0
+# define P_INPUT 1
+# define P_MOVES 1
 
-// 1 for max flow algo, 0 for standard DFS
 
-#define FINDER 1
+/*
+**	ERROR DEFS FOR PARSER
+*/
 
-// Print the input = 1 ON (DEFAULT), 0 OFF
+# define ALLOW_SPACES 1
+# define ALLOW_DUP_ROOMS 0
+# define ALLOW_SELF_LINKING 0
+# define ERROR_L 1
+# define ALLOW_EMPTY_LINES 1
 
-#define PRINT_IN 0
 
-// Print total nb of moves = 0 for NO, 1 for YES
+/*
+**	CHECK MEM LEAKS
+*/
 
-#define PRINT_MV 1
+# define LEAKS 0
 
-#define SUPER 0
-#define LEAKS 0
 
-#define TABLE_SIZE	2099
-#define MAX_KEY		30
+/*
+**	DEFS FOR HASHTABLE
+*/
 
-typedef struct	s_pipe				//	Struct to store all the connections from the rooms as one room can have n connections
+# define TABLE_SIZE	2099
+# define MAX_KEY	30
+
+
+/*
+**	DEF FOR INPUT ARRAY
+*/
+
+#define MAX_SIZE	10000
+
+typedef struct	s_pipe
 {
 	int				cap;
 	int				flow;
@@ -51,20 +72,15 @@ typedef struct	s_pipe				//	Struct to store all the connections from the rooms a
 	struct s_pipe	*next;
 }				t_pipe;
 
-typedef struct	s_ant
-{
-	int				antnb;
-	struct s_ant	*next;
-}				t_ant;
 
-typedef struct	s_room				//	Struct to store all the rooms as there will be ( > 2 ) rooms
+typedef struct	s_room
 {
 	long long		id;
-	char			*name;			//	Rooms name to identify it from the rest
+	char			*name;
 	char			*info;
 	int				hash;
 
-	int				visited;		//	Mark for a visited room
+	int				visited;
 	int				mapped;
 	int				flag;
 
@@ -72,11 +88,13 @@ typedef struct	s_room				//	Struct to store all the rooms as there will be ( > 2
 	struct s_room	*next;
 }				t_room;
 
+
 typedef struct	s_path
 {
 	struct s_room *r;
 	struct s_path *next;
 }				t_path;
+
 
 typedef	struct	s_pathf
 {
@@ -86,6 +104,7 @@ typedef	struct	s_pathf
 	t_path			*path;
 	struct 	s_pathf *next;
 }				t_pathf;
+
 
 typedef struct	s_set
 {
@@ -98,6 +117,7 @@ typedef struct	s_set
 	struct s_set	*next;
 }				t_set;
 
+
 typedef struct	s_hash
 {
 	char			*key;
@@ -105,11 +125,13 @@ typedef struct	s_hash
 	struct s_hash	*next;
 }				t_hash;
 
+
 typedef struct	s_queue
 {
 	struct s_room	*room;
 	struct s_queue	*next;
 }				t_queue;
+
 
 typedef struct	s_parent
 {
@@ -119,16 +141,26 @@ typedef struct	s_parent
 	struct s_parent *prev;
 }				t_parent;
 
-typedef struct	s_lemin				//	Main struct
+
+typedef	struct	s_input
 {
-	long long		antcount;		//	Should be selfexplanatory
+	char			*line[MAX_SIZE];
+	int				index;
+	struct s_input	*next;
+}				t_input;
+
+
+typedef struct	s_lemin
+{
+	long long		antcount;
 	int				roomnb;
 	int				mod;
 	int				pathcount;
 	int				v_token;
 	int				m_token;
 
-	int				line_nb;
+	int				lnb;
+	t_input			*input;
 
 	t_room			*start;
 	t_room			*end;
@@ -141,9 +173,7 @@ typedef struct	s_lemin				//	Main struct
 	int				set_id;
 	t_set			*best;
 
-	t_ant			*ants;
 	t_room			*rooms;
-	t_pathf			*pathf;
 	t_set			*sets;
 	t_parent		*parent;
 }				t_lemin;
@@ -153,36 +183,43 @@ typedef struct	s_lemin				//	Main struct
 **	PROTOTYPES	– ORGANIZED BY FILE
 */
 
-
-// EXPERIMENTAL
-
-int     super_algo(t_lemin *node);
-
-
-// LEM_IN.C
-
-void		ft_error(char *msg);
-void		ft_input_error(char *msg, char *s1, int lnbr);
+/*
+**	LEMIN.C
+*/
 
 
-// ANTS.C
-
-int     	make_ants(t_lemin *node);
+void		ft_error(char *msg, char *s1, int lnbr);
 
 
-// INPUT.C
+/*
+**	INPUT.C
+*/
+
 
 int			get_input(t_lemin *node);
 
 
-// CALC.C
+/*
+**	LINES.C
+*/
 
-int		gather_data(t_lemin *node, t_set *set);
-int		calc(t_lemin *node, t_set *s);
-int		choose_set(t_lemin *node, t_set *s);
+int			save_input(t_lemin *node, char *line);
+void		print_lines(t_lemin *node);
 
 
-// SETS.C
+/*
+**	CALC.C
+*/
+
+
+int			gather_data(t_lemin *node, t_set *set);
+int			calc(t_lemin *node, t_set *s);
+int			choose_set(t_lemin *node, t_set *s);
+
+
+/*
+**	SETS.C
+*/
 
 int			add_path(t_path **alst, t_path *new);
 t_path		*pathnew(t_lemin *node, t_room *r);
@@ -191,27 +228,29 @@ int			*new_set(t_set **alst);
 int			free_path(t_path **alst);
 
 
-// PATHFINDING.C
-
-int			pathfinding(t_lemin *node, t_room *head,int *p, int len);
-
-
-// FLOW.C & PATH.C
+/*
+**	FLOW.C & PATH.C
+*/
 
 int			solve(t_lemin *node);
 int			graph_path(t_lemin *node, t_queue *q, t_set *s);
 
 
-// QUEUE.C
+/*
+**	QUEUE.C
+*/
 
-int			q_add(t_queue **q, t_room *new);
+int			q_add(t_queue **q, t_room *new, t_parent *par, t_pipe *p);
 int			q_visit(t_lemin *node, t_queue *q);
+int			q_unvisit(t_lemin *node, t_queue *q);
 t_queue		*q_del(t_queue *q);
 int			q_check(t_lemin *node, t_queue *q, t_room *r);
 void		q_free(t_queue **alst);
 
 
-// PARENT.C
+/*
+**	PARENT.C
+*/
 
 t_parent	*parentnew(void);
 t_parent	*init_parent(t_lemin *node, t_room *r);
@@ -220,34 +259,35 @@ t_parent	*fetch_parent(t_parent *head, t_room *key);
 void		free_parent(t_lemin *node, t_parent **alst);
 
 
-// PRINT.C
+/*
+**	PRINT.C
+*/
 
-int		print_inception(t_lemin *node, t_set *set);
-
-
-// PATHCHOOSERS
-
-//int			pathchoosing(t_lemin *node);
-//int			pathchooser(t_lemin *node, t_map *map);
-//int			pathchooser2(t_lemin *node, t_map *map);
+int			print_inception(t_lemin *node, t_set *set);
 
 
-// ROOMS.C
+/*
+**	ROOMS.C
+*/
 
-int		build_room(t_lemin *node, char *line);
-
-
-// PIPES.C
-
-int		build_pipes(t_lemin *node, char *line);
+int			build_room(t_lemin *node, char *line);
 
 
-// HASH.C / HASH_UTILS.C
+/*
+**	PIPES.C
+*/
 
-void			insert_hash(t_lemin *node, char *key, t_room *room);
-void			*fetch_hash(t_hash **table, char *key);
+int			build_pipes(t_lemin *node, char *line);
 
-void			hashadd(t_hash **alst, t_hash *new);
-t_hash			*hashnew(char **key, t_room **room);
+
+/*
+**	HASH.C & HASH_UTILS.C
+*/
+
+void		insert_hash(t_lemin *node, char *key, t_room *room);
+void		*fetch_hash(t_hash **table, char *key);
+
+void		hashadd(t_hash **alst, t_hash *new);
+t_hash		*hashnew(char **key, t_room **room);
 
 #endif

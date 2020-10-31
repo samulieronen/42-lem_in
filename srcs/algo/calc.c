@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:22:07 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/30 16:57:46 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/31 22:24:08 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_sets(t_lemin *node, t_set **alst)
 	t_set *temp;
 	t_set *tempnext;
 
-	node->line_nb = node->line_nb;
+	node->lnb = node->lnb; // ????
 	temp = *alst;
 	if (!alst)
 		return ;
@@ -61,13 +61,13 @@ int		calc(t_lemin *node, t_set *sets)
 	while (s)
 	{
 		if (!s)
-			ft_error("calc: no set!");
+			ft_error("calc: no set!", NULL, 0);
 		calc = (double)(s->steps_total + node->antcount - 1) / s->amount;
 		s->cost = calc;
 		p = s->paths;
 		max = 0;
 		if (!p)
-			ft_error("calc: Set has no paths!");
+			ft_error("calc: Set has no paths!", NULL, 0);
 		while (p)
 		{
 			p->res = (calc - p->len);
@@ -101,9 +101,7 @@ int		choose_set(t_lemin *node, t_set *sets)
 	}
 	ft_printf("lines: %d\n", (int)min_cost);
 	if (!node->best)
-		ft_error("Could not determine best set!");
-	return (0);
-	free_sets(node, &node->sets);
+		ft_error("Could not determine best set!", NULL, 0);
 	while (node->best->paths)
 	{
 		ft_printf("Path len: %d\n", node->best->paths->len);

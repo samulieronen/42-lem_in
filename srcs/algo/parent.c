@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:01:21 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 22:04:32 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/31 19:58:50 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int		q_parent(t_parent *p, t_pipe *pipe)
 	tmp = p;
 	new = (t_parent*)malloc(sizeof(t_parent));
 	new->room = pipe->room;
-//	new->edge = pipe;
 	new->from = p->room;
 	while (tmp->next)
 		tmp = tmp->next;

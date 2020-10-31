@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/30 16:50:57 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/31 22:03:29 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,36 +32,66 @@ t_pipe		*get_last(t_parent *prev, t_room *to)
 	return (NULL);
 }
 
-int		q_offer(t_lemin *node, t_queue *q, t_parent *par)
+int		ensure_flow(t_lemin *node, t_room *r)
 {
-	t_pipe *tmp;
-	t_pipe *from;
+	t_pipe  *tmp;
 
-	tmp = q->room->pipes;
-	from = get_last(par, q->room);
-	while (tmp && from && from->flow == 0)
-	{
-		if (tmp->flow < 0 && q->room->flag && tmp->room->id != node->start->id)
-		{
-			if (tmp->room->visited < node->v_token)
-			{
-				q_add(&q, tmp->room);
-				q_parent(par, tmp);
-			}
-			return (0);
-		}
-		tmp = tmp->next;
-	}
-	tmp = q->room->pipes;
+	tmp = r->pipes;
+	if (tmp->room->id == node->end->id)
+		return (0);
 	while (tmp)
 	{
-		if (tmp->flow > 0 || tmp->room->visited >= node->v_token || q_check(node, q, tmp->room))
-			tmp = tmp->next;
+		if (tmp->flow < 0 && tmp->room->id != node->start->id)
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+
+int		get_residual(t_lemin *node, t_queue *q, t_parent *par)
+{
+	t_pipe *p;
+
+	p = q->room->pipes;
+	while (p)
+	{
+		if (p->room->visited >= node->v_token)
+			p = p->next;
+		else if (p->flow < 0 && p->room->id != node->start->id)
+		{
+			q_add(&q, p->room, par, p);
+			p = p->next;
+		}
+		else
+			p = p->next;
+	}
+	return (1);
+}
+
+int		q_offer(t_lemin *node, t_queue *q, t_parent *par)
+{
+	t_pipe *p;
+
+	p = q->room->pipes;
+	if (q->room->flag)
+		get_residual(node, q, par);
+	while (p)
+	{
+		if (p->flow > 0 || q_check(node, q, p->room))
+			p = p->next;
+		else if (p->room->visited >= node->v_token)
+			p = p->next;
+		else if (p->flow == 0 && p->room->flag)
+		{
+			if (!(ensure_flow(node, p->room)))
+				q_add(&q, p->room, par, p);
+			p = p->next;
+		}
 		else
 		{
-			q_add(&q, tmp->room);
-			q_parent(par, tmp);
-			tmp = tmp->next;
+			q_add(&q, p->room, par, p);
+			p = p->next;
 		}
 	}
 	return (0);
@@ -86,7 +116,7 @@ int		retrace_flow(t_lemin *node, t_parent *p)
 
 	node->antcount = node->antcount;
 	if (!p)
-		ft_error("retrace_flow: Cannot retrace, no parent!");
+		ft_error("retrace_flow: Cannot retrace!", NULL, 0);
 	tmp = p;
 	r = tmp->from;
 	calc_flow(tmp->from, tmp->room);
@@ -101,7 +131,7 @@ int		retrace_flow(t_lemin *node, t_parent *p)
 		}
 		tmp = tmp->prev;
 	}
-	free_parent(node, &node->parent); // Why intermittent segfault??
+	free_parent(node, &node->parent);
 	return (1);
 }
 
@@ -109,7 +139,7 @@ int		graph_flow(t_lemin *node, t_queue *q)
 {
 	t_parent *par;
 
-	q_add(&q, node->start);
+	q_add(&q, node->start, NULL, NULL);
 	par = init_parent(node, node->start);
 	while (q)
 	{
@@ -122,7 +152,7 @@ int		graph_flow(t_lemin *node, t_queue *q)
 	}
 	if (!q)
 	{
-		free_parent(node, &node->parent); // Why intermittent segfault??
+		free_parent(node, &node->parent);
 		return (0);
 	}
 	q_free(&q);
@@ -151,6 +181,6 @@ int		solve(t_lemin *node)
 	}
 	calc(node, node->sets);
 	choose_set(node, node->sets);
-	print_inception(node, node->best);
+//	print_inception(node, node->best);
 	return (0);
 }

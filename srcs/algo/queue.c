@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 20:40:24 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 22:25:11 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/31 21:53:02 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		q_check(t_lemin *node, t_queue *q, t_room *r)
 	return (0);
 }
 
-int		q_add(t_queue **q, t_room *new)
+int		q_add(t_queue **q, t_room *new, t_parent *par, t_pipe *p)
 {
 	t_queue *tmp;
 
@@ -82,6 +82,8 @@ int		q_add(t_queue **q, t_room *new)
 		tmp->next = NULL;
 		*q = tmp;
 	}
+	if (par && p)
+		q_parent(par, p);
 	return (0);
 }
 
@@ -94,5 +96,17 @@ int		q_visit(t_lemin *node, t_queue *q)
 		return (1);
 	if (tmp->room->id != node->end->id)
 		tmp->room->visited = node->v_token;
+	return (0);
+}
+
+int		q_unvisit(t_lemin *node, t_queue *q)
+{
+	t_queue *tmp;
+
+	tmp = q;
+	if (!q)
+		return (1);
+	if (tmp->room->id != node->end->id)
+		tmp->room->visited -= 1;
 	return (0);
 }

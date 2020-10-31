@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 17:36:02 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/29 23:09:01 by seronen          ###   ########.fr       */
+/*   Updated: 2020/10/31 19:59:32 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		*new_set(t_set **alst)
 	t_set *new;
 
 	if (!(new = (t_set*)malloc(sizeof(t_set))))
-		ft_error("new_set: Malloc failed!");
+		ft_error("new_set: Malloc failed!", NULL, 0);
 	new->paths = NULL;
 	new->next = NULL;
 	if (*alst && new)
@@ -39,7 +39,7 @@ int		path_to_set(t_path *head, t_pathf **alst, int len)
 	new->len = len;
 	new->next = NULL;
 	if (!new)
-		ft_error("path_to_set: Malloc failed!");
+		ft_error("path_to_set: Malloc failed!", NULL, 0);
 	if (*alst && new)
 	{
 		new->next = *alst;
@@ -57,9 +57,9 @@ t_path	*pathnew(t_lemin *node, t_room *r)
 	r->mapped = node->m_token;
 	new = (t_path*)malloc(sizeof(t_path));
 	if (!new)
-		ft_error("path_new: Malloc failed!");
+		ft_error("path_new: Malloc failed!", NULL, 0);
 	if (!r)
-		ft_error("path_new: no room to add!");
+		ft_error("path_new: no room to add!", NULL, 0);
 	new->r = r;
 	new->next = NULL;
 	return (new);
