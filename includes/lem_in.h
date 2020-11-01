@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/31 23:45:08 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/01 23:50:07 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@
 # define ALLOW_SPACES 1
 # define ALLOW_DUP_ROOMS 0
 # define ALLOW_SELF_LINKING 0
-# define ERROR_L 1
 # define ALLOW_EMPTY_LINES 1
+# define ALLOW_REORDER 0
+# define ERROR_COM 0
+# define ERROR_L 1
 
 
 /*
@@ -62,6 +64,8 @@
 */
 
 #define MAX_SIZE	10000
+
+
 
 typedef struct	s_pipe
 {
@@ -160,6 +164,8 @@ typedef struct	s_lemin
 	int				m_token;
 
 	int				lnb;
+	int				l_check;
+	int				r_check;
 	t_input			*input;
 
 	t_room			*start;
@@ -195,8 +201,15 @@ void		ft_error(char *msg, char *s1, int lnbr);
 **	INPUT.C
 */
 
-
 int			get_input(t_lemin *node);
+
+
+/*
+**	VALIDATE.C
+*/
+
+void		validate_ants(t_lemin *node, char *line);
+void		validate_room(t_lemin *node, char *line);
 
 
 /*
@@ -289,5 +302,6 @@ void		*fetch_hash(t_hash **table, char *key);
 
 void		hashadd(t_hash **alst, t_hash *new);
 t_hash		*hashnew(char **key, t_room **room);
+
 
 #endif

@@ -6,7 +6,7 @@
 #    By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 12:12:13 by seronen           #+#    #+#              #
-#    Updated: 2020/10/19 23:56:21 by seronen          ###   ########.fr        #
+#    Updated: 2020/11/01 21:43:48 by seronen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ srcs/ft_putnbr_fd.c srcs/ft_strdel.c srcs/ft_strmap.c srcs/ft_strrchr.c srcs/ft_
 srcs/ft_putstr.c srcs/ft_strdup.c srcs/ft_strmapi.c srcs/ft_strsplit.c srcs/ft_isdigit.c srcs/ft_lstnew.c srcs/ft_memset.c \
 srcs/ft_putstr_fd.c srcs/ft_strequ.c srcs/ft_strncat.c srcs/ft_strstr.c srcs/ft_number_len.c srcs/ft_word_ccount.c \
 srcs/ft_word_len_ic.c srcs/get_next_line.c srcs/ft_strndup.c srcs/ft_itoa_base.c srcs/ft_ftoa.c srcs/ft_strrev.c srcs/ft_2dstrdel.c \
-srcs/ft_strcdup.c srcs/ft_strnlen.c
+srcs/ft_strcdup.c srcs/ft_strnlen.c srcs/ft_iswhitespace.c
 
 
 PRINTFSRC = srcs/ft_printf/helpers.c srcs/ft_printf/helpers2.c srcs/ft_printf/save.c srcs/ft_printf/ft_printf.c srcs/ft_printf/print_char.c \
@@ -44,7 +44,7 @@ ft_putstr_fd.o ft_strequ.o ft_strncat.o ft_strstr.o ft_number_len.o ft_word_ccou
 ft_word_len_ic.o get_next_line.o ft_strndup.o ft_itoa_base.o ft_ftoa.o helpers.o \
 helpers2.o save.o ft_printf.o print_char.o print_str.o print_ptr.o print_float.o \
 print_hex.o print_unsig.o print_octal.o print_dec.o print_percentage.o ft_strrev.o \
-ft_2dstrdel.o ft_strcdup.o ft_strnlen.o
+ft_2dstrdel.o ft_strcdup.o ft_strnlen.o ft_iswhitespace.o
 
 RED = \033[0;31m
 GREEN = \033[0;32m

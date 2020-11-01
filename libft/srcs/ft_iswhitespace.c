@@ -1,35 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hash_utils.c                                       :+:      :+:    :+:   */
+/*   ft_iswhitespace.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/20 17:01:47 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/01 23:40:39 by seronen          ###   ########.fr       */
+/*   Created: 2020/11/01 21:41:48 by seronen           #+#    #+#             */
+/*   Updated: 2020/11/01 21:43:17 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
-
-void		hashadd(t_hash **alst, t_hash *new)
+int     ft_iswhitespace(int c)
 {
-	if (*alst && new)
-	{
-		new->next = *alst;
-		*alst = new;
-	}
-	else if (new)
-		*alst = new;
-}
-
-t_hash		*hashnew(char **key, t_room **room)
-{
-	t_hash *new;
-
-	new = (t_hash*)malloc(sizeof(t_hash));
-	new->key = *key;
-	new->room = *room;
-	new->next = NULL;
-	return (new);
+    if (c == '\t' || c == ' ')
+        return (1);
+    return (0);
 }

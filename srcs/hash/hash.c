@@ -6,13 +6,13 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 23:41:55 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/31 20:04:16 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/01 23:40:23 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-unsigned int	hash_gen(const char *key)
+static unsigned int		hash_gen(const char *key)
 {
 	int len;
 	unsigned int hash_val;
@@ -30,7 +30,7 @@ unsigned int	hash_gen(const char *key)
 	return (hash_val);
 }
 
-t_hash		*check_hash(t_hash *head, char *key)
+static t_hash			*check_hash(t_hash *head, char *key)
 {
 	t_hash *tmp;
 
@@ -46,7 +46,7 @@ t_hash		*check_hash(t_hash *head, char *key)
 	return (NULL);
 }
 
-void			*fetch_hash(t_hash **table, char *key)
+void					*fetch_hash(t_hash **table, char *key)
 {
 	int index;
 	t_hash *fetch;
@@ -59,7 +59,7 @@ void			*fetch_hash(t_hash **table, char *key)
 	return (fetch->room);
 }
 
-void	insert_hash(t_lemin *node, char *key, t_room *room)
+void					insert_hash(t_lemin *node, char *key, t_room *room)
 {
 	int index;
 

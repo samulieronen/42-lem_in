@@ -6,16 +6,17 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:59:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/31 23:51:59 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/01 23:37:51 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int     antcount(t_lemin *node, char *line)
+static int		antcount(t_lemin *node, char *line)
 {
 	if (!line)
 		ft_error("antcount: No line to read!", NULL, 0);
+	validate_ants(node, line);
 	node->antcount = ft_atoi(line);
 	if (node->antcount < 1 || node->antcount > INT32_MAX)
 		ft_error("Number of ants impossible!", NULL, node->lnb);
@@ -25,9 +26,9 @@ int     antcount(t_lemin *node, char *line)
 	return (0);
 }
 
-int     parse_line(t_lemin *node, char *line)
+static int		parse_line(t_lemin *node, char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i] == ' ' && ALLOW_SPACES)
@@ -38,6 +39,10 @@ int     parse_line(t_lemin *node, char *line)
 		node->mod = 2;
 	else if (!ft_strcmp(line, "##start"))
 		node->mod = 1;
+	else if (!ERROR_COM && line[i] == '#' && line[i + 1] == '#')
+		return (0);
+	else if (ERROR_COM && line[i] == '#' && line[i + 1] == '#')
+		ft_error("Unknown command", line, node->lnb);
 	else if (line[i] == '#' && line[i + 1] != '#')
 		return (0);
 	else if (ft_strchr(line, '-'))
@@ -47,16 +52,16 @@ int     parse_line(t_lemin *node, char *line)
 	return (0);
 }
 
-char		*pre_parse(t_lemin *node)
+static char		*pre_parse(t_lemin *node)
 {
-	char *line;
-	int i;
+	char	*line;
+	int		i;
 
 	while (get_next_line(0, &line) > 0)
 	{
 		i = 0;
 		node->lnb++;
-		if (!line || line[0] == '\0')
+		if (!line)
 			break ;
 		while (line[i] && line[i] == ' ' && ALLOW_SPACES)
 			i++;
@@ -71,7 +76,7 @@ char		*pre_parse(t_lemin *node)
 	return (line);
 }
 
-int     get_input(t_lemin *node)
+int				get_input(t_lemin *node)
 {
 	char    *line;
 	
@@ -79,7 +84,7 @@ int     get_input(t_lemin *node)
 	while (get_next_line(0, &line) > 0)
 	{
 		node->lnb++;
-		if (!line || line[0] == '\0')
+		if (!line)
 			break ;
 		save_input(node, ft_strdup(line));
 		if (parse_line(node, line))
@@ -88,6 +93,6 @@ int     get_input(t_lemin *node)
 			ft_strdel(&line);
 	}
 	if (!node->rooms || !node->antcount)
-		ft_error("Empty line or invalid input!", NULL, node->lnb);
+		ft_error("Invalid input!", NULL, node->lnb);
 	return (0);
 }

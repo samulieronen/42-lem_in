@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/31 22:03:29 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/02 00:40:52 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,6 @@ int		solve(t_lemin *node)
 	}
 	calc(node, node->sets);
 	choose_set(node, node->sets);
-//	print_inception(node, node->best);
+	print_inception(node, node->best);
 	return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:39 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/31 20:04:00 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/01 23:32:23 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-t_pipe		*newpipe(t_pipe **head, t_room *where)
+static t_pipe	*newpipe(t_pipe **head, t_room *where)
 {
 	t_pipe  *p;
 
@@ -33,7 +33,7 @@ t_pipe		*newpipe(t_pipe **head, t_room *where)
 	return (p);
 }
 
-void	pipe_symbiosis(t_room *from, t_room *where)
+static void		pipe_symbiosis(t_room *from, t_room *where)
 {
 	t_pipe *a;
 	t_pipe *b;
@@ -46,7 +46,7 @@ void	pipe_symbiosis(t_room *from, t_room *where)
 	b->adj = a;
 }
 
-int		build_pipes(t_lemin *node, char *line)
+int				build_pipes(t_lemin *node, char *line)
 {
 	t_room  *from;
 	t_room  *where;
@@ -54,6 +54,9 @@ int		build_pipes(t_lemin *node, char *line)
 	int     i;
 
 	i = 0;
+	node->l_check = 1;
+	if (!node->r_check && !ALLOW_REORDER)
+		ft_error("Input not in proper order!", NULL, node->lnb);
 	while (line[i] && line[i] != '-')
 		i++;
 	line[i] = '\0';

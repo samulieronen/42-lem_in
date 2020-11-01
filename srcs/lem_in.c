@@ -6,13 +6,13 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/31 23:19:36 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/01 23:35:42 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void			ft_error(char *msg, char *s1, int lnbr)
+void				ft_error(char *msg, char *s1, int lnbr)
 {
 	ft_printf("lem-in:\t");
 	ft_printf(RED "ERROR ");
@@ -38,10 +38,12 @@ static t_lemin		*setup_structs(void)
 	node->rooms = NULL;
 	node->sets = NULL;
 	node->antcount = 0;
+	node->r_check = 0;
+	node->l_check = 0;
 	return (node);
 }
 
-int				main(void)
+int					main(void)
 {
 	t_lemin *node;
 

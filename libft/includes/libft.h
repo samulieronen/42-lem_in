@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:23:26 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/19 23:56:14 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/01 21:46:06 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ char			*ft_strrev(char *str);
 void			ft_2dstrdel(char **as);
 char      		*ft_strcdup(const char *s1, char c);
 size_t      	ft_strnlen(const char *s, size_t maxlen);
+int				ft_iswhitespace(int c);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:36 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/31 23:38:51 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/01 23:39:19 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-char	*get_modifier(t_lemin *node, t_room *r)
+static char		*get_modifier(t_lemin *node, t_room *r)
 {
 	if (node->mod == 1)
 	{
@@ -29,7 +29,7 @@ char	*get_modifier(t_lemin *node, t_room *r)
 	return (NULL);
 }
 
-void		init_room(t_room *r)
+static void		init_room(t_room *r)
 {
 	r->next = NULL;
 	r->id = 0;
@@ -42,7 +42,7 @@ void		init_room(t_room *r)
 	r->flag = 0;
 }
 
-t_room		*newroom(t_room **head)
+static t_room	*newroom(t_room **head)
 {
 	t_room *r;
 
@@ -59,7 +59,7 @@ t_room		*newroom(t_room **head)
 	return (r);
 }
 
-char	*get_name(t_lemin *node, char *line)
+static char		*get_name(t_lemin *node, char *line)
 {
 	int		i;
 	int		nb;
@@ -71,16 +71,18 @@ char	*get_name(t_lemin *node, char *line)
 	if (line[0] == ' ' && !ALLOW_SPACES)
 		ft_error("Spaces before data!", NULL, node->lnb);
 	line[i] = '\0';
-	if (ERROR_L && line[0] == 'L')
-		ft_error("Bad symbol in room name!", line, node->lnb);
 	return (line);
 }
 
-int		build_room(t_lemin *node, char *line)
+int				build_room(t_lemin *node, char *line)
 {
-	t_room *r;
-	char *str;
+	t_room	*r;
+	char	*str;
 
+	node->r_check = 1;
+	if (node->l_check && !ALLOW_REORDER)
+		ft_error("Input not in proper order!", NULL, node->lnb);
+	validate_room(node, line);
 	str = get_name(node, line);
 	r = newroom(&node->rooms);
 	if (!r)

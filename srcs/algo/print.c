@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 14:05:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/31 19:59:58 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/02 01:19:43 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int		init_print(t_lemin *node, t_pathf *paths)
 		ft_bzero(p->id_arr, p->len);
 		if ((int)p->res > 0)
 		{
-			p->id_arr[0] = get_antnbr(node);
-			ft_printf("arr[0] : %d\n", p->id_arr[0]);
+			p->id_arr[1] = get_antnbr(node);
+			ft_printf("arr[1] : %d\n", p->id_arr[1]);
 			p->res--;
 		}
 		p->id_arr[p->len] = 0;
@@ -47,7 +47,7 @@ int		print_ants(t_lemin *node, t_path *p, int *arr, int index)
 	if (!p)
 		return (0);
 	if (p->next)
-		print_ants(node, p->next, arr, index + 1);
+		print_ants(node, p->next, &arr[index], index + 1);
 	if (arr[index] && !p->next)
 		node->goaled++;
 	if (arr[index])
@@ -103,8 +103,22 @@ int		print_inception(t_lemin *node, t_set *set)
 
 	if (!set)
 		ft_error("No best set present! Exiting...", NULL, 0);
-	init_print(node, set->paths);
+//	init_print(node, set->paths);
 //	ft_printf("print initialized\n");
+	p = set->paths;
+	//
+		p->id_arr = (int*)malloc(sizeof(int) * p->len + 1);
+		ft_bzero(p->id_arr, p->len);
+		if ((int)p->res > 0)
+		{
+			p->id_arr[1] = get_antnbr(node);
+			ft_printf("arr[1] : %d\n", p->id_arr[1]);
+			p->res--;
+		}
+		p->id_arr[p->len] = 0;
+	//
+	print_ants(node, p->path->next, &p->id_arr[0], 1);
+	return (0);
 	while (node->goaled < node->antcount && node->steps < 2)
 	{
 		p = set->paths;
@@ -112,7 +126,7 @@ int		print_inception(t_lemin *node, t_set *set)
 //		ft_printf("Print managed\n");
 		while (p)
 		{
-			print_ants(node, p->path->next, p->id_arr, 0);
+			print_ants(node, p->path->next, p->id_arr, 1);
 			ft_printf("Next path!\n");
 			p = p->next;
 		}

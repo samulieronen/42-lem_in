@@ -6,16 +6,16 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 22:33:38 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/31 23:12:22 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/01 23:38:59 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void		print_lines(t_lemin *node)
+void			print_lines(t_lemin *node)
 {
 	t_input	*input;
-	t_input *del;
+	t_input	*del;
 	int		i;
 
 	if (!node->input)
@@ -39,11 +39,11 @@ void		print_lines(t_lemin *node)
 }
 
 
-t_input		*new_input(t_lemin *node)
+static t_input	*new_input(t_lemin *node)
 {
-	t_input *new;
-	t_input *tmp;
-	t_input *head;
+	t_input	*new;
+	t_input	*tmp;
+	t_input	*head;
 
 	head = node->input;
 	if (!(new = (t_input*)malloc(sizeof(t_input))))
@@ -69,11 +69,13 @@ t_input		*new_input(t_lemin *node)
 	return (tmp->next);
 }
 
-int		save_input(t_lemin *node, char *line)
+int				save_input(t_lemin *node, char *line)
 {
-	t_input *tmp;
+	t_input	*tmp;
 
 	tmp = node->input;
+	if (line[0] == '\0' && !ALLOW_EMPTY_LINES)
+		ft_error("Invalid input!", NULL, node->lnb);
 	if (!tmp || tmp->index == MAX_SIZE)
 	{
 		tmp = new_input(node);
