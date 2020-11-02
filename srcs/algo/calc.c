@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:22:07 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/02 18:50:19 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/02 21:34:51 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,20 @@ void	free_sets(t_lemin *node, t_set **alst)
 	t_set *temp;
 	t_set *tempnext;
 
-	node->lnb = node->lnb; // ????
+//	node->lnb = node->lnb;
 	temp = *alst;
 	if (!alst)
 		return ;
 	while (temp)
 	{
-		tempnext = temp->next;
-		free(temp);
-		temp = tempnext;
+		if (temp->id == node->best->id)
+			temp = temp->next;
+		else
+		{
+			tempnext = temp->next;
+			free(temp);
+			temp = tempnext;
+		}
 	}
 	*alst = NULL;
 }
@@ -104,5 +109,6 @@ int		choose_set(t_lemin *node, t_set *sets)
 	}
 	if (!node->best)
 		ft_error("Could not determine best set!", NULL, 0);
+	free_sets(node, &node->sets);
 	return (0);
 }
