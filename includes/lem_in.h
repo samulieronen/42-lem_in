@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/01 23:50:07 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/02 18:57:35 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 # define P_PATHS 0
 # define P_INPUT 1
+# define P_OUTPUT 0
 # define P_MOVES 1
 
 
@@ -104,7 +105,7 @@ typedef	struct	s_pathf
 {
 	int				*id_arr;
 	int				len;
-	double			res;
+	int				res;
 	t_path			*path;
 	struct 	s_pathf *next;
 }				t_pathf;

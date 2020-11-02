@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/02 00:40:52 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/02 18:58:22 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,15 @@ int		get_residual(t_lemin *node, t_queue *q, t_parent *par)
 int		q_offer(t_lemin *node, t_queue *q, t_parent *par)
 {
 	t_pipe *p;
+	t_pipe *prev;
 
 	p = q->room->pipes;
-	if (q->room->flag)
+	prev = get_last(par, q->room);
+	if (q->room->flag && q->room->id != node->start->id && prev && prev->flow == 0)
+	{
 		get_residual(node, q, par);
+		return (0);
+	}
 	while (p)
 	{
 		if (p->flow > 0 || q_check(node, q, p->room))
@@ -182,5 +187,7 @@ int		solve(t_lemin *node)
 	calc(node, node->sets);
 	choose_set(node, node->sets);
 	print_inception(node, node->best);
+	if (P_MOVES)
+		ft_printf("lines: %d\n", node->steps);
 	return (0);
 }

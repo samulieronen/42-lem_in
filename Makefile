@@ -6,7 +6,7 @@
 #    By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/03 22:23:49 by seronen           #+#    #+#              #
-#    Updated: 2020/11/01 23:41:35 by seronen          ###   ########.fr        #
+#    Updated: 2020/11/02 17:40:29 by seronen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ libftmake:
 
 lemin:
 	@echo "Compiling executable "lem-in"."
-	@gcc $(FLAGS) -o $(NAME) $(SRCS) $(INCL) $(LIB)
+	@gcc -o $(NAME) $(SRCS) $(INCL) $(LIB)
 	@echo "$(GREEN)Executable "lem-in" compiled successfully.$(RESET)"
 
 clean:

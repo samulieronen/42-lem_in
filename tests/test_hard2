@@ -1,4 +1,4 @@
-300
+25
 ##start
 START 0 0
 ##end
@@ -15,7 +15,7 @@ A-D
 B-C
 B-E
 F-C
-D-E
 D-B
+D-E
 E-END
 F-END

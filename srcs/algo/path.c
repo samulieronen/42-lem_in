@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 00:10:20 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/31 21:53:38 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/02 18:30:34 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		q_offer_path(t_lemin *node, t_queue *q, t_pipe *p)
 {
 	if (p->flow < 1 || q_check(node, q, p->room))
 		return (0);
-	if ( p->room->visited >= node->v_token)
+	if (p->room->visited >= node->v_token)
 		return (0);
 	if (p->adj->room->id == node->end->id)
 		return (0);
@@ -54,7 +54,10 @@ int		retrace_path(t_lemin *node, t_parent *p, t_set *s)
 		{
 			r = tmp->from;
 			if (!mapped(node, r))
+			{
+				ft_printf("Collision detected!\n");
 				return (free_path(&path));
+			}
 			add_path(&path, pathnew(node, r));
 			len++;
 		}

@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:22:07 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/01 23:47:34 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/02 18:50:19 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ int		calc(t_lemin *node, t_set *sets)
 			return (0);
 		while (p)
 		{
-			p->res = (calc - p->len);
+//			ft_printf("p-len on %d\n", p->len);
+//			ft_printf("calc on %lf\n", calc);
+			p->res = calc - p->len + 1;
+//			ft_printf("p-res on %d\n", p->res);
 			moves = p->res + p->len;
 			if (moves > max)
 				max = moves;
@@ -99,7 +102,6 @@ int		choose_set(t_lemin *node, t_set *sets)
 		}
 		s = s->next;
 	}
-	ft_printf("lines: %d\n", (int)min_cost);
 	if (!node->best)
 		ft_error("Could not determine best set!", NULL, 0);
 	return (0);
