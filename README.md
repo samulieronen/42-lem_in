@@ -3,7 +3,7 @@
 ## Accuracy
 The Edmonds-Karp max flow algorithm was a good choice for this project.
 
-<img src="assets/algo_accuracy.png", width="500">
+<img src="assets/algo_accuracy.png" width="500" title="Algorithm accuracy">
 
 ## General info
 lem_in is a project focused on data structures and graph traversal algoritms.
