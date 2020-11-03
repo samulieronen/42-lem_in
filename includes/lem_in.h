@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/03 13:03:21 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 15:59:15 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,7 +257,7 @@ void			free_parent(t_lemin *node, t_parent **alst);
 **	PRINT.C & PRINT_UTILS.C
 */
 
-int				print_inception(t_lemin *node, t_set *set);
+int				print_output(t_lemin *node, t_set *set);
 int				init_print(t_lemin *node, t_pathf *paths);
 int				get_antnbr(t_lemin *node);
 

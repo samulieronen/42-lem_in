@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 14:05:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/03 15:52:16 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 15:58:27 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int		print_manager(t_lemin *node, t_pathf *paths)
 	return (0);
 }
 
-int				print_inception(t_lemin *node, t_set *set)
+int				print_output(t_lemin *node, t_set *set)
 {
 	t_pathf *p;
 
