@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/03 15:59:15 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 16:16:14 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 */
 
 # define P_PATHS	0
-# define P_INPUT	1
+# define P_INPUT	0
 # define P_OUTPUT	1
 # define P_MOVES	1
 

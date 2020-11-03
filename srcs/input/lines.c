@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 22:33:38 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/03 11:35:47 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 16:15:49 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,16 @@ void			print_lines(t_lemin *node)
 		del = input;
 		while (i < MAX_SIZE && input->line[i])
 		{
-			ft_putendl(input->line[i]);
+			if (P_INPUT)
+				ft_putendl(input->line[i]);
 			ft_strdel(&input->line[i]);
 			i++;
 		}
 		input = input->next;
 		free(del);
 	}
-	ft_putendl("\n");
+	if (P_INPUT)
+		ft_putendl("\n");
 	node->input = NULL;
 }
 

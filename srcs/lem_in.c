@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/03 13:31:26 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 16:15:15 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ int					main(void)
 		ft_error("No start or end room present!", NULL, 0);
 	if (!node->start->pipes || !node->end->pipes)
 		ft_error("No possible path!", NULL, 0);
-	if (P_INPUT)
-		print_lines(node);
+	print_lines(node);
 	solve(node);
 	if (LEAKS)
 		system("leaks lem-in");
