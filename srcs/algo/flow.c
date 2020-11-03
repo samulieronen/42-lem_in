@@ -6,81 +6,19 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/02 21:34:58 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 12:54:05 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-t_pipe		*get_last(t_parent *prev, t_room *to)
-{
-	t_parent 	*p;
-	t_pipe		*pipe;
-
-	if (!prev)
-		return (NULL);
-	p = fetch_parent(prev, to);
-	if (!p)
-		return (NULL);
-	pipe = p->from->pipes;
-	while (pipe)
-	{
-		if (pipe->room->id == to->id)
-			return (pipe);
-		pipe = pipe->next;
-	}
-	return (NULL);
-}
-
-int		ensure_flow(t_lemin *node, t_room *r)
-{
-	t_pipe  *tmp;
-
-	tmp = r->pipes;
-	if (tmp->room->id == node->end->id)
-		return (0);
-	while (tmp)
-	{
-		if (tmp->flow < 0 && tmp->room->id != node->start->id)
-			return (0);
-		tmp = tmp->next;
-	}
-	return (1);
-}
-
-
-int		get_residual(t_lemin *node, t_queue *q, t_parent *par)
+int			q_offer(t_lemin *node, t_queue *q, t_parent *par)
 {
 	t_pipe *p;
 
 	p = q->room->pipes;
-	while (p)
-	{
-		if (p->room->visited >= node->v_token)
-			p = p->next;
-		else if (p->flow < 0 && p->room->id != node->start->id)
-		{
-			q_add(&q, p->room, par, p);
-			p = p->next;
-		}
-		else
-			p = p->next;
-	}
-	return (1);
-}
-
-int		q_offer(t_lemin *node, t_queue *q, t_parent *par)
-{
-	t_pipe *p;
-	t_pipe *prev;
-
-	p = q->room->pipes;
-	prev = get_last(par, q->room);
-	if (q->room->flag && q->room->id != node->start->id && prev && prev->flow == 0)
-	{
-		get_residual(node, q, par);
+	if (get_residual(node, q, par, get_last(par, q->room)))
 		return (0);
-	}
 	while (p)
 	{
 		if (p->flow > 0 || q_check(node, q, p->room))
@@ -102,22 +40,10 @@ int		q_offer(t_lemin *node, t_queue *q, t_parent *par)
 	return (0);
 }
 
-int		calc_flow(t_room *where, t_room *to)
+int			retrace_flow(t_lemin *node, t_parent *p)
 {
-	t_pipe *tmp;
-
-	tmp = where->pipes;
-	while (tmp && tmp->room->id != to->id)
-		tmp = tmp->next;
-	tmp->flow += 1;
-	tmp->adj->flow -= 1;
-	return (0);
-}
-
-int		retrace_flow(t_lemin *node, t_parent *p)
-{
-	t_parent *tmp;
-	t_room *r;
+	t_parent	*tmp;
+	t_room		*r;
 
 	node->antcount = node->antcount;
 	if (!p)
@@ -140,7 +66,7 @@ int		retrace_flow(t_lemin *node, t_parent *p)
 	return (1);
 }
 
-int		graph_flow(t_lemin *node, t_queue *q)
+int			graph_flow(t_lemin *node, t_queue *q)
 {
 	t_parent *par;
 
@@ -164,7 +90,7 @@ int		graph_flow(t_lemin *node, t_queue *q)
 	return (retrace_flow(node, par));
 }
 
-int		solve(t_lemin *node)
+int			solve(t_lemin *node)
 {
 	int i;
 

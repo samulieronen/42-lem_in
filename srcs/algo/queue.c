@@ -6,13 +6,13 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 20:40:24 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/02 17:35:32 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 12:34:38 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void        q_free(t_queue **alst)
+void		q_free(t_queue **alst)
 {
 	t_queue *temp;
 	t_queue *tempnext;
@@ -45,7 +45,7 @@ t_queue		*q_del(t_queue *q)
 	return (del);
 }
 
-int		q_check(t_lemin *node, t_queue *q, t_room *r)
+int			q_check(t_lemin *node, t_queue *q, t_room *r)
 {
 	t_queue *tmp;
 
@@ -61,7 +61,7 @@ int		q_check(t_lemin *node, t_queue *q, t_room *r)
 	return (0);
 }
 
-int		q_add(t_queue **q, t_room *new, t_parent *par, t_pipe *p)
+int			q_add(t_queue **q, t_room *new, t_parent *par, t_pipe *p)
 {
 	t_queue *tmp;
 
@@ -87,7 +87,7 @@ int		q_add(t_queue **q, t_room *new, t_parent *par, t_pipe *p)
 	return (0);
 }
 
-int		q_visit(t_lemin *node, t_queue *q)
+int			q_visit(t_lemin *node, t_queue *q)
 {
 	t_queue *tmp;
 
@@ -96,17 +96,5 @@ int		q_visit(t_lemin *node, t_queue *q)
 		return (1);
 	if (tmp->room->id != node->end->id)
 		tmp->room->visited = node->v_token;
-	return (0);
-}
-
-int		q_unvisit(t_lemin *node, t_queue *q)
-{
-	t_queue *tmp;
-
-	tmp = q;
-	if (!q)
-		return (1);
-	if (tmp->room->id != node->end->id)
-		tmp->room->visited -= 1;
 	return (0);
 }

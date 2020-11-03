@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 23:41:55 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/01 23:40:23 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 11:37:49 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static unsigned int		hash_gen(const char *key)
 {
-	int len;
-	unsigned int hash_val;
-	int i;
+	int				len;
+	unsigned int	hash_val;
+	int				i;
 
 	len = ft_strnlen(key, MAX_KEY);
 	hash_val = 0;
@@ -40,7 +40,7 @@ static t_hash			*check_hash(t_hash *head, char *key)
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->key, key))
-			return(tmp);
+			return (tmp);
 		tmp = tmp->next;
 	}
 	return (NULL);
@@ -48,8 +48,8 @@ static t_hash			*check_hash(t_hash *head, char *key)
 
 void					*fetch_hash(t_hash **table, char *key)
 {
-	int index;
-	t_hash *fetch;
+	int		index;
+	t_hash	*fetch;
 
 	if (!key || !table)
 		return (NULL);

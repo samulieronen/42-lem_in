@@ -6,14 +6,16 @@
 #    By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/09/03 22:23:49 by seronen           #+#    #+#              #
-#    Updated: 2020/11/02 17:40:29 by seronen          ###   ########.fr        #
+#    Updated: 2020/11/03 13:10:42 by seronen          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = lem-in
 
-SRCS =	srcs/lem_in.c srcs/input/*.c \
-		srcs/hash/*.c srcs/algo/*.c
+SRCS =	srcs/lem_in.c srcs/input/input.c srcs/input/lines.c srcs/input/pipes.c srcs/input/rooms.c \
+		srcs/input/validate.c srcs/hash/hash.c srcs/hash/hash_utils.c \
+		srcs/algo/calc.c srcs/algo/flow.c srcs/algo/flow_utils.c srcs/algo/parent.c \
+		srcs/algo/path.c srcs/algo/print.c srcs/algo/print_utils.c srcs/algo/queue.c srcs/algo/sets.c
 
 FLAGS = -Wall -Wextra -Werror
 

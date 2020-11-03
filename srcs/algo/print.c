@@ -6,48 +6,16 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 14:05:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/02 18:52:11 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 15:52:16 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int		get_antnbr(t_lemin *node)
-{
-	node->antnbr++;
-	return (node->antnbr);
-}
-
-int		init_print(t_lemin *node, t_pathf *paths)
-{
-	t_pathf *p;
-	int		*new;
-
-	p = paths;
-	node->antnbr = 0;
-	node->steps = 1;
-	node->goaled = 0;
-	while (p)
-	{
-		p->id_arr = NULL;
-		if (!(new = (int*)malloc(sizeof(int) * p->len + 2)))
-			ft_error("Yo, malloc failed in print.c!", NULL, 0);
-		ft_bzero(new, sizeof(int) * p->len + 2);
-		if (p->res > 0)
-		{
-			new[0] = get_antnbr(node);
-			p->res--;
-		}
-		p->id_arr = new;
-		p = p->next;
-	}
-	return (0);
-}
-
-int		print_ants(t_lemin *node, t_path *p, int *arr, int len)
+static int		print_ants(t_lemin *node, t_path *p, int *arr)
 {
 	t_path	*tmp;
-	int 	i;
+	int		i;
 
 	i = 0;
 	tmp = p;
@@ -63,7 +31,7 @@ int		print_ants(t_lemin *node, t_path *p, int *arr, int len)
 	return (0);
 }
 
-int		move_ants(t_lemin *node, t_pathf *p, int *arr)
+static int		move_ants(t_lemin *node, t_pathf *p, int *arr)
 {
 	int i;
 	int pos;
@@ -91,7 +59,7 @@ int		move_ants(t_lemin *node, t_pathf *p, int *arr)
 	return (0);
 }
 
-int		print_manager(t_lemin *node, t_pathf *paths)
+static int		print_manager(t_lemin *node, t_pathf *paths)
 {
 	t_pathf *p;
 
@@ -104,8 +72,7 @@ int		print_manager(t_lemin *node, t_pathf *paths)
 	return (0);
 }
 
-
-int		print_inception(t_lemin *node, t_set *set)
+int				print_inception(t_lemin *node, t_set *set)
 {
 	t_pathf *p;
 
@@ -118,7 +85,7 @@ int		print_inception(t_lemin *node, t_set *set)
 		p = set->paths;
 		while (p)
 		{
-			print_ants(node, p->path->next, p->id_arr, p->len);
+			print_ants(node, p->path->next, p->id_arr);
 			p = p->next;
 		}
 		if (P_OUTPUT)

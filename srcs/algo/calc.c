@@ -6,18 +6,17 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:22:07 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/02 21:34:51 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 12:21:25 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	free_sets(t_lemin *node, t_set **alst)
+void			free_sets(t_lemin *node, t_set **alst)
 {
 	t_set *temp;
 	t_set *tempnext;
 
-//	node->lnb = node->lnb;
 	temp = *alst;
 	if (!alst)
 		return ;
@@ -35,10 +34,10 @@ void	free_sets(t_lemin *node, t_set **alst)
 	*alst = NULL;
 }
 
-int		gather_data(t_lemin *node, t_set *set)
+int				gather_data(t_lemin *node, t_set *set)
 {
-	t_pathf *p;
-	int pnb;
+	t_pathf	*p;
+	int		pnb;
 
 	p = set->paths;
 	set->id = node->set_id;
@@ -46,7 +45,7 @@ int		gather_data(t_lemin *node, t_set *set)
 	pnb = 0;
 	while (p)
 	{
-		set->steps_total +=p->len;
+		set->steps_total += p->len;
 		pnb++;
 		p = p->next;
 	}
@@ -54,46 +53,47 @@ int		gather_data(t_lemin *node, t_set *set)
 	return (0);
 }
 
-int		calc(t_lemin *node, t_set *sets)
+static int		math(t_pathf *head, double calc)
 {
 	t_pathf *p;
-	t_set *s;
-	double calc;
-	double moves;
-	double max;
+	int		max;
+	int		moves;
+
+	if (!head)
+		ft_error("No head for math!", NULL, 0);
+	max = 0;
+	p = head;
+	while (p)
+	{
+		p->res = calc - p->len + 1;
+		moves = p->res + p->len;
+		if (moves > max)
+			max = moves;
+		p = p->next;
+	}
+	return (max);
+}
+
+int				calc(t_lemin *node, t_set *sets)
+{
+	t_set	*s;
 
 	s = sets;
 	if (!s)
 		ft_error("No possible paths!", NULL, 0);
 	while (s)
 	{
-		calc = (double)(s->steps_total + node->antcount - 1) / s->amount;
-		s->cost = calc;
-		p = s->paths;
-		max = 0;
-		if (!p)
-			return (0);
-		while (p)
-		{
-//			ft_printf("p-len on %d\n", p->len);
-//			ft_printf("calc on %lf\n", calc);
-			p->res = calc - p->len + 1;
-//			ft_printf("p-res on %d\n", p->res);
-			moves = p->res + p->len;
-			if (moves > max)
-				max = moves;
-			p = p->next;
-		}
-		s->max_moves = max;
+		s->cost = (double)(s->steps_total + node->antcount - 1) / s->amount;
+		s->max_moves = math(s->paths, s->cost);
 		s = s->next;
 	}
 	return (0);
 }
 
-int		choose_set(t_lemin *node, t_set *sets)
+int				choose_set(t_lemin *node, t_set *sets)
 {
-	double min_cost;
-	t_set *s;
+	double	min_cost;
+	t_set	*s;
 
 	s = sets;
 	min_cost = s->cost;

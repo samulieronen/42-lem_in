@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 22:33:38 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/01 23:38:59 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 11:35:47 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ void			print_lines(t_lemin *node)
 	node->input = NULL;
 }
 
-
-static t_input	*new_input(t_lemin *node)
+static	t_input	*new_input(t_lemin *node)
 {
 	t_input	*new;
 	t_input	*tmp;
@@ -49,7 +48,6 @@ static t_input	*new_input(t_lemin *node)
 	if (!(new = (t_input*)malloc(sizeof(t_input))))
 		ft_error("new_input: Malloc failed!", NULL, 0);
 	new->next = NULL;
-	new->index = 0;
 	ft_bzero(new->line, MAX_SIZE);
 	tmp = head;
 	if (!head)
@@ -79,6 +77,7 @@ int				save_input(t_lemin *node, char *line)
 	if (!tmp || tmp->index == MAX_SIZE)
 	{
 		tmp = new_input(node);
+		tmp->index = 0;
 		tmp->line[tmp->index] = line;
 		tmp->index++;
 	}

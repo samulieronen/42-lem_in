@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 00:10:20 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/02 18:30:34 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 12:33:36 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,11 @@ int		mapped(t_lemin *node, t_room *r)
 	return (1);
 }
 
-int		retrace_path(t_lemin *node, t_parent *p, t_set *s)
+int		retrace_path(t_lemin *node, t_parent *p, t_set *s, int len)
 {
-	t_parent *tmp;
-	t_room *r;
-	t_path *path;
-	int len;
+	t_parent	*tmp;
+	t_room		*r;
+	t_path		*path;
 
 	if (!p)
 		ft_error("retrace_path: Cannot retrace!", NULL, 0);
@@ -47,17 +46,13 @@ int		retrace_path(t_lemin *node, t_parent *p, t_set *s)
 	r = tmp->from;
 	add_path(&path, pathnew(node, tmp->room));
 	add_path(&path, pathnew(node, r));
-	len = 1;
 	while (tmp->prev)
 	{
 		if (r->id == tmp->room->id)
 		{
 			r = tmp->from;
 			if (!mapped(node, r))
-			{
-				ft_printf("Collision detected!\n");
 				return (free_path(&path));
-			}
 			add_path(&path, pathnew(node, r));
 			len++;
 		}
@@ -69,15 +64,15 @@ int		retrace_path(t_lemin *node, t_parent *p, t_set *s)
 
 int		graph_path(t_lemin *node, t_queue *q, t_set *s)
 {
-	t_pipe *p;
-	t_parent *par;
+	t_pipe		*p;
+	t_parent	*par;
 
 	q_add(&q, node->start, NULL, NULL);
 	par = init_parent(node, node->start);
 	while (q)
 	{
 		if (q->room->id == node->end->id)
-			retrace_path(node, par, s);
+			retrace_path(node, par, s, 1);
 		q_visit(node, q);
 		p = q->room->pipes;
 		while (p && q->room->id != node->end->id)

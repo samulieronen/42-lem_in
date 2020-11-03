@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 21:01:21 by seronen           #+#    #+#             */
-/*   Updated: 2020/10/31 19:58:50 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 12:22:27 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_parent	*init_parent(t_lemin *node, t_room *r)
 	return (p);
 }
 
-int		q_parent(t_parent *p, t_pipe *pipe)
+int			q_parent(t_parent *p, t_pipe *pipe)
 {
 	t_parent *new;
 	t_parent *tmp;

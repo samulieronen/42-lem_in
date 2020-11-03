@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/01 23:35:42 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 13:31:26 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void				ft_error(char *msg, char *s1, int lnbr)
 		ft_printf(RESET "on line %d: %s\n", lnbr, msg);
 	else
 		ft_printf(RESET "on line %d: %s '%s'\n", lnbr, msg, s1);
-	exit(-42);
+	exit(-1);
 }
 
 static t_lemin		*setup_structs(void)

@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:39 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/01 23:32:23 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 11:33:06 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_pipe	*newpipe(t_pipe **head, t_room *where)
 {
-	t_pipe  *p;
+	t_pipe	*p;
 
 	if (!(p = (t_pipe*)malloc(sizeof(t_pipe))))
 		return (NULL);
@@ -35,8 +35,8 @@ static t_pipe	*newpipe(t_pipe **head, t_room *where)
 
 static void		pipe_symbiosis(t_room *from, t_room *where)
 {
-	t_pipe *a;
-	t_pipe *b;
+	t_pipe	*a;
+	t_pipe	*b;
 
 	if (!(a = newpipe(&from->pipes, where)))
 		ft_error("symbiosis: newpipe failed!", NULL, 0);
@@ -48,10 +48,10 @@ static void		pipe_symbiosis(t_room *from, t_room *where)
 
 int				build_pipes(t_lemin *node, char *line)
 {
-	t_room  *from;
-	t_room  *where;
-	char	*str;
-	int     i;
+	t_room		*from;
+	t_room		*where;
+	char		*str;
+	int			i;
 
 	i = 0;
 	node->l_check = 1;

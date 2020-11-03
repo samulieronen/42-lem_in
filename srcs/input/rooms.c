@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:36 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/01 23:39:19 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 11:36:58 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int				build_room(t_lemin *node, char *line)
 		ft_error("build_room: add_room failed!", NULL, 0);
 	r->id = ++node->roomnb;
 	r->name = ft_strdup(str);
-	r->info = get_modifier(node , r);
+	r->info = get_modifier(node, r);
 	insert_hash(node, r->name, r);
 	return (0);
 }

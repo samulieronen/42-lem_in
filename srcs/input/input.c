@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:59:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/01 23:37:51 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/03 13:27:18 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,11 @@ static char		*pre_parse(t_lemin *node)
 
 int				get_input(t_lemin *node)
 {
-	char    *line;
-	
+	char	*line;
+	int		ret;
+
 	antcount(node, pre_parse(node));
-	while (get_next_line(0, &line) > 0)
+	while ((ret = get_next_line(0, &line)) > 0)
 	{
 		node->lnb++;
 		if (!line)
