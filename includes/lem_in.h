@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/04 14:40:18 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/04 18:16:35 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define P_INPUT	1
 # define P_OUTPUT	1
 # define P_MOVES	1
+
+# define P_END_CLR	1
 
 /*
 **	ERROR DEFS FOR PARSER

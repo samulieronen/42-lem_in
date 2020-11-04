@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:22:07 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/04 12:52:50 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/04 17:44:45 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int				calc(t_lemin *node, t_set *sets)
 		ft_error("No possible paths!", NULL, 0);
 	while (s)
 	{
-		s->cost = (double)(s->steps_total + node->antcount - 1) / s->amount;
+		s->cost = (s->steps_total + node->antcount - 1) / s->amount;
 		s->max_moves = math(s->paths, s->cost);
 		s = s->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:59:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/04 14:29:02 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/04 15:08:04 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,15 @@ static int		parse_line(t_lemin *node, char *line)
 	int	i;
 
 	i = 0;
-	while (ALLOW_SPACES && ft_iswhitespace(line[i]))
+	if (!line)
+		ft_error("No line to parse!", NULL, node->lnb);
+	while (line[i] && ALLOW_SPACES && ft_iswhitespace(line[i]))
 		i++;
 	if (ft_iswhitespace(line[0]) && !ALLOW_SPACES)
 		ft_error("Spaces before data!", NULL, node->lnb);
-	if (!ft_strcmp(line, "##end"))
+	if (!ft_strcmp(&line[i], "##end"))
 		node->mod = 2;
-	else if (!ft_strcmp(line, "##start"))
+	else if (!ft_strcmp(&line[i], "##start"))
 		node->mod = 1;
 	else if (!ERROR_COM && line[i] == '#' && line[i + 1] == '#')
 		return (0);
@@ -46,9 +48,9 @@ static int		parse_line(t_lemin *node, char *line)
 	else if (line[i] == '#' && line[i + 1] != '#')
 		return (0);
 	else if (ft_strchr(line, '-'))
-		build_pipes(node, line);
+		build_pipes(node, &line[i]);
 	else
-		build_room(node, line);
+		build_room(node, &line[i]);
 	return (0);
 }
 

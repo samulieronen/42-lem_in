@@ -1,0 +1,255 @@
+cost 102.000000
+len 129 : res -28
+cost 102.000000
+len 127 : res -26
+cost 102.000000
+len 126 : res -25
+cost 102.000000
+len 122 : res -21
+cost 102.000000
+len 120 : res -19
+cost 102.000000
+len 116 : res -15
+cost 102.000000
+len 109 : res -8
+cost 102.000000
+len 104 : res -3
+cost 102.000000
+len 88 : res 13
+cost 102.000000
+len 83 : res 18
+cost 102.000000
+len 79 : res 22
+cost 102.000000
+len 75 : res 26
+cost 102.000000
+len 65 : res 36
+cost 102.000000
+len 44 : res 57
+cost 102.000000
+len 27 : res 74
+
+cost 100.000000
+len 127 : res -28
+cost 100.000000
+len 126 : res -27
+cost 100.000000
+len 122 : res -23
+cost 100.000000
+len 120 : res -21
+cost 100.000000
+len 109 : res -10
+cost 100.000000
+len 105 : res -6
+cost 100.000000
+len 104 : res -5
+cost 100.000000
+len 88 : res 11
+cost 100.000000
+len 83 : res 16
+cost 100.000000
+len 79 : res 20
+cost 100.000000
+len 75 : res 24
+cost 100.000000
+len 65 : res 34
+cost 100.000000
+len 44 : res 55
+cost 100.000000
+len 27 : res 72
+
+cost 97.000000
+len 126 : res -30
+cost 97.000000
+len 122 : res -26
+cost 97.000000
+len 120 : res -24
+cost 97.000000
+len 108 : res -12
+cost 97.000000
+len 105 : res -9
+cost 97.000000
+len 104 : res -8
+cost 97.000000
+len 88 : res 8
+cost 97.000000
+len 83 : res 13
+cost 97.000000
+len 79 : res 17
+cost 97.000000
+len 75 : res 21
+cost 97.000000
+len 65 : res 31
+cost 97.000000
+len 44 : res 52
+cost 97.000000
+len 27 : res 69
+
+cost 96.000000
+len 122 : res -27
+cost 96.000000
+len 120 : res -25
+cost 96.000000
+len 115 : res -20
+cost 96.000000
+len 105 : res -10
+cost 96.000000
+len 104 : res -9
+cost 96.000000
+len 88 : res 7
+cost 96.000000
+len 83 : res 12
+cost 96.000000
+len 79 : res 16
+cost 96.000000
+len 75 : res 20
+cost 96.000000
+len 65 : res 30
+cost 96.000000
+len 44 : res 51
+cost 96.000000
+len 27 : res 68
+
+cost 92.000000
+len 122 : res -31
+cost 92.000000
+len 105 : res -14
+cost 92.000000
+len 104 : res -13
+cost 92.000000
+len 96 : res -5
+cost 92.000000
+len 88 : res 3
+cost 92.000000
+len 83 : res 8
+cost 92.000000
+len 79 : res 12
+cost 92.000000
+len 75 : res 16
+cost 92.000000
+len 65 : res 26
+cost 92.000000
+len 44 : res 47
+cost 92.000000
+len 27 : res 64
+
+cost 89.000000
+len 105 : res -17
+cost 89.000000
+len 104 : res -16
+cost 89.000000
+len 96 : res -8
+cost 89.000000
+len 88 : res 0
+cost 89.000000
+len 83 : res 5
+cost 89.000000
+len 79 : res 9
+cost 89.000000
+len 75 : res 13
+cost 89.000000
+len 65 : res 23
+cost 89.000000
+len 44 : res 44
+cost 89.000000
+len 27 : res 61
+
+cost 86.000000
+len 104 : res -19
+cost 86.000000
+len 96 : res -11
+cost 86.000000
+len 88 : res -3
+cost 86.000000
+len 83 : res 2
+cost 86.000000
+len 79 : res 6
+cost 86.000000
+len 75 : res 10
+cost 86.000000
+len 59 : res 26
+cost 86.000000
+len 44 : res 41
+cost 86.000000
+len 27 : res 58
+
+cost 84.000000
+len 96 : res -13
+cost 84.000000
+len 86 : res -3
+cost 84.000000
+len 83 : res 0
+cost 84.000000
+len 79 : res 4
+cost 84.000000
+len 75 : res 8
+cost 84.000000
+len 59 : res 24
+cost 84.000000
+len 44 : res 39
+cost 84.000000
+len 27 : res 56
+
+cost 85.000000
+len 94 : res -10
+cost 85.000000
+len 86 : res -2
+cost 85.000000
+len 83 : res 1
+cost 85.000000
+len 75 : res 9
+cost 85.000000
+len 59 : res 25
+cost 85.000000
+len 44 : res 40
+cost 85.000000
+len 27 : res 57
+
+cost 85.000000
+len 96 : res -12
+cost 85.000000
+len 86 : res -2
+cost 85.000000
+len 75 : res 9
+cost 85.000000
+len 59 : res 25
+cost 85.000000
+len 44 : res 40
+cost 85.000000
+len 27 : res 57
+
+cost 85.000000
+len 86 : res -2
+cost 85.000000
+len 75 : res 9
+cost 85.000000
+len 67 : res 17
+cost 85.000000
+len 44 : res 40
+cost 85.000000
+len 27 : res 57
+
+cost 85.000000
+len 86 : res -2
+cost 85.000000
+len 56 : res 28
+cost 85.000000
+len 44 : res 40
+cost 85.000000
+len 27 : res 57
+
+cost 84.000000
+len 56 : res 27
+cost 84.000000
+len 44 : res 39
+cost 84.000000
+len 27 : res 56
+
+cost 99.000000
+len 44 : res 54
+cost 99.000000
+len 27 : res 71
+
+cost 154.000000
+len 27 : res 126
+
