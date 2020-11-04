@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/03 16:16:14 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/04 14:40:18 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,16 @@
 **	COLOR DEFS
 */
 
-# define RED	"\033[0;31m"
-# define RESET	"\033[0m"
+# define RED		"\033[0;31m"
+# define RESET		"\033[0m"
+# define GREEN		"\033[0;32m"
 
 /*
 **	PRINT OPTIONS
 */
 
 # define P_PATHS	0
-# define P_INPUT	0
+# define P_INPUT	1
 # define P_OUTPUT	1
 # define P_MOVES	1
 
@@ -34,10 +35,10 @@
 **	ERROR DEFS FOR PARSER
 */
 
-# define ALLOW_SPACES		1
+# define ALLOW_SPACES		0
 # define ALLOW_DUP_ROOMS	0
 # define ALLOW_SELF_LINKING	0
-# define ALLOW_EMPTY_LINES	1
+# define ALLOW_EMPTY_LINES	0
 # define ALLOW_REORDER		0
 # define ERROR_COM			0
 # define ERROR_L			1
@@ -191,6 +192,7 @@ int				get_input(t_lemin *node);
 
 void			validate_ants(t_lemin *node, char *line);
 void			validate_room(t_lemin *node, char *line);
+void			validate_pipe(t_lemin *node, char *line);
 
 /*
 **	LINES.C

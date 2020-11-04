@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 14:05:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/03 15:58:27 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/04 14:41:56 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ static int		print_ants(t_lemin *node, t_path *p, int *arr)
 	tmp = p;
 	while (tmp)
 	{
-		if (arr[i] && P_OUTPUT)
+		if (arr[i] && P_OUTPUT && tmp->r->id == node->end->id)
+			ft_printf("L%d-"GREEN"%s "RESET, arr[i], tmp->r->name);
+		else if (arr[i] && P_OUTPUT)
 			ft_printf("L%d-%s ", arr[i], tmp->r->name);
 		if (arr[i] && !tmp->next)
 			node->goaled++;

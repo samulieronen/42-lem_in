@@ -20,7 +20,7 @@ do
   echo "Run $i / $x"
 #  string=`./generator --flow-one | ./lem-in -l| grep 'lines'`
 #  string=`./generator --flow-ten | ./lem-in -l| grep 'lines'`
-# string=`./generator --flow-thousand | ./lem-in -l| grep 'lines'`
+#  string=`./generator --flow-thousand | ./lem-in -l| grep 'lines'`
 #  string=`./generator --big | ./lem-in -l| grep 'lines'`
   string=`./generator --big-superposition | ./lem-in | grep 'lines'`
   required=`echo "$string" | cut -d " " -f 8 | sort -u`

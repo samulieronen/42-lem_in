@@ -1,0 +1,9 @@
+1
+##start
+start 0 1
+##end
+end 0 1
+A 0 1
+B 0 1
+start-A
+end-B

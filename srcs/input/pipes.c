@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:39 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/03 11:33:06 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/04 13:04:52 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int				build_pipes(t_lemin *node, char *line)
 	node->l_check = 1;
 	if (!node->r_check && !ALLOW_REORDER)
 		ft_error("Input not in proper order!", NULL, node->lnb);
+	validate_pipe(node, line);
 	while (line[i] && line[i] != '-')
 		i++;
 	line[i] = '\0';

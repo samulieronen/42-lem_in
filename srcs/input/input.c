@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:59:12 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/03 17:51:31 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/04 14:29:02 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ static int		parse_line(t_lemin *node, char *line)
 	int	i;
 
 	i = 0;
-	while (line[i] == ' ' && ALLOW_SPACES)
+	while (ALLOW_SPACES && ft_iswhitespace(line[i]))
 		i++;
-	if (line[0] == ' ' && !ALLOW_SPACES)
+	if (ft_iswhitespace(line[0]) && !ALLOW_SPACES)
 		ft_error("Spaces before data!", NULL, node->lnb);
 	if (!ft_strcmp(line, "##end"))
 		node->mod = 2;
@@ -56,17 +56,19 @@ static char		*pre_parse(t_lemin *node)
 {
 	char	*line;
 	int		i;
+	int		ret;
 
-	while (get_next_line(0, &line) > 0)
+	line = NULL;
+	while ((ret = get_next_line(0, &line)) > 0)
 	{
 		i = 0;
 		node->lnb++;
 		if (!line)
 			break ;
-		while (line[i] && line[i] == ' ' && ALLOW_SPACES)
+		while (line[i] && ft_iswhitespace(line[i]) && ALLOW_SPACES)
 			i++;
-		if (line[i] == ' ' && !ALLOW_SPACES)
-			ft_error("Spaces before data!", NULL, node->lnb);
+		if (ft_iswhitespace(line[0]) && !ALLOW_SPACES)
+			ft_error("Whitespaces before data!", NULL, node->lnb);
 		if (line[i] != '#')
 			break ;
 		save_input(node, ft_strdup(line));
@@ -82,6 +84,7 @@ int				get_input(t_lemin *node)
 	int		ret;
 
 	antcount(node, pre_parse(node));
+	line = NULL;
 	while ((ret = get_next_line(0, &line)) > 0)
 	{
 		node->lnb++;

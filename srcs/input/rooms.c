@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 00:50:36 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/03 11:36:58 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/04 13:23:09 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static char		*get_name(t_lemin *node, char *line)
 
 	i = 0;
 	nb = 0;
-	while (line[i] && line[i] != ' ' && ALLOW_SPACES)
+	while (line[i] && line[i] != ' ')
 		i++;
 	if (line[0] == ' ' && !ALLOW_SPACES)
 		ft_error("Spaces before data!", NULL, node->lnb);

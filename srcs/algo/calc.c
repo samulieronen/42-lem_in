@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:22:07 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/03 12:21:25 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/04 12:52:50 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int				choose_set(t_lemin *node, t_set *sets)
 	double	min_cost;
 	t_set	*s;
 
+	if (!sets)
+		ft_error("No possible paths!", NULL, 0);
 	s = sets;
 	min_cost = s->cost;
 	node->best = s;

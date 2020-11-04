@@ -6,15 +6,15 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 03:21:07 by seronen           #+#    #+#             */
-/*   Updated: 2020/09/06 15:50:02 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/04 14:44:52 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char       *ft_strcdup(const char *s1, char c)
+char		*ft_strcdup(const char *s1, char c)
 {
-    size_t	i;
+	size_t	i;
 	char	*newstring;
 	char	*src;
 
