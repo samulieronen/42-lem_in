@@ -6,13 +6,13 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/25 00:10:20 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/03 12:33:36 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/05 15:54:03 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int		q_offer_path(t_lemin *node, t_queue *q, t_pipe *p)
+static int		q_offer_path(t_lemin *node, t_queue *q, t_pipe *p)
 {
 	if (p->flow < 1 || q_check(node, q, p->room))
 		return (0);
@@ -24,7 +24,7 @@ int		q_offer_path(t_lemin *node, t_queue *q, t_pipe *p)
 		return (1);
 }
 
-int		mapped(t_lemin *node, t_room *r)
+static int		mapped(t_lemin *node, t_room *r)
 {
 	if (r->id == node->start->id || r->id == node->end->id)
 		return (1);
@@ -33,7 +33,7 @@ int		mapped(t_lemin *node, t_room *r)
 	return (1);
 }
 
-int		retrace_path(t_lemin *node, t_parent *p, t_set *s, int len)
+static int		retrace_path(t_lemin *node, t_parent *p, t_set *s, int len)
 {
 	t_parent	*tmp;
 	t_room		*r;
@@ -62,7 +62,7 @@ int		retrace_path(t_lemin *node, t_parent *p, t_set *s, int len)
 	return (1);
 }
 
-int		graph_path(t_lemin *node, t_queue *q, t_set *s)
+int				graph_path(t_lemin *node, t_queue *q, t_set *s)
 {
 	t_pipe		*p;
 	t_parent	*par;

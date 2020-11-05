@@ -6,13 +6,13 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 15:26:59 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/05 14:26:06 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/05 15:54:40 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int			q_offer(t_lemin *node, t_queue *q, t_parent *par)
+static int			q_offer(t_lemin *node, t_queue *q, t_parent *par)
 {
 	t_pipe *p;
 
@@ -40,7 +40,7 @@ int			q_offer(t_lemin *node, t_queue *q, t_parent *par)
 	return (0);
 }
 
-int			retrace_flow(t_lemin *node, t_parent *p)
+static int			retrace_flow(t_lemin *node, t_parent *p)
 {
 	t_parent	*tmp;
 	t_room		*r;
@@ -66,7 +66,7 @@ int			retrace_flow(t_lemin *node, t_parent *p)
 	return (1);
 }
 
-int			graph_flow(t_lemin *node, t_queue *q)
+static int			graph_flow(t_lemin *node, t_queue *q)
 {
 	t_parent *par;
 
@@ -90,7 +90,7 @@ int			graph_flow(t_lemin *node, t_queue *q)
 	return (retrace_flow(node, par));
 }
 
-int			solve(t_lemin *node)
+int					solve(t_lemin *node)
 {
 	int i;
 
