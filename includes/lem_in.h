@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:53:03 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/04 18:16:35 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/05 14:35:44 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,12 @@ void			print_lines(t_lemin *node);
 int				gather_data(t_lemin *node, t_set *set);
 int				calc(t_lemin *node, t_set *s);
 int				choose_set(t_lemin *node, t_set *s);
+
+/*
+**	BALANCE.C
+*/
+
+int				balance_ants(t_lemin *node, t_set *s);
 
 /*
 **	SETS.C

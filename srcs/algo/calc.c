@@ -6,33 +6,11 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:22:07 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/04 17:44:45 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/05 14:29:37 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-void			free_sets(t_lemin *node, t_set **alst)
-{
-	t_set *temp;
-	t_set *tempnext;
-
-	temp = *alst;
-	if (!alst)
-		return ;
-	while (temp)
-	{
-		if (temp->id == node->best->id)
-			temp = temp->next;
-		else
-		{
-			tempnext = temp->next;
-			free(temp);
-			temp = tempnext;
-		}
-	}
-	*alst = NULL;
-}
 
 int				gather_data(t_lemin *node, t_set *set)
 {
@@ -111,6 +89,6 @@ int				choose_set(t_lemin *node, t_set *sets)
 	}
 	if (!node->best)
 		ft_error("Could not determine best set!", NULL, 0);
-	free_sets(node, &node->sets);
+	balance_ants(node, node->best);
 	return (0);
 }

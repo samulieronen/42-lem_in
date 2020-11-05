@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/03 21:52:30 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/03 16:15:15 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/05 14:33:56 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int					main(void)
 		ft_error("No possible path!", NULL, 0);
 	print_lines(node);
 	solve(node);
+	if (P_MOVES)
+		ft_printf("\nlines: %d\n", node->steps);
 	if (LEAKS)
 		system("leaks lem-in");
 	return (0);
