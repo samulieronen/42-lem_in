@@ -6,7 +6,7 @@
 /*   By: seronen <seronen@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 22:33:38 by seronen           #+#    #+#             */
-/*   Updated: 2020/11/04 13:02:40 by seronen          ###   ########.fr       */
+/*   Updated: 2020/11/05 17:15:46 by seronen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void			print_lines(t_lemin *node)
 		free(del);
 	}
 	if (P_INPUT)
-		ft_putendl("\n");
+		ft_putchar('\n');
 	node->input = NULL;
 }
 
