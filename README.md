@@ -25,9 +25,9 @@ After that, I do some math to determine the best set to use by calculating costs
 cost for set = (steps + ants) / paths
 ```
 Where
-steps = Total number of steps in set (all paths included)
-ants = The number of ants
-paths = The number of paths in set
+#### steps = Total number of steps in set (all paths included)
+#### ants = The number of ants
+#### paths = The number of paths in set
 
 ## Accuracy
 Algorithm accuracy presented by:
