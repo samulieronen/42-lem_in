@@ -24,15 +24,15 @@ After that, I do some math to determine the best set to use by calculating costs
 ```
 cost for set = (steps + ants) / paths
 ```
-Where
-#### steps = Total number of steps in set (all paths included)
-#### ants = The number of ants
-#### paths = The number of paths in set
+Where<br>
+steps = Total number of steps in set (all paths included)<br>
+ants = The number of ants<br>
+paths = The number of paths in set<br>
 
 ## Accuracy
-Algorithm accuracy presented by:
-– Number of runs
-– Total diff (Optimal amount of moves VS amount of moves I got in total)
-– Average diff (Avg of how many lines +- I get / map)
+Algorithm accuracy presented by:<br>
+– Number of runs<br>
+– Total diff (Optimal amount of moves VS amount of moves I got in total)<br>
+– Average diff (Avg of how many lines +- I get / map)<br>
 
 <img src="assets/algo_accuracy.png" width="500" title="Algorithm accuracy">
