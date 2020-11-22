@@ -1,4 +1,6 @@
-## WORK IN PROGRESS!
+## Project passed with 110/100 points
+
+<img src="assets/validated.png" width="300" title="Final Mark 110/100">
 
 ## General info
 lem_in is a project focused on data structures and graph traversal algoritms.
